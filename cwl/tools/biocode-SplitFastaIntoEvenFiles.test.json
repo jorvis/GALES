@@ -1,0 +1,9 @@
+{
+    "biocode_base": "/home/jorvis/git/biocode",
+    "file_count": 4,
+    "file_to_split": {
+        "class": "File",
+        "path": "/home/jorvis/git/jhu-classes/compbio_410.634/e_coli_k12_dh10b.faa"
+    },
+    "output_directory": "./"
+}

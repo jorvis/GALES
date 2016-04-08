@@ -1,0 +1,10 @@
+{
+    "database_name": "/home/jorvis/Dropbox/jhu/jhu-classes/advcompbio_410.712/e_coli_k12_dh10b.faa",
+    "query": {
+        "class": "File",
+        "path": "/home/jorvis/git/ergatis/samples/proteins.faa"
+    },
+    "out": "test.blastp.out",
+    #"evalue": 2e-10,
+    "outfmt": "6"
+}
