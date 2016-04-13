@@ -30,7 +30,7 @@ inputs:
       prefix: -evalue
       separate: true
   - id: outfmt
-    type: string
+    type: int
     inputBinding:
       position: 5
       prefix: -outfmt
