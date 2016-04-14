@@ -4,6 +4,9 @@ cwlVersion: "cwl:draft-3"
 
 class: Workflow
 
+requirements:
+  - class: ScatterFeatureRequirement
+
 inputs:
   - id: "source_fasta"
     type: File
@@ -16,16 +19,13 @@ inputs:
     description: "Location where split files will be written"
   - id: "blast_db"
     type: string
-    description: ""
-  - id: "blast_query"
-    type: File
-    description: ""
+    description: "Base name of formatted BLAST+ database"
   - id: blast_out
     type: string
-    description: ""
+    description: "Output BLAST file to write"
   - id: blast_outfmt
     type: int
-    description: ""
+    description: "Format of BLAST output files"
 
 outputs:
   - id: fasta_files
@@ -47,9 +47,11 @@ steps:
     run: ../tools/blast+-blastp.cwl
     inputs:
       - { id: "blastp.database_name", source: "#blast_db" }
-      - { id: "blastp.query", source: "#blast_query" }
+      - { id: "blastp.query", source: "#split_multifasta/fasta_files" }
       - { id: "blastp.out", source: "#blast_out" }
       - { id: "blastp.outfmt", source: "#blast_outfmt" }
+    scatter: "#blastp/blastp.query"
     outputs: []
+
       
 
