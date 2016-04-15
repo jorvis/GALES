@@ -1,0 +1,9 @@
+{
+    "genomic_fasta": {
+        "class": "File",
+        "path": "../../test_data/e_coli_k12_dh10b.fna"
+    },
+    "output_format": "gff",
+    "annotation_out": "annotation.gff",
+    "protein_out": "annotation.faa"
+}
