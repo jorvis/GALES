@@ -1,5 +1,9 @@
 #!/usr/bin/env cwl-runner
 
+# http://www.commonwl.org/draft-3/Workflow.html#Parameter_references
+# http://www.commonwl.org/draft-3/CommandLineTool.html#Runtime_environment
+# http://www.commonwl.org/draft-3/CommandLineTool.html
+
 cwlVersion: "cwl:draft-3"
 
 class: Workflow
