@@ -1,0 +1,15 @@
+{
+    "source_fasta": {
+        "class": "File",
+        "path": "../../test_data/e_coli_k12_dh10b.fna"
+    },
+    "output_format": "gff",
+    "initial_structural_prediction": "prodigal.annotation.gff",
+    "initial_protein_out": "prodigal.annotation.faa",
+    
+    "fragmentation_count": 4,
+    "out_dir": "./",
+    "blast_db": "/home/jorvis/git/community-prok-pipeline/cwl/workflows/e_coli_k12_dh10b.faa",
+    "blast_out": "e_coli_k12_dh10b.test.m8",
+    "blast_outfmt": 6
+}

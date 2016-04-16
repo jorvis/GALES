@@ -12,9 +12,19 @@ requirements:
   - class: ScatterFeatureRequirement
 
 inputs:
+# Prodigal
   - id: "source_fasta"
     type: File
     description: "Starting protein multi-FASTA file"
+  - id: "output_format"
+    type: string
+    description: "Prodigal prediction output format"
+  - id: "initial_structural_prediction"
+    type: string
+    description: "Prodigal structural prediction file"
+  - id: "initial_protein_out"
+    type: string
+    description: "Prodigal polypeptide FASTA prediction file"
   - id: "fragmentation_count"
     type: int
     description: "How many files the input will be split into"
@@ -37,12 +47,33 @@ outputs:
       type: array
       items: File
     source: "#split_multifasta/fasta_files"
+  - id: prodigal_annot_file
+    type: File
+    source: "#prodigal/prodigal_annot_file"
+  - id: prodigal_protein_file
+    type: File
+    source: "#prodigal/prodigal_protein_file"
+  - id: blast_tab_files
+    type:
+      type: array
+      items: File
+    source: "#blastp/blast_tab_file"
 
 steps:
+  - id: prodigal
+    run: ../tools/cpp-prodigal.cwl
+    inputs:
+      - { id: "prodigal.genomic_fasta", source: "#source_fasta" }
+      - { id: "prodigal.output_format", source: "#output_format" }
+      - { id: "prodigal.annotation_out", source: "#initial_structural_prediction" }
+      - { id: "prodigal.protein_out", source: "#initial_protein_out" }
+    outputs:
+      - { id: prodigal_annot_file }
+      - { id: prodigal_protein_file }
   - id: split_multifasta
     run: ../tools/biocode-SplitFastaIntoEvenFiles.cwl
     inputs:
-      - { id: "split_multifasta.file_to_split", source: "#source_fasta" }
+      - { id: "split_multifasta.file_to_split", source: "#prodigal/prodigal_protein_file" }
       - { id: "split_multifasta.file_count", source: "#fragmentation_count" }
       - { id: "split_multifasta.output_directory", source: "#out_dir" }
     outputs:
@@ -55,7 +86,8 @@ steps:
       - { id: "blastp.out", source: "#blast_out" }
       - { id: "blastp.outfmt", source: "#blast_outfmt" }
     scatter: "#blastp/blastp.query"
-    outputs: []
+    outputs:
+      - { id: blast_tab_file }
 
       
 
