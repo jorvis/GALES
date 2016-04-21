@@ -12,7 +12,7 @@ requirements:
   - class: ScatterFeatureRequirement
 
 inputs:
-# Prodigal
+  # Prodigal
   - id: "source_fasta"
     type: File
     description: "Starting protein multi-FASTA file"
@@ -25,12 +25,14 @@ inputs:
   - id: "initial_protein_out"
     type: string
     description: "Prodigal polypeptide FASTA prediction file"
+  # split_fasta
   - id: "fragmentation_count"
     type: int
     description: "How many files the input will be split into"
   - id: "out_dir"
     type: string
     description: "Location where split files will be written"
+  # blastp
   - id: "blast_db"
     type: string
     description: "Base name of formatted BLAST+ database"
@@ -40,6 +42,16 @@ inputs:
   - id: blast_outfmt
     type: int
     description: "Format of BLAST output files"
+  # rapsearch2
+  - id: "rapsearch2_database_file"
+    type: string
+    description: ""
+  - id: "rapsearch2_query_file"
+    type: File
+    description: ""
+  - id: "rapsearch2_output_file_base"
+    type: string
+    description: ""
 
 outputs:
   - id: fasta_files
@@ -58,6 +70,11 @@ outputs:
       type: array
       items: File
     source: "#blastp/blast_tab_file"
+  - id: rapsearch2_m8_files
+    type:
+      type: array
+      items: File
+    source: "#rapsearch2/output_base"
 
 steps:
   - id: prodigal
@@ -88,6 +105,15 @@ steps:
     scatter: "#blastp/blastp.query"
     outputs:
       - { id: blast_tab_file }
+  - id: rapsearch2
+    run: ../tools/cpp-rapsearch2.cwl
+    inputs:
+      - { id: "rapsearch2.database_file", source: "#rapsearch2_database_file" }
+      - { id: "rapsearch2.query_file", source: "#split_multifasta/fasta_files" }
+      - { id: "rapsearch2.output_file_base", source: "#rapsearch2_output_file_base" }
+    scatter: "#rapsearch2/rapsearch2.query_file"
+    outputs:
+      - { id: "output_base" }
 
       
 

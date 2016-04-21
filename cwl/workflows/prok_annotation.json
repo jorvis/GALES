@@ -11,5 +11,13 @@
     "out_dir": "./",
     "blast_db": "/home/jorvis/git/community-prok-pipeline/cwl/workflows/e_coli_k12_dh10b.faa",
     "blast_out": "e_coli_k12_dh10b.test.m8",
-    "blast_outfmt": 6
+    "blast_outfmt": 6,
+
+    "rapsearch2_database_file": "/dbs/uniprot_sprot.rapsearch2.db",
+    "rapsearch2_query_file": {
+        "class": "File",
+        "path": "/home/jorvis/Dropbox/igs/databases/test.faa"
+    },
+    "rapsearch2_output_file_base": "test.rapsearch2.out"
+
 }
