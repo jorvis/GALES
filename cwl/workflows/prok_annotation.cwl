@@ -45,6 +45,24 @@ inputs:
   - id: "rapsearch2_threads"
     type: int
     description: ""
+  # HMMer3
+  - id: "hmmscan_use_accessions"
+    type: boolean
+    description: ""
+  - id: "hmmscan_cutoff_gathering"
+    type: boolean
+  - id: "hmmscan_database_file"
+    type: string
+    description: ""
+  - id: "hmmscan_query_file"
+    type: File
+    description: ""
+  - id: "hmmscan_output_file"
+    type: string
+    description: ""
+  - id: "hmmscan_threads"
+    type: int
+    description: ""
 
 outputs:
   - id: fasta_files
@@ -63,6 +81,11 @@ outputs:
       type: array
       items: File
     source: "#rapsearch2/output_base"
+  - id: hmmscan_raw_files
+    type:
+      type: array
+      items: File
+    source: "#hmmscan/output_base"
 
 steps:
   - id: prodigal
@@ -93,6 +116,17 @@ steps:
     scatter: "#rapsearch2/rapsearch2.query_file"
     outputs:
       - { id: "output_base" }
-
+  - id: hmmscan
+    run: ../tools/cpp-hmmer3-hmmscan.cwl
+    inputs:
+      - { id: "hmmscan.cutoff_gathering", source: "#hmmscan_cutoff_gathering" }
+      - { id: "hmmscan.use_accessions", source: "#hmmscan_use_accessions" }
+      - { id: "hmmscan.database_file", source: "#hmmscan_database_file" }
+      - { id: "hmmscan.query_file", source: "#split_multifasta/fasta_files" }
+      - { id: "hmmscan.output_file", source: "#hmmscan_output_file" }
+      - { id: "hmmscan.thread_count", source: "#hmmscan_threads"}
+    scatter: "#hmmscan/hmmscan.query_file"
+    outputs:
+      - { id: "output_base" }
       
 
