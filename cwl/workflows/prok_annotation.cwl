@@ -32,16 +32,6 @@ inputs:
   - id: "out_dir"
     type: string
     description: "Location where split files will be written"
-  # blastp
-  - id: "blast_db"
-    type: string
-    description: "Base name of formatted BLAST+ database"
-  - id: blast_out
-    type: string
-    description: "Output BLAST file to write"
-  - id: blast_outfmt
-    type: int
-    description: "Format of BLAST output files"
   # rapsearch2
   - id: "rapsearch2_database_file"
     type: string
@@ -51,6 +41,9 @@ inputs:
     description: ""
   - id: "rapsearch2_output_file_base"
     type: string
+    description: ""
+  - id: "rapsearch2_threads"
+    type: int
     description: ""
 
 outputs:
@@ -65,11 +58,6 @@ outputs:
   - id: prodigal_protein_file
     type: File
     source: "#prodigal/prodigal_protein_file"
-  - id: blast_tab_files
-    type:
-      type: array
-      items: File
-    source: "#blastp/blast_tab_file"
   - id: rapsearch2_m8_files
     type:
       type: array
@@ -95,22 +83,13 @@ steps:
       - { id: "split_multifasta.output_directory", source: "#out_dir" }
     outputs:
       - { id: fasta_files }
-  - id: blastp
-    run: ../tools/blast+-blastp.cwl
-    inputs:
-      - { id: "blastp.database_name", source: "#blast_db" }
-      - { id: "blastp.query", source: "#split_multifasta/fasta_files" }
-      - { id: "blastp.out", source: "#blast_out" }
-      - { id: "blastp.outfmt", source: "#blast_outfmt" }
-    scatter: "#blastp/blastp.query"
-    outputs:
-      - { id: blast_tab_file }
   - id: rapsearch2
     run: ../tools/cpp-rapsearch2.cwl
     inputs:
       - { id: "rapsearch2.database_file", source: "#rapsearch2_database_file" }
       - { id: "rapsearch2.query_file", source: "#split_multifasta/fasta_files" }
       - { id: "rapsearch2.output_file_base", source: "#rapsearch2_output_file_base" }
+      - { id: "rapsearch2.thread_count", source: "#rapsearch2_threads"}
     scatter: "#rapsearch2/rapsearch2.query_file"
     outputs:
       - { id: "output_base" }

@@ -18,6 +18,7 @@
         "class": "File",
         "path": "/home/jorvis/Dropbox/igs/databases/test.faa"
     },
-    "rapsearch2_output_file_base": "test.rapsearch2.out"
+    "rapsearch2_output_file_base": "test.rapsearch2.out",
+    "rapsearch2_threads": 4
 
 }
