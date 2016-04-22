@@ -4,5 +4,6 @@
         "class": "File",
         "path": "/home/jorvis/Dropbox/igs/databases/test.faa"
     },
-    "output_file_base": "test.rapsearch2.out"
+    "output_file_base": "test.rapsearch2.out",
+    "thread_count": 4
 }

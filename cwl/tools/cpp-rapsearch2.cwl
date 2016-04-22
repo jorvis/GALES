@@ -35,6 +35,12 @@ inputs:
       position: 3
       prefix: -o
       separate: true
+  - id: thread_count
+    type: int
+    inputBinding:
+      position: 4
+      prefix: -z
+      separate: true
 outputs:
   - id: output_base
     type: File
