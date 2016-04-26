@@ -1,4 +1,10 @@
+Bacillus_subtilis
+ftp://ftp.ncbi.nih.gov/genomes/genbank/bacteria/Bacillus_subtilis/reference/GCA_000009045.1_ASM904v1
+
 Mycobacterium_tuberculosis
-ftp://ftp.ncbi.nih.gov/genomes/genbank/bacteria/Mycobacterium_tuberculosis/reference/GCA_000195955.2_ASM19595v2/
+ftp://ftp.ncbi.nih.gov/genomes/genbank/bacteria/Mycobacterium_tuberculosis/reference/GCA_000195955.2_ASM19595v2
 
-
+Synechocystis sp. strain PCC 6803
+ftp://ftp.kazusa.or.jp/pub/CyanoBase/Synechocystis
+zcat Synecho.seq.gz pSYSA.seq.gz pSYSG.seq.gz pSYSM.seq.gz pSYSX.seq.gz > Synechocystis_sp_PCC_6803.fna
+zcat Synecho.p.aa.gz plasmid.aa.gz > Synechocystis_sp_PCC_6803.faa
