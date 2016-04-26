@@ -1,0 +1,8 @@
+{
+    "input_file": {
+        "class": "File",
+        "path": "./test.raw"
+    },
+    "output_htab": "./test.htab",
+    "mldbm_file": "/dbs/coding_hmm.lib.db"
+}

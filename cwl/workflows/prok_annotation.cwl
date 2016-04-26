@@ -63,7 +63,16 @@ inputs:
   - id: "hmmscan_threads"
     type: int
     description: ""
-
+  # Convert HMMer3 to HTAB
+  - id: "raw2htab_input_file"
+    type: File
+    description: ""
+  - id: "raw2htab_mldbm_file"
+    type: string
+    description: ""
+  - id: "raw2htab_output_htab"
+    type: string
+    description: ""
 outputs:
   - id: fasta_files
     type:
@@ -86,6 +95,11 @@ outputs:
       type: array
       items: File
     source: "#hmmscan/output_base"
+  - id: hmmscan_htab_files
+    type:
+      type: array
+      items: File
+    source: "#raw2htab/htab_file"
 
 steps:
   - id: prodigal
@@ -128,5 +142,13 @@ steps:
     scatter: "#hmmscan/hmmscan.query_file"
     outputs:
       - { id: "output_base" }
-      
+  - id: raw2htab
+    run: ../tools/biocode-ConvertHmmscanToHtab.cwl
+    inputs:
+      - { id: "raw2htab.input_file", source: "#hmmscan/output_base" }
+      - { id: "raw2htab.output_htab", source: "#raw2htab_output_htab" }
+      - { id: "raw2htab.mldbm_file", source: "#raw2htab_mldbm_file" }
+    scatter: "#raw2htab/raw2htab.input_file"
+    outputs:
+      - { id: "htab_file" }
 
