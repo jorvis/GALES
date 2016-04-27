@@ -8,3 +8,6 @@ Synechocystis sp. strain PCC 6803
 ftp://ftp.kazusa.or.jp/pub/CyanoBase/Synechocystis
 zcat Synecho.seq.gz pSYSA.seq.gz pSYSG.seq.gz pSYSM.seq.gz pSYSX.seq.gz > Synechocystis_sp_PCC_6803.fna
 zcat Synecho.p.aa.gz plasmid.aa.gz > Synechocystis_sp_PCC_6803.faa
+
+Prevotella_copri
+ftp://ftp.ncbi.nih.gov/genomes/genbank/bacteria/Prevotella_copri/representative/GCA_000157935.1_ASM15793v1
