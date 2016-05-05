@@ -73,6 +73,25 @@ inputs:
   - id: "raw2htab_output_htab"
     type: string
     description: ""
+  # Write the Attributor config
+  - id: write_attributor_config_template
+    type: string
+    description: ""
+  - id: write_attributor_config_output_file
+    type: string
+    description: ""
+  - id: write_attributor_config_polypeptide_fasta
+    type: File
+    description: ""
+  - id: write_attributor_config_gff3
+    type: File
+    description: ""
+  - id: write_attributor_config_hmm_files
+    type: string
+    description: ""
+  - id: write_attributor_config_m8_files
+    type: string
+    description: ""
 outputs:
   - id: fasta_files
     type:
@@ -100,6 +119,9 @@ outputs:
       type: array
       items: File
     source: "#raw2htab/htab_file"
+  - id: attributor_config_file
+    type: File
+    source: "#write_attributor_config/output_config"
 
 steps:
   - id: prodigal
@@ -151,4 +173,15 @@ steps:
     scatter: "#raw2htab/raw2htab.input_file"
     outputs:
       - { id: "htab_file" }
+  - id: write_attributor_config
+    run: ../tools/write-attributor-config.cwl
+    inputs:
+      - { id: "write_attributor_config.template", source: "#write_attributor_config_template" }
+      - { id: "write_attributor_config.output_file", source: "#write_attributor_config_output_file" }
+      - { id: "write_attributor_config.hmm_files", source: "#raw2htab/htab_file" }
+      - { id: "write_attributor_config.polypeptide_fasta", source: "#prodigal/prodigal_protein_file" }
+      - { id: "write_attributor_config.gff3", source: "#prodigal/prodigal_annot_file" }
+      - { id: "write_attributor_config.m8_files", source: "#rapsearch2/output_base" }
+    outputs:
+      - { id: "output_config" }
 

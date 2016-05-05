@@ -1,7 +1,7 @@
 {
     "source_fasta": {
         "class": "File",
-        "path": "../../test_data/e_coli_k12_dh10b.fna"
+        "path": "../../test_data/genomes/E_coli_k12_dh10b.fna.partial"
     },
     "output_format": "gff",
     "initial_structural_prediction": "prodigal.annotation.gff",
@@ -16,7 +16,7 @@
         "path": ""
     },
     "rapsearch2_output_file_base": "rapsearch2.out",
-    "rapsearch2_threads": 4,
+    "rapsearch2_threads": 1,
 
     "hmmscan_use_accessions": true,
     "hmmscan_cutoff_gathering": true,
@@ -26,12 +26,25 @@
         "path": ""
     },
     "hmmscan_output_file": "hmmscan.out",
-    "hmmscan_threads": 1,
+    "hmmscan_threads": 4,
 
     "raw2htab_input_file": {
         "class": "File",
-        "path": "./test.raw"
+        "path": ""
     },
     "raw2htab_output_htab": "./hmmscan.htab",
-    "raw2htab_mldbm_file": "/dbs/coding_hmm.lib.db"
+    "raw2htab_mldbm_file": "/dbs/coding_hmm.lib.db",
+
+    "write_attributor_config_template": "/opt/bin/write_attributor_config.template.yaml",
+    "write_attributor_config_output_file": "test_attributor.config",
+    "write_attributor_config_polypeptide_fasta": {
+        "class": "File",
+        "path": ""
+    },
+    "write_attributor_config_gff3": {
+        "class": "File",
+        "path": ""
+    },
+    "write_attributor_config_hmm_files": "",
+    "write_attributor_config_m8_files": ""
 }
