@@ -1,0 +1,12 @@
+{
+    "input_file": {
+        "class": "File",
+        "path": "./prodigal.annotation.gff3"
+    },
+    "output_file": "./prodigal.annotation.faa",
+    "type": "protein",
+    "fasta": {
+        "class": "File",
+        "path": "E_coli_k12_dh10b.fna.partial"
+    }
+}

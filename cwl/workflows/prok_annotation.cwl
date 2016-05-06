@@ -32,6 +32,19 @@ inputs:
   - id: "prodigal2gff3_output_file"
     type: string
     description: ""
+  # Write prodigal FASTA (with GFF-matching IDs)
+  - id: "prodigal2fasta_input_file"
+    type: File
+    description: ""
+  - id: "prodigal2fasta_output_file"
+    type: string
+    description: ""
+  - id: "prodigal2fasta_type"
+    type: string
+    description: ""
+  - id: "prodigal2fasta_fasta"
+    type: File
+    description: "Genomic FASTA"
   # split_fasta
   - id: "fragmentation_count"
     type: int
@@ -114,6 +127,9 @@ outputs:
   - id: prodigal_gff3
     type: File
     source: "#prodigal2gff3/output_gff3"
+  - id: prodigal_protein_fasta
+    type: File
+    source: "#prodigal2fasta/protein_fasta"
   - id: rapsearch2_m8_files
     type:
       type: array
@@ -151,10 +167,19 @@ steps:
       - { id: "prodigal2gff3.output_file", source: "#prodigal2gff3_output_file" }
     outputs:
       - { id: "output_gff3" }
+  - id: prodigal2fasta
+    run: ../tools/biocode-WriteFastaFromGFF.cwl
+    inputs:
+      - { id: "prodigal2fasta.input_file", source: "#prodigal2gff3/output_gff3" }
+      - { id: "prodigal2fasta.output_file", source: "#prodigal2fasta_output_file" }
+      - { id: "prodigal2fasta.type", source: "#prodigal2fasta_type" }
+      - { id: "prodigal2fasta.fasta", source: "#source_fasta" }
+    outputs:
+      - { id: "protein_fasta" }
   - id: split_multifasta
     run: ../tools/biocode-SplitFastaIntoEvenFiles.cwl
     inputs:
-      - { id: "split_multifasta.file_to_split", source: "#prodigal/prodigal_protein_file" }
+      - { id: "split_multifasta.file_to_split", source: "#prodigal2fasta/protein_fasta" }
       - { id: "split_multifasta.file_count", source: "#fragmentation_count" }
       - { id: "split_multifasta.output_directory", source: "#out_dir" }
     outputs:

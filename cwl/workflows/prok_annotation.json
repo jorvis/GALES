@@ -12,6 +12,18 @@
         "path": ""
     },
     "prodigal2gff3_output_file": "prodigal.annotation.gff3",
+
+    "prodigal2fasta_input_file": {
+        "class": "File",
+        "path": ""
+    },
+    "prodigal2fasta_output_file": "prodigal.annotation.faa",
+    "prodigal2fasta_type": "protein",
+    "prodigal2fasta_fasta": {
+        "class": "File",
+        "path": ""
+    },
+    
     
     "fragmentation_count": 4,
     "out_dir": "./",
