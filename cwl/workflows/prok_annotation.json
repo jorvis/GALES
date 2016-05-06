@@ -6,6 +6,12 @@
     "output_format": "gff",
     "initial_structural_prediction": "prodigal.annotation.gff",
     "initial_protein_out": "prodigal.annotation.faa",
+
+    "prodigal2gff3_input_file": {
+        "class": "File",
+        "path": ""
+    },
+    "prodigal2gff3_output_file": "prodigal.annotation.gff3",
     
     "fragmentation_count": 4,
     "out_dir": "./",

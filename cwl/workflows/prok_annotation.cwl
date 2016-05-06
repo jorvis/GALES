@@ -25,6 +25,13 @@ inputs:
   - id: "initial_protein_out"
     type: string
     description: "Prodigal polypeptide FASTA prediction file"
+  # Convert prodigal
+  - id: "prodigal2gff3_input_file"
+    type: File
+    description: ""
+  - id: "prodigal2gff3_output_file"
+    type: string
+    description: ""
   # split_fasta
   - id: "fragmentation_count"
     type: int
@@ -104,6 +111,9 @@ outputs:
   - id: prodigal_protein_file
     type: File
     source: "#prodigal/prodigal_protein_file"
+  - id: prodigal_gff3
+    type: File
+    source: "#prodigal2gff3/output_gff3"
   - id: rapsearch2_m8_files
     type:
       type: array
@@ -134,6 +144,13 @@ steps:
     outputs:
       - { id: prodigal_annot_file }
       - { id: prodigal_protein_file }
+  - id: prodigal2gff3
+    run: ../tools/biocode-ConvertProdigalToGFF3.cwl
+    inputs:
+      - { id: "prodigal2gff3.input_file", source: "#prodigal/prodigal_annot_file" }
+      - { id: "prodigal2gff3.output_file", source: "#prodigal2gff3_output_file" }
+    outputs:
+      - { id: "output_gff3" }
   - id: split_multifasta
     run: ../tools/biocode-SplitFastaIntoEvenFiles.cwl
     inputs:
@@ -180,7 +197,7 @@ steps:
       - { id: "write_attributor_config.output_file", source: "#write_attributor_config_output_file" }
       - { id: "write_attributor_config.hmm_files", source: "#raw2htab/htab_file" }
       - { id: "write_attributor_config.polypeptide_fasta", source: "#prodigal/prodigal_protein_file" }
-      - { id: "write_attributor_config.gff3", source: "#prodigal/prodigal_annot_file" }
+      - { id: "write_attributor_config.gff3", source: "#prodigal2gff3/output_gff3" }
       - { id: "write_attributor_config.m8_files", source: "#rapsearch2/output_base" }
     outputs:
       - { id: "output_config" }

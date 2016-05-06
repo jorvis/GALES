@@ -1,0 +1,8 @@
+{
+    "input_fasta": {
+        "class": "File",
+        "path": "../../test_data/genomes/P_copri.fna"
+    },
+    "output_gff3": "./P_copri.test.conversion.gff3",
+    "source": "IGS"
+}
