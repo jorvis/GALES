@@ -8,5 +8,6 @@
     "fasta": {
         "class": "File",
         "path": "E_coli_k12_dh10b.fna.partial"
-    }
+    },
+    "feature_type": "polypeptide"
 }

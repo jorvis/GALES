@@ -35,6 +35,12 @@ inputs:
       position: 4
       prefix: --fasta
       separate: true
+  - id: feature_type
+    type: string
+    inputBinding:
+      position: 5
+      prefix: --feature_type
+      separate: true
 outputs:
   - id: protein_fasta
     type: File
