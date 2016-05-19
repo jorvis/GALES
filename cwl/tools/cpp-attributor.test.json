@@ -1,0 +1,33 @@
+{
+    "config_file": "attributor.config",
+    "output_base": "attributor.annnotation",
+    "output_format": "gff3",
+    "polypeptide_fasta": {
+        "class": "File",
+        "path": "../workflows/prodigal.annotation.faa"
+    },
+    "source_gff3": {
+        "class": "File",
+        "path": "../workflows/prodigal.annotation.gff3"
+    },
+    "hmm_files": [
+        {
+            "class": "File",
+            "path": "../workflows/hmmscan-1.htab"
+        },
+        {
+            "class": "File",
+            "path": "../workflows/hmmscan-2.htab"
+        }
+    ],
+    "m8_files": [
+        {
+            "class": "File",
+            "path": "../workflows/rapsearch2.out-1.m8"
+        },
+        {
+            "class": "File",
+            "path": "../workflows/rapsearch2.out-2.m8"
+        }
+    ]
+}
