@@ -45,6 +45,9 @@ inputs:
   - id: "prodigal2fasta_fasta"
     type: File
     description: "Genomic FASTA"
+  - id: "prodigal2fasta_feature_type"
+    type: string
+    description: ""
   # split_fasta
   - id: "fragmentation_count"
     type: int
@@ -93,25 +96,19 @@ inputs:
   - id: "raw2htab_output_htab"
     type: string
     description: ""
-  # Write the Attributor config
-  - id: write_attributor_config_template
+  # Attributor
+  - id: attributor_config_file
+    type: string
+  - id: attributor_output_base
     type: string
     description: ""
-  - id: write_attributor_config_output_file
+  - id: attributor_output_format
     type: string
     description: ""
-  - id: write_attributor_config_polypeptide_fasta
+  - id: attributor_polypeptide_fasta
     type: File
-    description: ""
-  - id: write_attributor_config_gff3
+  - id: attributor_source_gff3
     type: File
-    description: ""
-  - id: write_attributor_config_hmm_files
-    type: string
-    description: ""
-  - id: write_attributor_config_m8_files
-    type: string
-    description: ""
 outputs:
   - id: fasta_files
     type:
@@ -145,9 +142,11 @@ outputs:
       type: array
       items: File
     source: "#raw2htab/htab_file"
-  - id: attributor_config_file
-    type: File
-    source: "#write_attributor_config/output_config"
+  - id: attributor_files
+    type:
+      type: array
+      items: File
+    source: "#attributor/output_files"
 
 steps:
   - id: prodigal
@@ -174,6 +173,7 @@ steps:
       - { id: "prodigal2fasta.output_file", source: "#prodigal2fasta_output_file" }
       - { id: "prodigal2fasta.type", source: "#prodigal2fasta_type" }
       - { id: "prodigal2fasta.fasta", source: "#source_fasta" }
+      - { id: "prodigal2fasta.feature_type", source: "#prodigal2fasta_feature_type" }
     outputs:
       - { id: "protein_fasta" }
   - id: split_multifasta
@@ -215,15 +215,16 @@ steps:
     scatter: "#raw2htab/raw2htab.input_file"
     outputs:
       - { id: "htab_file" }
-  - id: write_attributor_config
-    run: ../tools/write-attributor-config.cwl
+  - id: attributor
+    run: ../tools/cpp-attributor.cwl
     inputs:
-      - { id: "write_attributor_config.template", source: "#write_attributor_config_template" }
-      - { id: "write_attributor_config.output_file", source: "#write_attributor_config_output_file" }
-      - { id: "write_attributor_config.hmm_files", source: "#raw2htab/htab_file" }
-      - { id: "write_attributor_config.polypeptide_fasta", source: "#prodigal/prodigal_protein_file" }
-      - { id: "write_attributor_config.gff3", source: "#prodigal2gff3/output_gff3" }
-      - { id: "write_attributor_config.m8_files", source: "#rapsearch2/output_base" }
+      - { id: "attributor.config_file", source: "#attributor_config_file" }
+      - { id: "attributor.output_base", source: "#attributor_output_base" }
+      - { id: "attributor.output_format", source: "#attributor_output_format" }
+      - { id: "attributor.hmm_files", source: "#raw2htab/htab_file" }
+      - { id: "attributor.polypeptide_fasta", source: "#prodigal2fasta/protein_fasta" }
+      - { id: "attributor.source_gff3", source: "#prodigal2gff3/output_gff3" }
+      - { id: "attributor.m8_files", source: "#rapsearch2/output_base" }
     outputs:
-      - { id: "output_config" }
+      - { id: "output_files" }
 
