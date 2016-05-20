@@ -8,7 +8,7 @@ baseCommand: write_fasta_from_gff.py
 
 hints:
   - class: DockerRequirement
-    dockerPull: community-prok-pipeline
+    dockerPull: jorvis/community-prok-pipeline
 
 inputs:
   - id: input_file

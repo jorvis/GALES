@@ -12,7 +12,7 @@ requirements:
 hints:
   - class: DockerRequirement
     # this will have to be prefixed with jorvis/ after placement on Docker
-    dockerPull: community-prok-pipeline
+    dockerPull: jorvis/community-prok-pipeline
 
 inputs:
   - id: database_file

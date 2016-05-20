@@ -7,7 +7,7 @@ baseCommand: write_attributor_config.py
 
 hints:
   - class: DockerRequirement
-    dockerPull: community-prok-pipeline
+    dockerPull: jorvis/community-prok-pipeline
 
 inputs:
   - id: template

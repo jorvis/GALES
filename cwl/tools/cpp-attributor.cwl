@@ -61,7 +61,7 @@ requirements:
 hints:
 # this will have to be prefixed with jorvis/ after placement on Docker
   - class: DockerRequirement
-    dockerPull: community-prok-pipeline
+    dockerPull: jorvis/community-prok-pipeline
 
 inputs:
   - id: config_file

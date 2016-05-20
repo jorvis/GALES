@@ -8,7 +8,7 @@ baseCommand: convert_prodigal_to_gff3.py
 
 hints:
   - class: DockerRequirement
-    dockerPull: community-prok-pipeline
+    dockerPull: jorvis/community-prok-pipeline
 
 inputs:
   - id: input_file

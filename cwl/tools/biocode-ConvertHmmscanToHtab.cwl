@@ -8,7 +8,7 @@ baseCommand: convert_hmmscan_to_htab.pl
 
 hints:
   - class: DockerRequirement
-    dockerPull: community-prok-pipeline
+    dockerPull: jorvis/community-prok-pipeline
 
 inputs:
   - id: input_file
