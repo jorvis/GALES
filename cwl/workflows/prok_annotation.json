@@ -53,6 +53,11 @@
     "raw2htab_output_htab": "./hmmscan.htab",
     "raw2htab_mldbm_file": "/dbs/coding_hmm.lib.db",
 
+    "tmhmm_input_file": {
+        "class": "File",
+        "path": ""
+    },
+
     "attributor_config_file": "attributor.config",
     "attributor_output_base": "attributor.annnotation",
     "attributor_output_format": "gff3",

@@ -24,6 +24,7 @@ requirements:
             order:
               - coding_hmm_lib__equivalog
               - rapsearch2__sprot
+              - tmhmm
             evidence:
               - label: coding_hmm_lib__equivalog
                 type: HMMer3_htab
@@ -56,7 +57,20 @@ requirements:
                 query_cov: 85%
                 match_cov: 85%
                 percent_identity_cutoff: 50%
-
+              - label: tmhmm
+                type: TMHMM
+                product_name: Putative integral membrane protein
+                min_helical_spans: 3
+                path: ${
+                  var r = "";
+                  for (var i = 0; i < inputs.tmhmm_files.length; i++) {
+                    if (i > 0) {
+                    r += ",";
+                   }
+                    r += inputs.tmhmm_files[i].path.replace('file://','');
+                  }
+                  return r;
+                }
                 
 hints:
 # this will have to be prefixed with jorvis/ after placement on Docker
@@ -91,6 +105,10 @@ inputs:
       type: array
       items: File
   - id: m8_files
+    type:
+      type: array
+      items: File
+  - id: tmhmm_files
     type:
       type: array
       items: File

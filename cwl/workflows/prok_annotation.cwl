@@ -96,6 +96,9 @@ inputs:
   - id: "raw2htab_output_htab"
     type: string
     description: ""
+  # TMHMM
+  - id: "tmhmm_input_file"
+    type: File
   # Attributor
   - id: attributor_config_file
     type: string
@@ -142,6 +145,11 @@ outputs:
       type: array
       items: File
     source: "#raw2htab/htab_file"
+  - id: tmhmm_raw_files
+    type:
+      type: array
+      items: File
+    source: "#tmhmm/tmhmm_out"
   - id: attributor_files
     type:
       type: array
@@ -215,6 +223,13 @@ steps:
     scatter: "#raw2htab/raw2htab.input_file"
     outputs:
       - { id: "htab_file" }
+  - id: tmhmm
+    run: ../tools/cpp-tmhmm.cwl
+    inputs:
+      - { id: "tmhmm.query_file", source: "#split_multifasta/fasta_files" }
+    scatter: "#tmhmm/tmhmm.query_file"
+    outputs:
+      - { id: "tmhmm_out" }
   - id: attributor
     run: ../tools/cpp-attributor.cwl
     inputs:
@@ -225,6 +240,7 @@ steps:
       - { id: "attributor.polypeptide_fasta", source: "#prodigal2fasta/protein_fasta" }
       - { id: "attributor.source_gff3", source: "#prodigal2gff3/output_gff3" }
       - { id: "attributor.m8_files", source: "#rapsearch2/output_base" }
+      - { id: "attributor.tmhmm_files", source: "#tmhmm/tmhmm_out" }
     outputs:
       - { id: "output_files" }
 
