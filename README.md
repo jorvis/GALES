@@ -36,7 +36,7 @@ $ git clone https://github.com/jorvis/community-prok-pipeline.git
 $ cd community-prok-pipeline/cwl/workflows/
 ```
 
-Within this you'll find the [prok_annotation.json](https://github.com/jorvis/community-prok-pipeline/blob/master/cwl/workflows/prok_annotation.json) file.  Within this, you'll want to change the source_fasta.path setting and, optionally, the rapsearch2_threads and hmmscan_threads settings.
+Here you'll find the [prok_annotation.json](https://github.com/jorvis/community-prok-pipeline/blob/master/cwl/workflows/prok_annotation.json) file.  Within this, you'll want to change the source_fasta.path setting and, optionally, the rapsearch2_threads and hmmscan_threads settings.
 
 Then, you can run it like this:
 
