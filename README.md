@@ -9,17 +9,21 @@ These instructions describe how to get the annotation pipeline running on your m
 
 The pipeline and tools are represented using [Common Workflow Language (CWL)](http://www.commonwl.org/), with all dependent tools contained within Docker images.  These two things are the only prerequisites, and are easily installed.  
 
-#### Install [Docker](https://www.docker.com/)
+#### Install [Docker](https://docs.docker.com/engine/installation/)
+
+The Docker site has detailed [instructions](https://docs.docker.com/engine/installation/) for many architectures, but for some this may be as simple as:
 
 ```
 $ sudo apt-get install docker-engine
 [restart]
 ```
 
+If this is the first time you've installed Docker Engine, reboot your machine (even if the docs leave this step out.)
+
 #### Install CWL
 
 ```
-$ pip install cwl-runner
+$ sudo pip install cwl-runner
 ```
 
 ### Get the pipeline
