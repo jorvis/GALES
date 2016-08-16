@@ -1,5 +1,5 @@
-# community-prok-pipeline
-Community-developed prokaryotic annotation pipeline
+# FALCON
+Flexible Annotation Logic CONtrol system (FALCON): Annotate a genome in the cloud in minutes.
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ $ pip install cwl-runner
 Now that you have the dependencies to run things, you need only the actual pipeline/tool CWL definitions.
 
 ```
-$ git clone https://github.com/jorvis/community-prok-pipeline.git
+$ git clone https://github.com/jorvis/FALCON.git
 ```
 
 ### Running
@@ -36,7 +36,7 @@ $ git clone https://github.com/jorvis/community-prok-pipeline.git
 $ cd community-prok-pipeline/cwl/workflows/
 ```
 
-Here you'll find the [prok_annotation.json](https://github.com/jorvis/community-prok-pipeline/blob/master/cwl/workflows/prok_annotation.json) file.  Within this, you'll want to change the source_fasta.path setting and, optionally, the rapsearch2_threads and hmmscan_threads settings.
+Here you'll find the [prok_annotation.json](https://github.com/jorvis/FALCON/blob/master/cwl/workflows/prok_annotation.json) file.  Within this, you'll want to change the source_fasta.path setting and, optionally, the rapsearch2_threads and hmmscan_threads settings.
 
 Then, you can run it like this:
 
@@ -48,7 +48,7 @@ Once completed, the annotated GFF file will be called 'attributor.annnotation.gf
 
 ## Authors
 
-See the list of [contributors](https://github.com/jorvis/community-prok-pipeline/contributors) who participated in this project.
+See the list of [contributors](https://github.com/jorvis/FALCON/contributors) who participated in this project.
 
 ## License
 
