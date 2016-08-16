@@ -33,7 +33,7 @@ $ git clone https://github.com/jorvis/FALCON.git
 ### Running
 
 ```
-$ cd community-prok-pipeline/cwl/workflows/
+$ cd FALCON/cwl/workflows/
 ```
 
 Here you'll find the [prok_annotation.json](https://github.com/jorvis/FALCON/blob/master/cwl/workflows/prok_annotation.json) file.  Within this, you'll want to change the source_fasta.path setting and, optionally, the rapsearch2_threads and hmmscan_threads settings.
