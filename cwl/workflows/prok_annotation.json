@@ -56,7 +56,7 @@
         "path": ""
     },
     "hmmscan_output_file": "hmmscan.out",
-    "hmmscan_threads": 2,
+    "hmmscan_threads": 4,
 
     "raw2htab_input_file": {
         "class": "File",
