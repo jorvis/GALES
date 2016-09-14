@@ -8,7 +8,7 @@ baseCommand: convert_hmmscan_to_htab.pl
 
 hints:
   - class: DockerRequirement
-    dockerPull: jorvis/community-prok-pipeline
+    dockerPull: jorvis/biocode
 
 inputs:
   - id: input_file
