@@ -17,7 +17,7 @@ inputs:
   - id: database_file
     #  Not defined as a file because the base name is
     #  sufficient.
-    type: string
+    type: File
     inputBinding:
       prefix: -d
       separate: true

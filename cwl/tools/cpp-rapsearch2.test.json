@@ -1,5 +1,8 @@
 {
-    "database_file": "/dbs/uniprot_sprot.rapsearch2.db",
+    "database_file": {
+        "class": "File",
+        "/dbs/uniprot_sprot.rapsearch2.db"
+    },
     "query_file": {
         "class": "File",
         "path": "/home/jorvis/Dropbox/igs/databases/test.faa"

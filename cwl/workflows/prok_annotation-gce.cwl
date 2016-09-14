@@ -57,7 +57,7 @@ inputs:
     description: "Location where split files will be written"
   # rapsearch2
   - id: "rapsearch2_database_file"
-    type: string
+    type: File
     description: ""
   - id: "rapsearch2_query_file"
     type: File
