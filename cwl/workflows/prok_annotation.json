@@ -41,7 +41,16 @@
 
     "hmmscan_use_accessions": true,
     "hmmscan_cutoff_gathering": true,
-    "hmmscan_database_file": "/dbs/coding_hmm.lib.bin",
+    "hmmscan_database_file": {
+        "class": "File",
+        "path": "/dbs/coding_hmm.lib.bin",
+        "secondaryFiles": [
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3f"},
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3i"},
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3m"},
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3p"}
+        ]
+    },
     "hmmscan_query_file": {
         "class": "File",
         "path": ""

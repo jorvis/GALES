@@ -75,7 +75,7 @@ inputs:
   - id: "hmmscan_cutoff_gathering"
     type: boolean
   - id: "hmmscan_database_file"
-    type: string
+    type: File
     description: ""
   - id: "hmmscan_query_file"
     type: File
