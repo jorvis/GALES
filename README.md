@@ -1,5 +1,5 @@
 # FALCON
-Flexible Annotation Logic CONtrol system (FALCON): Annotate a genome in the cloud in minutes.
+Flexible Annotation Logic CONtrol system (FALCON): Annotate a genome locally or in the cloud in minutes.
 
 ## Getting Started
 
