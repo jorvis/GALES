@@ -4,5 +4,8 @@
         "path": "./test.raw"
     },
     "output_htab": "./test.htab",
-    "mldbm_file": "/dbs/coding_hmm.lib.db"
+    "mldbm_file": {
+        "class": "File",
+        "path": "/dbs/coding_hmm.lib.db"
+    }
 }

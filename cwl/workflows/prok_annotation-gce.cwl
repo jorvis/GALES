@@ -91,7 +91,7 @@ inputs:
     type: File
     description: ""
   - id: "raw2htab_mldbm_file"
-    type: string
+    type: File
     description: ""
   - id: "raw2htab_output_htab"
     type: string
