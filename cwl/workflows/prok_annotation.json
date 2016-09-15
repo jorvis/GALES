@@ -1,7 +1,7 @@
 {
     "source_fasta": {
         "class": "File",
-        "path": "../../test_data/genomes/M_tuberculosis.fna"
+        "path": "../../test_data/genomes/E_coli_k12_dh10b.fna.partial"
     },
     "output_format": "gff",
     "initial_structural_prediction": "prodigal.annotation.gff",
@@ -30,7 +30,10 @@
 
     "rapsearch2_database_file": {
         "class": "File",
-        "path": "/dbs/uniprot_sprot.rapsearch2.db"
+        "path": "/dbs/uniprot_sprot.rapsearch2.db",
+        "secondaryFiles": [
+            {"class": "File", "path": "/dbs/uniprot_sprot.rapsearch2.db.info"}
+        ]
     },
     "rapsearch2_query_file": {
         "class": "File",
@@ -48,8 +51,7 @@
             {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3f"},
             {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3i"},
             {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3m"},
-            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3p"},
-            
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3p"}
         ]
     },
     "hmmscan_query_file": {
