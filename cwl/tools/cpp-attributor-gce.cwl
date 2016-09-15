@@ -16,8 +16,8 @@ requirements:
               allow_attributes_from_multiple_sources: No
               debugging_polypeptide_limit: 0
             indexes:
-              coding_hmm_lib: /dbs/coding_hmm_lib.sqlite3
-              uniprot_sprot: /dbs/uniprot_sprot.sqlite3
+              coding_hmm_lib: $(inputs.polypeptide_fasta.secondaryFiles[0].path)
+              uniprot_sprot: $(inputs.polypeptide_fasta.secondaryFiles[1].path)
             input:
               polypeptide_fasta: $(inputs.polypeptide_fasta.path)
               gff3: $(inputs.source_gff3.path)
