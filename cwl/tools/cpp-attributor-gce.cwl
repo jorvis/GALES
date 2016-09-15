@@ -79,7 +79,7 @@ hints:
 
 inputs:
   - id: config_file
-    type: string
+    type: File
     inputBinding:
       prefix: -c
       separate: true
