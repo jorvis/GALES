@@ -16,8 +16,8 @@ requirements:
               allow_attributes_from_multiple_sources: No
               debugging_polypeptide_limit: 0
             indexes:
-              coding_hmm_lib: $(inputs.polypeptide_fasta.secondaryFiles[0].path)
-              uniprot_sprot: $(inputs.polypeptide_fasta.secondaryFiles[1].path)
+              coding_hmm_lib: $(inputs.hmm_attribute_lookup_file.path)
+              uniprot_sprot: $(inputs.blast_attribute_lookup_file.path)
             input:
               polypeptide_fasta: $(inputs.polypeptide_fasta.path)
               gff3: $(inputs.source_gff3.path)
@@ -96,6 +96,10 @@ inputs:
       position: 3
       prefix: -f
       separate: true
+  - id: hmm_attribute_lookup_file
+    type: File
+  - id: blast_attribute_lookup_file
+    type: File
   - id: polypeptide_fasta
     type: File
   - id: source_gff3

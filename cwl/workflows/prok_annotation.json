@@ -79,17 +79,15 @@
     "attributor_config_file": "attributor.config",
     "attributor_output_base": "attributor.annnotation",
     "attributor_output_format": "gff3",
+    "attributor_hmm_attribute_lookup_file": "/dbs/coding_hmm_lib.sqlite3",
+    "attributor_blast_attribute_lookup_file": "/dbs/uniprot_sprot.sqlite3",
     "attributor_polypeptide_fasta": {
         "class": "File",
         "path": ""
     },
     "attributor_source_gff3": {
         "class": "File",
-        "path": "",
-        "secondaryFiles": [
-            {"class": "File", "path": "/dbs/coding_hmm_lib.sqlite3"},
-            {"class": "File", "path": "/dbs/uniprot_sprot.sqlite3"}
-        ]
+        "path": ""
     }
 
 }

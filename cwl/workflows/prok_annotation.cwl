@@ -108,6 +108,10 @@ inputs:
   - id: attributor_output_format
     type: string
     description: ""
+  - id: attributor_hmm_attribute_lookup_file
+    type: File
+  - id: attributor_blast_attribute_lookup_file
+    type: File
   - id: attributor_polypeptide_fasta
     type: File
   - id: attributor_source_gff3
@@ -236,6 +240,8 @@ steps:
       - { id: "attributor.config_file", source: "#attributor_config_file" }
       - { id: "attributor.output_base", source: "#attributor_output_base" }
       - { id: "attributor.output_format", source: "#attributor_output_format" }
+      - { id: "attributor.hmm_attribute_lookup_file", source: "#attributor_hmm_attribute_lookup_file" }
+      - { id: "attributor.blast_attribute_lookup_file", source: "#attributor_blast_attribute_lookup_file" }
       - { id: "attributor.hmm_files", source: "#raw2htab/htab_file" }
       - { id: "attributor.polypeptide_fasta", source: "#prodigal2fasta/protein_fasta" }
       - { id: "attributor.source_gff3", source: "#prodigal2gff3/output_gff3" }
