@@ -4,7 +4,11 @@
     "output_format": "gff3",
     "polypeptide_fasta": {
         "class": "File",
-        "path": "../workflows/prodigal.annotation.faa"
+        "path": "../workflows/prodigal.annotation.faa",
+        "secondaryFiles": [
+            {"class": "File", "path": "/dbs/coding_hmm_lib.sqlite3"},
+            {"class": "File", "path": "/dbs/uniprot_sprot.sqlite3"}
+        ]
     },
     "source_gff3": {
         "class": "File",
