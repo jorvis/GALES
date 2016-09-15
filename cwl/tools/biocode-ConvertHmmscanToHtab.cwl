@@ -24,7 +24,7 @@ inputs:
       prefix: --output_htab
       separate: true
   - id: mldbm_file
-    type: string
+    type: File
     inputBinding:
       position: 3
       prefix: --mldbm_file
