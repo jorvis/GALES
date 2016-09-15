@@ -76,14 +76,7 @@
         "path": ""
     },
 
-    "attributor_config_file": {
-        "class": "File",
-        "path": "attributor.config",
-        "secondaryFiles": [
-            {"class": "File", "path": "/dbs/coding_hmm_lib.sqlite3"},
-            {"class": "File", "path": "/dbs/uniprot_sprot.sqlite3"}
-        ]
-    },
+    "attributor_config_file": "attributor.config",
     "attributor_output_base": "attributor.annnotation",
     "attributor_output_format": "gff3",
     "attributor_polypeptide_fasta": {
@@ -92,7 +85,11 @@
     },
     "attributor_source_gff3": {
         "class": "File",
-        "path": ""
+        "path": "",
+        "secondaryFiles": [
+            {"class": "File", "path": "/dbs/coding_hmm_lib.sqlite3"},
+            {"class": "File", "path": "/dbs/uniprot_sprot.sqlite3"}
+        ]
     }
 
 }

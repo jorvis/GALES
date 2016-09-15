@@ -101,7 +101,7 @@ inputs:
     type: File
   # Attributor
   - id: attributor_config_file
-    type: File
+    type: string
   - id: attributor_output_base
     type: string
     description: ""
