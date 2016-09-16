@@ -77,7 +77,7 @@
     },
 
     "attributor_config_file": "attributor.config",
-    "attributor_output_base": "attributor.annnotation",
+    "attributor_output_base": "attributor.annotation",
     "attributor_output_format": "gff3",
     "attributor_hmm_attribute_lookup_file": {
         "class": "File",
