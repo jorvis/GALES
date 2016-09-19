@@ -38,7 +38,7 @@ inputs:
       prefix: -o
       separate: true
   - id: database_file
-    type: string
+    type: File
     inputBinding:
       position: 5
   - id: query_file

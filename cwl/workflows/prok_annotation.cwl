@@ -57,7 +57,7 @@ inputs:
     description: "Location where split files will be written"
   # rapsearch2
   - id: "rapsearch2_database_file"
-    type: string
+    type: File
     description: ""
   - id: "rapsearch2_query_file"
     type: File
@@ -75,7 +75,7 @@ inputs:
   - id: "hmmscan_cutoff_gathering"
     type: boolean
   - id: "hmmscan_database_file"
-    type: string
+    type: File
     description: ""
   - id: "hmmscan_query_file"
     type: File
@@ -91,7 +91,7 @@ inputs:
     type: File
     description: ""
   - id: "raw2htab_mldbm_file"
-    type: string
+    type: File
     description: ""
   - id: "raw2htab_output_htab"
     type: string
