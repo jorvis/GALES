@@ -1,7 +1,9 @@
-div#stats_features table {
+div#stats_features table,
+div#stats_annotation table {
     width: 100%;
 }
-div#stats_features td:first-child {
+div#stats_features td:first-child,
+div#stats_annotation td:first-child {
     font-weight: bold;
 }
 

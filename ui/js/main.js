@@ -6,7 +6,34 @@ window.onload=function() {
     $('#input_label').html( input_label );
 
     get_fasta_stats();
+    get_annotation_stats();
 };  // end window onload
+
+function get_annotation_stats() {
+    $.ajax({
+        url : './cgi/get_annotation_stats.cgi',
+        type: "POST",
+        data : { 'annotation_dir': getUrlParameter('annotation_dir')},
+        dataType:"json",
+        success: function(data, textStatus, jqXHR) {
+            $('#stats_dbxrefs_assigned').text(data['stats_dbxrefs_assigned'])
+            $('#stats_ec_numbers_assigned').text(data['stats_ec_numbers_assigned'])
+            $('#stats_gene_count').text(data['stats_gene_count'])
+            $('#stats_gene_mean_length').text(data['stats_gene_mean_length'])
+            $('#stats_gene_symbols_assigned').text(data['stats_gene_symbols_assigned'])
+            $('#stats_go_terms_assigned').text(data['stats_go_terms_assigned'])
+            $('#stats_hypo_gene_count').text(data['stats_hypo_gene_count'])
+            $('#stats_mean_go_terms_per_gene').text(data['stats_mean_go_terms_per_gene'])
+            $('#stats_rRNA_count').text(data['stats_rRNA_count'])
+            $('#stats_specific_annot_count').text(data['stats_specific_annot_count'])
+            $('#stats_tRNA_count').text(data['stats_tRNA_count'])
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+		    console.log('textStatus= ', textStatus);
+		    console.log('errorThrown= ', errorThrown);
+        }
+    });
+}
 
 function get_fasta_stats() {
     $.ajax({
@@ -21,6 +48,7 @@ function get_fasta_stats() {
             $('#stats_assembly_longest_length').text(data['stats_assembly_longest_length'] + " bp")
             $('#stats_assembly_shortest_length').text(data['stats_assembly_shortest_length'] + " bp")
             $('#stats_assembly_gc').text(data['stats_assembly_gc'])
+            $('#stats_gene_count').text(data['stats_gene_count'])
         },
         error: function (jqXHR, textStatus, errorThrown) {
 		    console.log('textStatus= ', textStatus);
