@@ -1,0 +1,28 @@
+div#stats_features table {
+    width: 100%;
+}
+div#stats_features td:first-child {
+    font-weight: bold;
+}
+
+h2 {
+    color: #324cae;
+    font-size: 140%;
+}
+h3 {
+    font-size: 120%;
+}
+header {
+    background-image: url('../img/falcon_mod.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid black;
+}
+header h1 {
+    color: #324cae;
+    font-size: 160%;
+    font-weight: bold;
+    margin-left: 50px;
+    font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif;
+}
+

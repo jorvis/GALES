@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>FALcon UI</title>
+  <!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="js/vendor/jquery-ui-1.12.0/jquery-ui.css" />
+  <script type="text/javascript" src="js/vendor/jquery-3.1.0.min.js"></script>
+  <script type="text/javascript" src="js/vendor/jquery-ui-1.12.0/jquery-ui.min.js"></script>
+
+  <link rel="stylesheet" href="js/vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="js/vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
+  <script src="js/vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="css/main.css" />
+  <script src="js/main.js"></script>
+</head>
+
+<body id="main">
+  <header class="container-fluid">
+    <div class="row">
+      <h1 class='col-md-4'>FALCON</h1>
+      <!-- more can go here later -->
+      <div class='col-md-8'></div>
+    </div>
+  </header>
+  <div id='main' class='container-fluid'>
+    <div id='stats_overview' class='row'>
+      <div id='stats_features' class='col-md-4'>
+          <h2 id='input_label'>Input label here</h2>
+          <div class='section'>
+            <h3>General statistics</h3>
+            <table>
+              <tr>
+                <td>Assembly count</td>
+                <td id='stats_assembly_count'>calculating ...</td>
+              </tr>
+              <tr>
+                <td>Assembly sum length</td>
+                <td id='stats_assembly_sum_length'>calculating ...</td>
+              </tr>
+              <tr>
+                <td>Assembly (shortest)</td>
+                <td id='stats_assembly_shortest_length'>calculating ...</td>
+              </tr>
+              <tr>
+                <td>Assembly (longest)</td>
+                <td id='stats_assembly_longest_length'>calculating ...</td>
+              </tr>
+              <tr>
+                <td>Gene count</td>
+                <td id='stats_gene_count'>calculating ...</td>
+              </tr>
+              <tr>
+                <td>Gene length (mean)</td>
+                <td id='stats_gene_sum_length'>calculating ...</td>
+              </tr>
+              <tr>
+                <td>Predicted tRNAs</td>
+                <td id='stats_tRNA_count'>calculating ...</td>
+              </tr>
+              <tr>
+                <td>Predicted rRNAs</td>
+                <td id='stats_rRNA_count'>calculating ...</td>
+              </tr>
+            </table>
+          </div>
+      </div><!-- end #stats_features -->
+      <div id='stats_foo' class='col-md-4'>
+        Something here
+      </div>
+      <div id='stats_bar' class='col-md-4'>
+        Something else here
+      </div>
+    </div><!-- end #stats_overview -->
+  </div><!-- end #main -->
+</body>
+
+</html>
