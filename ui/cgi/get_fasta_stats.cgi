@@ -1,7 +1,7 @@
 #!/opt/bin/python3
 
 """
-Gathers statistics for a passed FASTA file and returns them in FASTA format.
+Gathers statistics for a passed FASTA file and returns them in JSON format.
 
 It checks the annotation_dir directory passed for a file called
 fasta_stats.json and uses that if present.  If not present, it writes one
@@ -29,7 +29,7 @@ def main():
         with open('json_file_path', 'r') as json_file:
             result = json_file.read().replace('\n', '')
     else:
-        result = { 'success':0, '': list() }
+        result = { 'success': 0 }
         fasta_dict = biocodeutils.fasta_dict_from_file(fasta_file)
         result['stats_assembly_count'] = len(fasta_dict)
 
