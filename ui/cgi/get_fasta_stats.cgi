@@ -36,10 +36,13 @@ def main():
         shortest = None
         longest = None
         assembly_sum_length = 0
+        gc_count = 0
 
         for id in fasta_dict:
+            
             contig_len = len(fasta_dict[id]['s'])
             assembly_sum_length += contig_len
+            gc_count += fasta_dict[id]['s'].upper().count('C') + fasta_dict[id]['s'].upper().count('G')
 
             if shortest is None or contig_len < shortest:
                 shortest = contig_len
@@ -50,6 +53,7 @@ def main():
         result['stats_assembly_sum_length'] = assembly_sum_length
         result['stats_assembly_longest_length'] = longest
         result['stats_assembly_shortest_length'] = shortest
+        result['stats_assembly_gc'] = "{0:.1f}%".format((gc_count / assembly_sum_length) * 100)
         
     result['success'] = 1
     

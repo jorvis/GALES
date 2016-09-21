@@ -17,9 +17,10 @@ function get_fasta_stats() {
         dataType:"json",
         success: function(data, textStatus, jqXHR) {
             $('#stats_assembly_count').text(data['stats_assembly_count'])
-            $('#stats_assembly_sum_length').text(data['stats_assembly_sum_length'])
-            $('#stats_assembly_longest_length').text(data['stats_assembly_longest_length'])
-            $('#stats_assembly_shortest_length').text(data['stats_assembly_shortest_length'])
+            $('#stats_assembly_sum_length').text(data['stats_assembly_sum_length'] + " bp")
+            $('#stats_assembly_longest_length').text(data['stats_assembly_longest_length'] + " bp")
+            $('#stats_assembly_shortest_length').text(data['stats_assembly_shortest_length'] + " bp")
+            $('#stats_assembly_gc').text(data['stats_assembly_gc'])
         },
         error: function (jqXHR, textStatus, errorThrown) {
 		    console.log('textStatus= ', textStatus);
