@@ -20,7 +20,10 @@ import biocodegff
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.server import CGIHTTPRequestHandler
 import json
+import igraph
 import os
+import pickle
+import re
 import sys
 import urllib.parse
 import webbrowser
@@ -44,12 +47,16 @@ def main():
     fasta_stats_file = "{0}/fasta_stats.json".format(args.input_directory)
     gff_stats_file = "{0}/gff_stats.json".format(args.input_directory)
 
+    # base name of the pickled graph files
+    go_graph_base = "{0}/obo.graphs".format(args.input_directory)
+
     exec_path = os.path.dirname(os.path.abspath(__file__))
+    obo_file = "{0}/../data/go.obo".format(exec_path)
     ui_path = "{0}/../ui".format(exec_path)
     os.chdir(ui_path)
 
     print("\n--------------------------------------------------------------------------------")
-    print("Checking for stored statistics within input directory, or creating them.")
+    print("Checking for stored statistics and analyses within input directory, or creating them.")
     print("This can cause the first execution on any input directory to take a few minutes.")
     print("--------------------------------------------------------------------------------\n")
 
@@ -66,6 +73,11 @@ def main():
         print("Checking for GFF stats file ... not found.  Parsing ... ", end='', flush=True)
         generate_gff_stats(gff_file=gff_file, json_out=gff_stats_file)
         print("done.", flush=True)
+
+    # A bit more complicated, this function checks for the different stored ontology graphs
+    print("Checking for parsed OBO graphs ... ", flush=True, end='')
+    terms, g = parse_obo_graph(go_graph_base=go_graph_base, obo_file=obo_file)
+    print("done.", flush=True)
 
     run(host=server_host, port=server_port, script_args=args)
 
@@ -144,6 +156,130 @@ def generate_gff_stats(gff_file=None, json_out=None):
         json.dump(result, outfile)
 
 
+def parse_obo_graph(go_graph_base=None, obo_file=None):
+    stored_pickle_file_prefix = go_graph_base
+    stored_pickles_found = False
+
+    g = {'biological_process': igraph.Graph(directed=True), 
+         'cellular_component': igraph.Graph(directed=True),
+         'molecular_function': igraph.Graph(directed=True) }
+
+    for ns in g:
+        pickle_file_path = "{0}.{1}".format(stored_pickle_file_prefix, ns)
+        if os.path.exists(pickle_file_path):
+            g[ns] = igraph.Graph.Read_Pickle(fname=pickle_file_path)
+            stored_pickles_found = True
+
+    # key: GO:ID, value = {'ns': 'biological_process', 'idx': 25}
+    terms = dict()
+
+    if stored_pickles_found is True:
+        with open("{0}.terms".format(stored_pickle_file_prefix), 'rb') as f:
+            terms = pickle.load(f)
+
+        print("done.", flush=True)
+    else:
+        print("not found. Parsing ... ", flush=True)
+
+    # key: namespace, value=int
+    next_idx = {'biological_process': 0, 
+                'cellular_component': 0,
+                'molecular_function': 0 }
+
+    id = None
+    namespace = None
+    name = None
+
+    # Pass through the file once just to get all the GO terms and their namespaces
+    #  This makes the full pass far easier, since terms can be referenced which haven't
+    #  been seen yet.
+
+    if stored_pickles_found is False:
+        for line in open(obo_file):
+            line = line.rstrip()
+            if line.startswith('[Term]'):
+                if id is not None:
+                    # error checking
+                    if namespace is None:
+                        raise Exception("Didn't find a namespace for term {0}".format(id))
+
+                    g[namespace].add_vertices(1)
+                    idx = next_idx[namespace]
+                    g[namespace].vs[idx]['id'] = id
+                    g[namespace].vs[idx]['name'] = name
+                    next_idx[namespace] += 1
+                    terms[id] = {'ns': namespace, 'idx': idx}
+
+                # reset for next term
+                id = None
+                namespace = None
+                name = None
+
+            elif line.startswith('id:'):
+                id = line.split(' ')[1]
+
+            elif line.startswith('namespace:'):
+                namespace = line.split(' ')[1]
+                
+            elif line.startswith('name:'):
+                m = re.match('name: (.+)', line)
+                if m:
+                    name = m.group(1).rstrip()
+                else:
+                    raise Exception("Failed to regex this line: {0}".format(line))
+    
+    id = None
+    alt_ids = list()
+    namespace = None
+    name = None
+    is_obsolete = False
+    is_a = list()
+
+    # Now actually parse the rest of the properties
+    if stored_pickles_found is False:
+        for line in open(obo_file):
+            line = line.rstrip()
+            if line.startswith('[Term]'):
+                if id is not None:
+                    # make any edges in the graph
+                    for is_a_id in is_a:
+                        # these two terms should be in the same namespace
+                        if terms[id]['ns'] != terms[is_a_id]['ns']:
+                            raise Exception("is_a relationship found with terms in different namespaces")
+
+                        #g[namespace].add_edges([(terms[id]['idx'], terms[is_a_id]['idx']), ])
+                        # the line above is supposed to be able to instead be this, according to the 
+                        # documentation, but it fails:
+                        g[namespace].add_edge(terms[id]['idx'], terms[is_a_id]['idx'])
+
+                # reset for this term
+                id = None
+                alt_ids = list()
+                namespace = None
+                is_obsolete = False
+                is_a = list()
+
+            elif line.startswith('id:'):
+                id = line.split(' ')[1]
+  
+            elif line.startswith('namespace:'):
+                namespace = line.split(' ')[1]
+
+            elif line.startswith('is_a:'):
+                is_a.append(line.split(' ')[1])
+
+    if stored_pickles_found is False:
+        for ns in g:
+            pickle_file_path = "{0}.{1}".format(stored_pickle_file_prefix, ns)
+            g[ns].write_pickle(fname=pickle_file_path)
+
+        ## save the terms too so we don't have to redo that parse
+        with open("{0}.terms".format(stored_pickle_file_prefix), 'wb') as f:
+            pickle.dump(terms, f, pickle.HIGHEST_PROTOCOL)
+
+    return terms, g
+
+        
 def run(host=None, port=None, script_args=None):
     args = {'annotation_dir': script_args.input_directory, 'fasta_file': script_args.fasta_file}
     args_string = urllib.parse.urlencode(args)
