@@ -24,7 +24,6 @@ def main():
 
     # Use the existing JSON file if available.
     if os.path.exists(json_file_path):
-        print("Attempting to open: {0}".format(json_file_path), file=sys.stderr)
         with open(json_file_path, 'r') as json_file:
             result = json_file.read().replace('\n', '')
             print(result)
