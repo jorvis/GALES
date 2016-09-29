@@ -70,12 +70,6 @@ def main():
         result['stats_gene_mean_length'] = "{0:.1f}".format(gene_length_sum / result['stats_gene_count'])
         result['stats_mean_go_terms_per_gene'] = "{0:.1f}".format(result['stats_go_terms_assigned'] / result['stats_gene_count'])
 
-                        
-                        
-                
-
-         
-        
     result['success'] = 1
     
     print(json.dumps(result))
