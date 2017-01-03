@@ -1,0 +1,16 @@
+Brad Chapman @chapmanb 04:34
+
+@jorvis We do this dynamic split/scatter in bcbio CWL. Tool A produces json output that has an array of items (the split pieces). Then tool B takes these and does a dotproduct scatter over them. This is an example CWL that does this, look at wf-alignment and the prep_align_inputs (which splits) and process_alignment (which scatters) tools:
+
+http://bcbio-nextgen.readthedocs.org/en/latest/contents/cwl.html#running
+
+##################################
+##################################
+
+Well in general, each run writes to its own isolated output directory
+so they won't ever overwrite each other and the input files aren't located
+in the output directory.
+
+https://github.com/common-workflow-language/workflows/blob/master/tools/samtools-faidx.cwl
+
+(I have to leave to get a train in 4 minutes)
