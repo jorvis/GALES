@@ -1,5 +1,5 @@
-# FALCON
-Flexible Annotation Logic CONtrol system (FALCON): Annotate a genome locally or in the cloud in minutes.
+# GALES
+Genomic Annotation Logic and Execution System (GALES): Annotate a genome locally or in the cloud in minutes.
 
 ## Getting Started
 
@@ -31,16 +31,16 @@ $ sudo pip install cwl-runner
 Now that you have the dependencies to run things, you need only the actual pipeline/tool CWL definitions.
 
 ```
-$ git clone https://github.com/jorvis/FALCON.git
+$ git clone https://github.com/jorvis/GALES.git
 ```
 
 ### Running
 
 ```
-$ cd FALCON/cwl/workflows/
+$ cd GALES/cwl/workflows/
 ```
 
-Here you'll find the [prok_annotation.json](https://github.com/jorvis/FALCON/blob/master/cwl/workflows/prok_annotation.json) file.  Within this, you'll want to change the source_fasta.path setting and, optionally, the rapsearch2_threads and hmmscan_threads settings.
+Here you'll find the [prok_annotation.json](https://github.com/jorvis/GALES/blob/master/cwl/workflows/prok_annotation.json) file.  Within this, you'll want to change the source_fasta.path setting and, optionally, the rapsearch2_threads and hmmscan_threads settings.
 
 Then, you can run it like this:
 
@@ -52,7 +52,7 @@ Once completed, the annotated GFF file will be called 'attributor.annnotation.gf
 
 ## Authors
 
-See the list of [contributors](https://github.com/jorvis/FALCON/contributors) who participated in this project.
+See the list of [contributors](https://github.com/jorvis/GALES/contributors) who participated in this project.
 
 ## License
 
