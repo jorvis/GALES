@@ -14,7 +14,7 @@ The pipeline and tools are represented using [Common Workflow Language (CWL)](ht
 The Docker site has detailed [instructions](https://docs.docker.com/engine/installation/) for many architectures, but for some this may be as simple as:
 
 ```
-$ sudo apt-get install docker-engine
+$ sudo apt-get install docker.io
 [restart]
 ```
 

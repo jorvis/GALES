@@ -11,7 +11,7 @@ baseCommand: prodigal
 hints:
   - class: DockerRequirement
     # this will have to be prefixed with jorvis/ after placement on Docker
-    dockerPull: jorvis/falcon-gce
+    dockerPull: jorvis/gales-gce
 
 inputs:
   - id: genomic_fasta

@@ -9,7 +9,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: jorvis/falcon-gce
+    dockerPull: jorvis/gales-gce
 
 inputs:
   - id: query_file

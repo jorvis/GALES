@@ -17,13 +17,13 @@ requirements:
               debugging_polypeptide_limit: 0
             indexes:
               coding_hmm_lib: $(inputs.hmm_attribute_lookup_file.path)
-              uniprot_sprot: $(inputs.blast_attribute_lookup_file.path)
+              uniref100: $(inputs.blast_attribute_lookup_file.path)
             input:
               polypeptide_fasta: $(inputs.polypeptide_fasta.path)
               gff3: $(inputs.source_gff3.path)
             order:
               - coding_hmm_lib__equivalog
-              - rapsearch2__sprot
+              - rapsearch2__uniref100
               - tmhmm
             evidence:
               - label: coding_hmm_lib__equivalog
@@ -40,7 +40,7 @@ requirements:
                 }
                 class: equivalog
                 index: coding_hmm_lib
-              - label: rapsearch2__sprot
+              - label: rapsearch2__uniref100
                 type: RAPSearch2_m8
                 path: ${
                   var r = "";
@@ -53,7 +53,7 @@ requirements:
                   return r;
                 }
                 class: trusted
-                index: uniprot_sprot
+                index: uniref100
                 query_cov: 85%
                 match_cov: 85%
                 percent_identity_cutoff: 50%
@@ -75,7 +75,7 @@ requirements:
 hints:
 # this will have to be prefixed with jorvis/ after placement on Docker
   - class: DockerRequirement
-    dockerPull: jorvis/falcon-gce
+    dockerPull: jorvis/gales-gce
 
 inputs:
   - id: config_file
