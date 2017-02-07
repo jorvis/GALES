@@ -16,8 +16,8 @@ requirements:
                allow_attributes_from_multiple_sources: No
                debugging_polypeptide_limit: 0
             indexes:
-               coding_hmm_lib: /usr/local/projects/jorvis/dbs/coding_hmm_lib.sqlite3
-               uniref100: /usr/local/projects/jorvis/dbs/uniprot_trembl.sqlite3
+               coding_hmm_lib: /dbs/coding_hmm_lib.sqlite3
+               uniref100: /dbs/uniprot_trembl.sqlite3
             input:
                polypeptide_fasta: $(inputs.polypeptide_fasta.path)
                gff3: $(inputs.source_gff3.path)
@@ -284,9 +284,7 @@ requirements:
                   return r;
                 }
 
-                
 hints:
-# this will have to be prefixed with jorvis/ after placement on Docker
   - class: DockerRequirement
     dockerPull: jorvis/gales-gce
 
