@@ -15,8 +15,7 @@ on future executions:
 """
 
 import argparse
-import biocodeutils
-import biocodegff
+from biocode import utils, gff
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.server import CGIHTTPRequestHandler
 import json
@@ -84,7 +83,7 @@ def main():
     
 def generate_fasta_stats(fasta_file=None, json_out=None):
     result = { 'success': 0 }
-    fasta_dict = biocodeutils.fasta_dict_from_file(fasta_file)
+    fasta_dict = utils.fasta_dict_from_file(fasta_file)
     result['stats_assembly_count'] = len(fasta_dict)
 
     shortest = None
@@ -120,7 +119,7 @@ def generate_gff_stats(gff_file=None, json_out=None):
                'stats_ec_numbers_assigned': 0, 'stats_gene_symbols_assigned': 0,
                'stats_dbxrefs_assigned': 0
              }
-    (assemblies, features) = biocodegff.get_gff3_features(gff_file)
+    (assemblies, features) = gff.get_gff3_features(gff_file)
     gene_length_sum = 0
 
     for assembly_id in assemblies:
@@ -179,7 +178,7 @@ def parse_obo_graph(go_graph_base=None, obo_file=None):
 
         print("done.", flush=True)
     else:
-        print("not found. Parsing ... ", flush=True)
+        print("not found. Parsing (this can take a while the first time, but is stored so it's faster next time) ... ", flush=True)
 
     # key: namespace, value=int
     next_idx = {'biological_process': 0, 
