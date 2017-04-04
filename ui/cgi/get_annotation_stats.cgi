@@ -9,8 +9,6 @@ script now generates it.  Keeping for now.
 """
 
 import cgi
-import biocodegff
-import biocodeutils
 import json
 import os
 
