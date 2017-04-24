@@ -1,13 +1,99 @@
+var annotation_dir;
+
 
 window.onload=function() {
-    var annotation_dir = getUrlParameter('annotation_dir');
+    annotation_dir = getUrlParameter('annotation_dir');
     var input_label = annotation_dir.split('/').pop();
     input_label = input_label.replace(/_/g, ' ');
     $('#input_label').html( input_label );
 
     get_fasta_stats();
     get_annotation_stats();
+
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(draw_go_slim_function_chart);
+    google.charts.setOnLoadCallback(draw_go_slim_process_chart);
+    google.charts.setOnLoadCallback(draw_go_slim_component_chart);
+
 };  // end window onload
+
+function draw_go_slim_component_chart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'GO term');
+    data.addColumn('number', 'count');
+
+    $.getJSON("data/obo_slim_counts.json", function (jsondata) {
+        function_data = jsondata['cellular_component']
+
+        $.each( function_data, function( key, value ) {
+            data.addRow([key, value]);
+        });
+
+        // Set chart options
+        var options = {'title':'Cellular component',
+                       'width':400,
+                       'height':300,
+                       'chartArea': {'width': '65%', 'height': '85%'},
+                       legend:{position:'none'}
+                      };
+        
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('go_chart_component'));
+        chart.draw(data, options);
+    });
+}
+
+function draw_go_slim_function_chart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'GO term');
+    data.addColumn('number', 'count');
+
+    $.getJSON("data/obo_slim_counts.json", function (jsondata) {
+        function_data = jsondata['molecular_function']
+
+        $.each( function_data, function( key, value ) {
+            data.addRow([key, value]);
+        });
+
+        // Set chart options
+        var options = {'title':'Molecular function',
+                       'width':400,
+                       'height':300,
+                       'chartArea': {'width': '65%', 'height': '85%'},
+                       legend:{position:'none'}
+                      };
+        
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('go_chart_function'));
+        chart.draw(data, options);
+    });
+}
+
+function draw_go_slim_process_chart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'GO term');
+    data.addColumn('number', 'count');
+
+    $.getJSON("data/obo_slim_counts.json", function (jsondata) {
+        function_data = jsondata['biological_process']
+
+        $.each( function_data, function( key, value ) {
+            data.addRow([key, value]);
+        });
+
+        // Set chart options
+        var options = {'title':'Biological process',
+                       'width':400,
+                       'height':300,
+                       'chartArea': {'width': '65%', 'height': '85%'},
+                       legend:{position:'none'}
+                      };
+        
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('go_chart_process'));
+        chart.draw(data, options);
+    });
+}
 
 function get_annotation_stats() {
     $.ajax({

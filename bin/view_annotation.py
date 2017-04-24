@@ -19,7 +19,6 @@ from biocode import utils, gff
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.server import CGIHTTPRequestHandler
 import json
-import igraph
 import os
 import pickle
 import re
@@ -28,11 +27,11 @@ import urllib.parse
 import webbrowser
 
 def main():
-    parser = argparse.ArgumentParser( description='Visualize a FALCON annotation')
+    parser = argparse.ArgumentParser( description='Visualize a GALES annotation')
 
     ## output file to be written
-    parser.add_argument('-i', '--input_directory', type=str, required=True, help='Path to a directory containing the FALCON results' )
-    parser.add_argument('-f', '--fasta_file', type=str, required=True, help='Path to the FASTA file that was input to FALCON' )
+    parser.add_argument('-i', '--input_directory', type=str, required=True, help='Path to a directory containing the GALES results' )
+    parser.add_argument('-f', '--fasta_file', type=str, required=True, help='Path to the FASTA file that was input to GALES' )
     parser.add_argument('-p', '--port', type=int, required=False, default=8081, help='Port on which you want to run the web server' )
     args = parser.parse_args()
 
@@ -45,12 +44,15 @@ def main():
     gff_file = "{0}/attributor.annotation.gff3".format(args.input_directory)
     fasta_stats_file = "{0}/fasta_stats.json".format(args.input_directory)
     gff_stats_file = "{0}/gff_stats.json".format(args.input_directory)
+    slim_counts_file = "{0}/obo_slim_counts.json".format(args.input_directory)
 
     # base name of the pickled graph files
     go_graph_base = "{0}/obo.graphs".format(args.input_directory)
 
     exec_path = os.path.dirname(os.path.abspath(__file__))
-    obo_file = "{0}/../data/go.obo".format(exec_path)
+    #obo_file = "{0}/../data/go.obo".format(exec_path)
+    #obo_slim_file = "{0}/../data/tadpole_transcriptome_slim.obo".format(exec_path)
+    obo_slim_map_pickle_file = "{0}/../data/tadpole_transcriptome_slim.map.pickle".format(exec_path)
     ui_path = "{0}/../ui".format(exec_path)
     os.chdir(ui_path)
 
@@ -73,10 +75,20 @@ def main():
         generate_gff_stats(gff_file=gff_file, json_out=gff_stats_file)
         print("done.", flush=True)
 
-    # A bit more complicated, this function checks for the different stored ontology graphs
-    print("Checking for parsed OBO graphs ... ", flush=True, end='')
-    terms, g = parse_obo_graph(go_graph_base=go_graph_base, obo_file=obo_file)
+    print("Gathering terms annotated within the GFF ... ", flush=True, end='')
+    source_go_terms = parse_go_terms_from_gff(gff_file)
     print("done.", flush=True)
+
+    print("Mapping annotated terms to GO slim ... ", flush=True, end='')
+    slim_counts = map_to_slim(source_terms=source_go_terms, slim_map_file=obo_slim_map_pickle_file)
+    print("done.", flush=True)
+
+    print("Slim counts:")
+    for term in slim_counts:
+        print("\t{0} - {1}".format(term, slim_counts[term]))
+
+    with open(slim_counts_file, 'w') as outfile:
+        json.dump(slim_counts, outfile)
 
     run(host=server_host, port=server_port, script_args=args)
 
@@ -154,137 +166,64 @@ def generate_gff_stats(gff_file=None, json_out=None):
     with open(json_out, 'w') as outfile:
         json.dump(result, outfile)
 
-
-def parse_obo_graph(go_graph_base=None, obo_file=None):
-    stored_pickle_file_prefix = go_graph_base
-    stored_pickles_found = False
-
-    g = {'biological_process': igraph.Graph(directed=True), 
-         'cellular_component': igraph.Graph(directed=True),
-         'molecular_function': igraph.Graph(directed=True) }
-
-    for ns in g:
-        pickle_file_path = "{0}.{1}".format(stored_pickle_file_prefix, ns)
-        if os.path.exists(pickle_file_path):
-            g[ns] = igraph.Graph.Read_Pickle(fname=pickle_file_path)
-            stored_pickles_found = True
-
-    # key: GO:ID, value = {'ns': 'biological_process', 'idx': 25}
-    terms = dict()
-
-    if stored_pickles_found is True:
-        with open("{0}.terms".format(stored_pickle_file_prefix), 'rb') as f:
-            terms = pickle.load(f)
-
-        print("done.", flush=True)
-    else:
-        print("not found. Parsing (this can take a while the first time, but is stored so it's faster next time) ... ", flush=True)
-
-    # key: namespace, value=int
-    next_idx = {'biological_process': 0, 
-                'cellular_component': 0,
-                'molecular_function': 0 }
-
-    id = None
-    namespace = None
-    name = None
-
-    # Pass through the file once just to get all the GO terms and their namespaces
-    #  This makes the full pass far easier, since terms can be referenced which haven't
-    #  been seen yet.
-
-    if stored_pickles_found is False:
-        for line in open(obo_file):
-            line = line.rstrip()
-            if line.startswith('[Term]'):
-                if id is not None:
-                    # error checking
-                    if namespace is None:
-                        raise Exception("Didn't find a namespace for term {0}".format(id))
-
-                    g[namespace].add_vertices(1)
-                    idx = next_idx[namespace]
-                    g[namespace].vs[idx]['id'] = id
-                    g[namespace].vs[idx]['name'] = name
-                    next_idx[namespace] += 1
-                    terms[id] = {'ns': namespace, 'idx': idx}
-
-                # reset for next term
-                id = None
-                namespace = None
-                name = None
-
-            elif line.startswith('id:'):
-                id = line.split(' ')[1]
-
-            elif line.startswith('namespace:'):
-                namespace = line.split(' ')[1]
-                
-            elif line.startswith('name:'):
-                m = re.match('name: (.+)', line)
-                if m:
-                    name = m.group(1).rstrip()
-                else:
-                    raise Exception("Failed to regex this line: {0}".format(line))
+# Goal is to create summary slim counts on main page like this:
+#   http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0130720
+# Great viewer
+#   http://visualdataweb.de/webvowl
+def map_to_slim(source_terms=None, slim_map_file=None):
+    # Slim terms to skip.  Usually the root Big Three terms
+    skip_slim_terms = ['GO:0008150', 'GO:0003674', 'GO:0005575']
+    slim_map = pickle.load( open(slim_map_file, 'rb') )
     
-    id = None
-    alt_ids = list()
-    namespace = None
-    name = None
-    is_obsolete = False
-    is_a = list()
+    counts = dict()
 
-    # Now actually parse the rest of the properties
-    if stored_pickles_found is False:
-        for line in open(obo_file):
-            line = line.rstrip()
-            if line.startswith('[Term]'):
-                if id is not None:
-                    # make any edges in the graph
-                    for is_a_id in is_a:
-                        # these two terms should be in the same namespace
-                        if terms[id]['ns'] != terms[is_a_id]['ns']:
-                            raise Exception("is_a relationship found with terms in different namespaces")
-
-                        #g[namespace].add_edges([(terms[id]['idx'], terms[is_a_id]['idx']), ])
-                        # the line above is supposed to be able to instead be this, according to the 
-                        # documentation, but it fails:
-                        g[namespace].add_edge(terms[id]['idx'], terms[is_a_id]['idx'])
-
-                # reset for this term
-                id = None
-                alt_ids = list()
-                namespace = None
-                is_obsolete = False
-                is_a = list()
-
-            elif line.startswith('id:'):
-                id = line.split(' ')[1]
-  
-            elif line.startswith('namespace:'):
-                namespace = line.split(' ')[1]
-
-            elif line.startswith('is_a:'):
-                is_a.append(line.split(' ')[1])
-
-    if stored_pickles_found is False:
-        for ns in g:
-            pickle_file_path = "{0}.{1}".format(stored_pickle_file_prefix, ns)
-            g[ns].write_pickle(fname=pickle_file_path)
-
-        ## save the terms too so we don't have to redo that parse
-        with open("{0}.terms".format(stored_pickle_file_prefix), 'wb') as f:
-            pickle.dump(terms, f, pickle.HIGHEST_PROTOCOL)
-
-    return terms, g
-
+    for ns in slim_map:
+        counts[ns] = {'unknown': 0}
+    
+    for gff_term in source_terms:
+        gff_id = "GO:{0}".format(gff_term)
+        slim_term = None
         
+        for ns in slim_map:
+            if gff_id in slim_map[ns]:
+                slim_term = slim_map[ns][gff_id]
+                if slim_term is None:
+                    counts[ns]['unknown'] += source_terms[gff_term]
+                else:
+                    if slim_term not in counts[ns]:
+                        counts[ns][slim_term] = 0
+
+                    counts[ns][slim_term] += source_terms[gff_term]
+
+                break
+
+    return counts
+
+
+def parse_go_terms_from_gff(file):
+    terms = dict()
+    assemblies, features = gff.get_gff3_features(file)
+    for assembly_id in assemblies:
+        for gene in assemblies[assembly_id].genes():
+            for mRNA in gene.mRNAs():
+                for polypeptide in mRNA.polypeptides():
+                    annot = polypeptide.annotation
+                    for go_annot in annot.go_annotations:
+                        if go_annot.go_id in terms:
+                            terms[go_annot.go_id] += 1
+                        else:
+                            terms[go_annot.go_id] = 1
+
+    return terms
+        
+
+       
 def run(host=None, port=None, script_args=None):
     args = {'annotation_dir': script_args.input_directory, 'fasta_file': script_args.fasta_file}
     args_string = urllib.parse.urlencode(args)
 
     initial_url = "http://{0}:{1}/index.html?{2}".format(host, port, args_string)
-    print("Starting FALCONui server.  Open your browser to the following URL:\n\n{0}".format(initial_url), flush=True)
+    print("Starting GALESui server.  Open your browser to the following URL:\n\n{0}".format(initial_url), flush=True)
  
     # Server settings
     # Choose port 8080, for port 80, which is normally used for a http server, you need root access

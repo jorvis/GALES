@@ -1,3 +1,7 @@
+
+div#go_slim_row {
+    margin-top: 20px;
+}
 div#stats_features table,
 div#stats_annotation table {
     width: 100%;
@@ -7,7 +11,8 @@ div#stats_annotation td:first-child {
     font-weight: bold;
 }
 
-h2 {
+div#annotation_main_label {
+    margin: 20px 0 0 0;
     color: #324cae;
     font-size: 140%;
 }
