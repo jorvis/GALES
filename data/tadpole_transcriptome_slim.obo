@@ -1,0 +1,628 @@
+format-version: 1.2
+data-version: releases/2017-04-10
+date: 23:02:2017 10:01
+saved-by: jorvis
+subsetdef: goantislim_grouping "Grouping classes that can be excluded"
+subsetdef: gocheck_do_not_annotate "Term not to be used for direct annotation"
+subsetdef: gocheck_do_not_manually_annotate "Term not to be used for direct manual annotation"
+subsetdef: goslim_agr "AGR slim"
+subsetdef: goslim_aspergillus "Aspergillus GO slim"
+subsetdef: goslim_candida "Candida GO slim"
+subsetdef: goslim_chembl "ChEMBL protein targets summary"
+subsetdef: goslim_generic "Generic GO slim"
+subsetdef: goslim_goa "GOA and proteome slim"
+subsetdef: goslim_metagenomics "Metagenomics GO slim"
+subsetdef: goslim_mouse "Mouse GO slim"
+subsetdef: goslim_pir "PIR GO slim"
+subsetdef: goslim_plant "Plant GO slim"
+subsetdef: goslim_pombe "Fission yeast GO slim"
+subsetdef: goslim_synapse "synapse GO slim"
+subsetdef: goslim_virus "Viral GO slim"
+subsetdef: goslim_yeast "Yeast GO slim"
+subsetdef: gosubset_prok "Prokaryotic GO subset"
+subsetdef: mf_needs_review "Catalytic activity terms in need of attention"
+subsetdef: termgenie_unvetted "Terms created by TermGenie that do not follow a template and require additional vetting by editors"
+subsetdef: virus_checked "Viral overhaul terms"
+synonymtypedef: syngo_official_label "label approved by the SynGO project"
+synonymtypedef: systematic_synonym "Systematic synonym" EXACT
+default-namespace: gene_ontology
+remark: Includes Ontology(OntologyID(OntologyIRI(<http://purl.obolibrary.org/obo/go/never_in_taxon.owl>))) [Axioms: 18 Logical Axioms: 0]
+ontology: go
+
+[Term]
+id: GO:0008150
+name: biological_process
+namespace: biological_process
+alt_id: GO:0000004
+alt_id: GO:0007582
+def: "Any process specifically pertinent to the functioning of integrated living units: cells, tissues, organs, and organisms. A process is a collection of molecular events with a defined beginning and end." [GOC:go_curators, GOC:isa_complete]
+comment: Note that, in addition to forming the root of the biological process ontology, this term is recommended for use for the annotation of gene products whose biological process is unknown. Note that when this term is used for annotation, it indicates that no information was available about the biological process of the gene product annotated as of the date the annotation was made; the evidence code ND, no data, is used to indicate this.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_pombe
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "biological process" EXACT []
+synonym: "physiological process" EXACT []
+xref: Wikipedia:Biological_process
+
+[Term]
+id: GO:0002376
+name: immune system process
+namespace: biological_process
+def: "Any process involved in the development or functioning of the immune system, an organismal system for calibrated responses to potential internal or invasive threats." [GO_REF:0000022, GOC:add, GOC:mtg_15nov05]
+comment: Note that this term is a direct child of 'biological_process ; GO:0008150' because some immune system processes are types of cellular process (GO:0009987), whereas others are types of multicellular organism process (GO:0032501). This term was added by GO_REF:0000022.
+subset: goslim_agr
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_mouse
+subset: goslim_pir
+xref: Wikipedia:Immune_system
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0040011
+name: locomotion
+namespace: biological_process
+def: "Self-propelled movement of a cell or organism from one location to another." [GOC:dgh]
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_pir
+subset: gosubset_prok
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0008152
+name: metabolic process
+namespace: biological_process
+def: "The chemical reactions and pathways, including anabolism and catabolism, by which living organisms transform chemical substances. Metabolic processes typically transform small molecules, but also include macromolecular processes such as DNA repair and replication, and protein synthesis and degradation." [GOC:go_curators, ISBN:0198547684]
+comment: Note that metabolic processes do not include single functions or processes such as protein-protein interactions, protein-nucleic acids, nor receptor-ligand interactions.
+subset: gocheck_do_not_manually_annotate
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "metabolic process resulting in cell growth" NARROW []
+synonym: "metabolism" EXACT []
+synonym: "metabolism resulting in cell growth" NARROW []
+xref: Wikipedia:Metabolism
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0007155
+name: cell adhesion
+namespace: biological_process
+def: "The attachment of a cell, either to another cell or to an underlying substrate such as the extracellular matrix, via cell adhesion molecules." [GOC:hb, GOC:pf]
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_pombe
+subset: gosubset_prok
+synonym: "cell adhesion molecule activity" RELATED []
+xref: Wikipedia:Cell_adhesion
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0071840
+name: cellular component organization or biogenesis
+namespace: biological_process
+alt_id: GO:0071841
+def: "A process that results in the biosynthesis of constituent macromolecules, assembly, arrangement of constituent parts, or disassembly of a cellular component." [GOC:mah]
+subset: goslim_agr
+subset: goslim_metagenomics
+synonym: "cellular component organisation or biogenesis" EXACT [GOC:mah]
+synonym: "cellular component organisation or biogenesis at cellular level" EXACT [GOC:mah]
+synonym: "cellular component organization or biogenesis at cellular level" EXACT []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0065007
+name: biological regulation
+namespace: biological_process
+def: "Any process that modulates a measurable attribute of any biological process, quality or function." [GOC:dph, GOC:isa_complete, GOC:mah, GOC:pr, GOC:vw]
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "regulation" BROAD []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0006810
+name: transport
+namespace: biological_process
+alt_id: GO:0015457
+alt_id: GO:0015460
+def: "The directed movement of substances (such as macromolecules, small molecules, ions) or cellular components (such as complexes and organelles) into, out of or within a cell, or between cells, or within a multicellular organism by means of some agent such as a transporter, pore or motor protein." [GOC:dos, GOC:dph, GOC:jl, GOC:mah]
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0051179
+name: localization
+namespace: biological_process
+def: "Any process in which a cell, a substance, or a cellular entity, such as a protein complex or organelle, is transported, tethered to or otherwise maintained in a specific location. In the case of substances, localization may also be achieved via selective degradation." [GOC:ai, GOC:dos]
+subset: goslim_agr
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "establishment and maintenance of cellular component location" NARROW []
+synonym: "establishment and maintenance of localization" EXACT []
+synonym: "establishment and maintenance of position" EXACT []
+synonym: "establishment and maintenance of substance location" NARROW []
+synonym: "establishment and maintenance of substrate location" NARROW []
+synonym: "localisation" EXACT [GOC:mah]
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0050896
+name: response to stimulus
+namespace: biological_process
+alt_id: GO:0051869
+def: "Any process that results in a change in state or activity of a cell or an organism (in terms of movement, secretion, enzyme production, gene expression, etc.) as a result of a stimulus. The process begins with detection of the stimulus and ends with a change in state or activity or the cell or organism." [GOC:ai, GOC:bf]
+comment: Note that this term is in the subset of terms that should not be used for direct gene product annotation. Instead, select a child term or, if no appropriate child term exists, please request a new term. Direct annotations to this term may be amended during annotation QC.
+subset: gocheck_do_not_manually_annotate
+subset: goslim_agr
+subset: goslim_mouse
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "physiological response to stimulus" EXACT []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0048511
+name: rhythmic process
+namespace: biological_process
+def: "Any process pertinent to the generation and maintenance of rhythms in the physiology of an organism." [GOC:jid]
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "rhythm" RELATED []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0040007
+name: growth
+namespace: biological_process
+alt_id: GO:0048590
+def: "The increase in size or mass of an entire organism, a part of an organism or a cell." [GOC:bf, GOC:ma]
+comment: See also the biological process term 'cell growth ; GO:0016049'.
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "growth pattern" RELATED []
+synonym: "non-developmental growth" RELATED [GOC:mah]
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0032502
+name: developmental process
+namespace: biological_process
+def: "A biological process whose specific outcome is the progression of an integrated living unit: an anatomical structure (which may be a subcellular structure, cell, tissue, or organ), or organism over time from an initial condition to a later condition." [GOC:isa_complete]
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "development" NARROW []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0009987
+name: cellular process
+namespace: biological_process
+alt_id: GO:0008151
+alt_id: GO:0050875
+def: "Any process that is carried out at the cellular level, but not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." [GOC:go_curators, GOC:isa_complete]
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "cell growth and/or maintenance" NARROW []
+synonym: "cell physiology" EXACT []
+synonym: "cellular physiological process" EXACT []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0001906
+name: cell killing
+namespace: biological_process
+def: "Any process in an organism that results in the killing of its own cells or those of another organism, including in some cases the death of the other organism. Killing here refers to the induction of death in one cell by another cell, not cell-autonomous death due to internal or other environmental conditions." [GOC:add]
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "necrosis" RELATED []
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0000003
+name: reproduction
+namespace: biological_process
+alt_id: GO:0019952
+alt_id: GO:0050876
+def: "The production of new individuals that contain some portion of genetic material inherited from one or more parent organisms." [GOC:go_curators, GOC:isa_complete, GOC:jl, ISBN:0198506732]
+subset: goslim_agr
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "reproductive physiological process" EXACT []
+xref: Wikipedia:Reproduction
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:0003674
+name: molecular_function
+namespace: molecular_function
+alt_id: GO:0005554
+def: "Elemental activities, such as catalysis or binding, describing the actions of a gene product at the molecular level. A given gene product may exhibit one or more molecular functions." [GOC:go_curators]
+comment: Note that, in addition to forming the root of the molecular function ontology, this term is recommended for use for the annotation of gene products whose molecular function is unknown. Note that when this term is used for annotation, it indicates that no information was available about the molecular function of the gene product annotated as of the date the annotation was made; the evidence code ND, no data, is used to indicate this. Despite its name, this is not a type of 'function' in the sense typically defined by upper ontologies such as Basic Formal Ontology (BFO). It is instead a BFO:process carried out by a single gene product or complex.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "molecular function" EXACT []
+
+[Term]
+id: GO:0005102
+name: receptor binding
+namespace: molecular_function
+def: "Interacting selectively and non-covalently with one or more specific sites on a receptor molecule, a macromolecule that undergoes combination with a hormone, neurotransmitter, drug or intracellular messenger to initiate a change in cell function." [GOC:bf, GOC:ceb, ISBN:0198506732]
+comment: Where appropriate, also consider annotating to 'receptor agonist activity ; GO:0048018'.
+subset: goslim_agr
+subset: goslim_chembl
+subset: goslim_mouse
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "receptor ligand" NARROW []
+synonym: "receptor-associated protein activity" RELATED []
+xref: Wikipedia:Ligand_(biochemistry)
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0004871
+name: signal transducer activity
+namespace: molecular_function
+alt_id: GO:0005062
+alt_id: GO:0009369
+alt_id: GO:0009370
+def: "Conveys a signal across a cell to trigger a change in cell function or state. A signal is a physical entity or change in state that is used to transfer information in order to trigger a response." [GOC:go_curators]
+comment: Ligands do NOT have the molecular function 'signal transducer activity'.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "hematopoietin/interferon-class (D200-domain) cytokine receptor signal transducer activity" NARROW []
+synonym: "quorum sensing response regulator activity" NARROW []
+synonym: "quorum sensing signal generator activity" NARROW []
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0003824
+name: catalytic activity
+namespace: molecular_function
+def: "Catalysis of a biochemical reaction at physiological temperatures. In biologically catalyzed reactions, the reactants are known as substrates, and the catalysts are naturally occurring macromolecular substances known as enzymes. Enzymes possess specific binding sites for substrates, and are usually composed wholly or largely of protein, but RNA that has catalytic activity (ribozyme) is often also regarded as enzymatic." [GOC:vw, ISBN:0198506732]
+subset: goslim_agr
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "enzyme activity" EXACT [GOC:dph, GOC:tb]
+xref: Wikipedia:Enzyme
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0045182
+name: translation regulator activity
+namespace: molecular_function
+def: "Any molecular function involved in the initiation, activation, perpetuation, repression or termination of polypeptide synthesis at the ribosome." [GOC:ai]
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "translation factor activity" EXACT []
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0042056
+name: chemoattractant activity
+namespace: molecular_function
+def: "Providing the environmental signal that initiates the directed movement of a motile cell or organism towards a higher concentration of that signal." [GOC:go_curators, ISBN:0198506732]
+subset: goslim_chembl
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "attractant" BROAD []
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0030545
+name: receptor regulator activity
+namespace: molecular_function
+def: "The function of interacting (directly or indirectly) with receptors such that the proportion of receptors in the active form is changed." [GOC:ceb]
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0030234
+name: enzyme regulator activity
+namespace: molecular_function
+alt_id: GO:0010576
+def: "Binds to and modulates the activity of an enzyme." [GOC:dph, GOC:mah, GOC:tb]
+comment: GO:0030234 is reserved for cases when the regulator directly interacts with the enzyme. When regulation of enzyme activity is achieved without enzyme binding, or when the mechanism of regulation is unknown, instead annotate to 'regulation of catalytic activity ; GO:0050790'.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_mouse
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "catalytic regulator activity" EXACT [GOC:dph]
+synonym: "enzyme modulator" EXACT []
+synonym: "metalloenzyme regulator activity" NARROW []
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0016247
+name: channel regulator activity
+namespace: molecular_function
+def: "Modulates the activity of a channel. A channel catalyzes energy-independent facilitated diffusion, mediated by passage of a solute through a transmembrane aqueous pore or channel." [GOC:mah]
+subset: gosubset_prok
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0016209
+name: antioxidant activity
+namespace: molecular_function
+def: "Inhibition of the reactions brought about by dioxygen (O2) or peroxides. Usually the antioxidant is effective because it can itself be more easily oxidized than the substance protected. The term is often applied to components that can trap free radicals, thereby breaking the chain reaction that normally leads to extensive biological damage." [ISBN:0198506732]
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: gosubset_prok
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0009055
+name: electron carrier activity
+namespace: molecular_function
+alt_id: GO:0009053
+alt_id: GO:0009054
+def: "Any molecular entity that serves as an electron acceptor and electron donor in an electron transport chain. An electron transport chain is a process in which a series of electron carriers operate together to transfer electrons from donors to any of several different terminal electron acceptors to generate a transmembrane electrochemical gradient." [ISBN:0198506732]
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: gosubset_prok
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0005488
+name: binding
+namespace: molecular_function
+def: "The selective, non-covalent, often stoichiometric, interaction of a molecule with one or more specific sites on another molecule." [GOC:ceb, GOC:mah, ISBN:0198506732]
+comment: Note that this term is in the subset of terms that should not be used for direct, manual gene product annotation. Please choose a more specific child term, or request a new one if no suitable term is available. For ligands that bind to signal transducing receptors, consider the molecular function term 'receptor binding ; GO:0005102' and its children.
+subset: gocheck_do_not_manually_annotate
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "ligand" NARROW []
+xref: Wikipedia:Binding_(molecular)
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0005215
+name: transporter activity
+namespace: molecular_function
+alt_id: GO:0005478
+def: "Enables the directed movement of substances (such as macromolecules, small molecules, ions) into, out of or within a cell, or between cells." [GOC:ai, GOC:dgf]
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_mouse
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+synonym: "small-molecule carrier or transporter" RELATED []
+xref: Reactome:REACT_6315 "Virion-associated M2 protein mediated ion infusion, Homo sapiens"
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0005198
+name: structural molecule activity
+namespace: molecular_function
+def: "The action of a molecule that contributes to the structural integrity of a complex or its assembly within or outside a cell." [GOC:mah, GOC:vw]
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0005085
+name: guanyl-nucleotide exchange factor activity
+namespace: molecular_function
+alt_id: GO:0008433
+alt_id: GO:0016219
+alt_id: GO:0019839
+def: "Stimulates the exchange of guanyl nucleotides associated with a GTPase. Under normal cellular physiological conditions, the concentration of GTP is higher than that of GDP, favoring the replacement of GDP by GTP in association with the GTPase." [GOC:kd, GOC:mah]
+comment: Note that guanyl-nucleotide exchange factor (GEF) activity alters binding affinity, but not GTPase catalytic activity directly. Therefore GO:0005085 is under 'regulation of GTPase activity' but is not a 'GTPase regulator', which is reserved for cases where the action of one gene product directly alters the rate of catalysis by another gene product.
+subset: goslim_chembl
+subset: goslim_yeast
+subset: gosubset_prok
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0003677
+name: DNA binding
+namespace: molecular_function
+alt_id: GO:0043566
+def: "Any molecular function by which a gene product interacts selectively and non-covalently with DNA (deoxyribonucleic acid)." [GOC:dph, GOC:jl, GOC:tb, GOC:vw]
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_mouse
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "microtubule/chromatin interaction" RELATED []
+synonym: "plasmid binding" NARROW []
+synonym: "structure specific DNA binding" RELATED []
+synonym: "structure-specific DNA binding" RELATED []
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0005515
+name: protein binding
+namespace: molecular_function
+alt_id: GO:0045308
+def: "Interacting selectively and non-covalently with any protein or protein complex (a complex of two or more proteins that may include other nonprotein molecules)." [GOC:go_curators]
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: gosubset_prok
+is_a: GO:0003674 ! molecular_function
+
+[Term]
+id: GO:0005575
+name: cellular_component
+namespace: cellular_component
+alt_id: GO:0008372
+def: "The part of a cell, extracellular environment or virus in which a gene product is located. A gene product may be located in one or more parts of a cell and its location may be as specific as a particular macromolecular complex, that is, a stable, persistent association of macromolecules that function together." [GOC:go_curators, NIF_Subcellular:sao-1337158144]
+comment: Note that, in addition to forming the root of the cellular component ontology, this term is recommended for use for the annotation of gene products whose cellular component is unknown. Note that when this term is used for annotation, it indicates that no information was available about the cellular component of the gene product annotated as of the date the annotation was made; the evidence code ND, no data, is used to indicate this.
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "cell or subcellular entity" EXACT []
+synonym: "cellular component" EXACT []
+synonym: "subcellular entity" RELATED [NIF_Subcellular:nlx_subcell_100315]
+xref: NIF_Subcellular:sao-1337158144
+xref: NIF_Subcellular:sao1337158144
+
+[Term]
+id: GO:0016020
+name: membrane
+namespace: cellular_component
+def: "A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it." [GOC:dos, GOC:mah, ISBN:0815316194]
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+xref: Wikipedia:Biological_membrane
+is_a: GO:0005575 ! cellular_component
+
+[Term]
+id: GO:0031974
+name: membrane-enclosed lumen
+namespace: cellular_component
+def: "The enclosed volume within a sealed membrane or between two sealed membranes. Encompasses the volume enclosed by the membranes of a particular organelle, e.g. endoplasmic reticulum lumen, or the space between the two lipid bilayers of a double membrane surrounding an organelle, e.g. nuclear envelope lumen." [GOC:add, GOC:mah]
+is_a: GO:0005575 ! cellular_component
+
+[Term]
+id: GO:0043226
+name: organelle
+namespace: cellular_component
+def: "Organized structure of distinctive morphology and function. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton, and prokaryotic structures such as anammoxosomes and pirellulosomes. Excludes the plasma membrane." [GOC:go_curators]
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_pir
+subset: gosubset_prok
+xref: NIF_Subcellular:sao1539965131
+xref: Wikipedia:Organelle
+is_a: GO:0005575 ! cellular_component
+
+[Term]
+id: GO:0032991
+name: macromolecular complex
+namespace: cellular_component
+def: "A stable assembly of two or more macromolecules, i.e. proteins, nucleic acids, carbohydrates or lipids, in which at least one component is a protein and the constituent parts function together." [GOC:dos, GOC:mah]
+subset: goslim_agr
+subset: goslim_pir
+subset: gosubset_prok
+synonym: "macromolecule complex" EXACT []
+synonym: "protein containing complex" EXACT []
+is_a: GO:0005575 ! cellular_component
+
+[Term]
+id: GO:0031012
+name: extracellular matrix
+namespace: cellular_component
+def: "A structure lying external to one or more cells, which provides structural support for cells or tissues." [GOC:mah, NIF_Subcellular:nlx_subcell_20090513]
+subset: goslim_pir
+subset: gosubset_prok
+xref: NIF_Subcellular:nlx_subcell_20090513
+xref: Wikipedia:Extracellular_matrix
+is_a: GO:0005575 ! cellular_component
+
+[Term]
+id: GO:0030054
+name: cell junction
+namespace: cellular_component
+def: "A cellular component that forms a specialized region of connection between two or more cells or between a cell and the extracellular matrix. At a cell junction, anchoring proteins extend through the plasma membrane to link cytoskeletal proteins in one cell to cytoskeletal proteins in neighboring cells or to proteins in the extracellular matrix." [GOC:mah, http://www.vivo.colostate.edu/hbooks/cmb/cells/pmemb/junctions_a.html, ISBN:0198506732]
+subset: goslim_agr
+xref: Wikipedia:Cell_junction
+is_a: GO:0005575 ! cellular_component
+
+[Term]
+id: GO:0005576
+name: extracellular region
+namespace: cellular_component
+def: "The space external to the outermost structure of a cell. For cells without external protective or external encapsulating structures this refers to space outside of the plasma membrane. This term covers the host cell environment outside an intracellular parasite." [GOC:go_curators]
+comment: Note that this term is intended to annotate gene products that are not attached to the cell surface. For gene products from multicellular organisms which are secreted from a cell but retained within the organism (i.e. released into the interstitial fluid or blood), consider the cellular component term 'extracellular space ; GO:0005615'.
+subset: goslim_agr
+subset: goslim_aspergillus
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_mouse
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+subset: gosubset_prok
+synonym: "extracellular" EXACT []
+xref: Wikipedia:Extracellular
+is_a: GO:0005575 ! cellular_component
