@@ -20,14 +20,8 @@
 </head>
 
 <body id="main">
-  <header class="container-fluid">
-    <div class="row">
-      <div class='col-md-4'>
-        <h1>GALES</h1>
-      </div>
-      <!-- more can go here later -->
-      <div id='annotation_main_label' class='col-md-8'>Annotation for: <span id='input_label'></span></div>
-    </div>
+  <header id="header" class="container-fluid">
+    <!-- Contents brought in here by JQuery include -->
   </header>
   <div id='main' class='container-fluid'>
     <div id='stats_overview' class='row'>
@@ -114,9 +108,19 @@
               </tr>
             </table>
           </div>
-      </div>
-      <div id='stats_bar' class='col-md-4'>
-        <!-- nothing here yet -->
+      </div><!-- end #stats_annotation-->
+      <div id='info_browse_by' class='col-md-4'>
+        <div class='section'>
+          <h3>Browse annotation by:</h3>
+          <ul>
+            <li>Molecule</li>
+            <li>GO term</li>
+            <li>EC number</li>
+          </ul>
+          <hr />
+          <h3>Gene product search</h3>
+          <input type="text" name="product_name" placeholder="Enter product keyword" />
+        </div>
       </div>
     </div><!-- end #stats_overview -->
     <div id='go_slim_row' class='row'>

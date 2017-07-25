@@ -2,6 +2,9 @@ var annotation_dir;
 
 
 window.onload=function() {
+    // include the header
+    $('#header').load('/include/header.html');
+
     annotation_dir = getUrlParameter('annotation_dir');
     var input_label = annotation_dir.split('/').pop();
     input_label = input_label.replace(/_/g, ' ');
