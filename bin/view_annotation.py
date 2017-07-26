@@ -46,12 +46,12 @@ def main():
     gff_stats_file = "{0}/gff_stats.json".format(args.input_directory)
     slim_counts_file = "{0}/obo_slim_counts.json".format(args.input_directory)
 
-    # base name of the pickled graph files
-    go_graph_base = "{0}/obo.graphs".format(args.input_directory)
+    # base names of the pickle files
+    gff_stored_base = "{0}/gff.stored".format(args.input_directory)
+    gff_stored_assemblies = "{0}.assemblies.pickle".format(gff_stored_base)
+    gff_stored_features = "{0}.features.pickle".format(gff_stored_base)
 
     exec_path = os.path.dirname(os.path.abspath(__file__))
-    #obo_file = "{0}/../data/go.obo".format(exec_path)
-    #obo_slim_file = "{0}/../data/tadpole_transcriptome_slim.obo".format(exec_path)
     obo_slim_map_pickle_file = "{0}/../data/tadpole_transcriptome_slim.map.pickle".format(exec_path)
     ui_path = "{0}/../ui".format(exec_path)
     os.chdir(ui_path)
@@ -64,15 +64,32 @@ def main():
     if os.path.exists(fasta_stats_file):
         print("Checking for FASTA stats file ... found.", flush=True)
     else:
-        print("Checking for FASTA stats file ... not found.  Parsing ... ", end='', flush=True)
+        print("Checking for FASTA stats file ... not found. Parsing ... ", end='', flush=True)
         generate_fasta_stats(fasta_file=args.fasta_file, json_out=fasta_stats_file)
         print("done.", flush=True)
 
+    if os.path.exists(gff_stored_features):
+        print("Checking for stored GFF features file ... found.", flush=True)
+        with open(gff_stored_assemblies, 'rb') as ga_f:
+            gff_assemblies = pickle.load(ga_f)
+
+        with open(gff_stored_features, 'rb') as gf_f:
+            gff_features = pickle.load(gf_f)
+    else:
+        print("Checking for stored GFF features file ... not found. Parsing ... ", flush=True)
+        (gff_assemblies, gff_features) = gff.get_gff3_features(gff_file)
+        with open(gff_stored_assemblies, 'wb') as ga_f:
+            pickle.dump(gff_assemblies, ga_f)
+
+        with open(gff_stored_features, 'wb') as gf_f:
+            pickle.dump(gff_features, gf_f)
+        print("done.", flush=True)
+        
     if os.path.exists(gff_stats_file):
         print("Checking for GFF stats file ... found.", flush=True)
     else:
         print("Checking for GFF stats file ... not found.  Parsing ... ", end='', flush=True)
-        generate_gff_stats(gff_file=gff_file, json_out=gff_stats_file)
+        generate_gff_stats(gff_assemblies=gff_assemblies, gff_features=gff_features, json_out=gff_stats_file)
         print("done.", flush=True)
 
     print("Gathering terms annotated within the GFF ... ", flush=True, end='')
@@ -82,10 +99,6 @@ def main():
     print("Mapping annotated terms to GO slim ... ", flush=True, end='')
     slim_counts = map_to_slim(source_terms=source_go_terms, slim_map_file=obo_slim_map_pickle_file)
     print("done.", flush=True)
-
-    print("Slim counts:")
-    for term in slim_counts:
-        print("\t{0} - {1}".format(term, slim_counts[term]))
 
     with open(slim_counts_file, 'w') as outfile:
         json.dump(slim_counts, outfile)
@@ -124,14 +137,14 @@ def generate_fasta_stats(fasta_file=None, json_out=None):
         json.dump(result, outfile)
 
 
-def generate_gff_stats(gff_file=None, json_out=None):
+def generate_gff_stats(gff_assemblies=None, gff_features=None, json_out=None):
     result = { 'success': 1, 'stats_gene_count': 0, 'stats_hypo_gene_count': 0,
                'stats_gene_mean_length': None, 'stats_specific_annot_count': 0,
                'stats_rRNA_count': 0, 'stats_tRNA_count': 0, 'stats_go_terms_assigned': 0,
                'stats_ec_numbers_assigned': 0, 'stats_gene_symbols_assigned': 0,
                'stats_dbxrefs_assigned': 0
              }
-    (assemblies, features) = gff.get_gff3_features(gff_file)
+    (assemblies, features) = (gff_assemblies, gff_features)
     gene_length_sum = 0
 
     for assembly_id in assemblies:
