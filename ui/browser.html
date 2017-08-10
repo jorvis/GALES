@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>GALES UI</title>
+  <!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="js/vendor/jquery-ui-1.12.0/jquery-ui.css" />
+  <script type="text/javascript" src="js/vendor/jquery-3.1.0.min.js"></script>
+  <script type="text/javascript" src="js/vendor/jquery-ui-1.12.0/jquery-ui.min.js"></script>
+
+  <link rel="stylesheet" href="js/vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="js/vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
+  <script src="js/vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  <script src="js/vendor/jsrender/0.9.87/jsrender.min.js"></script>
+
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/browser.css" />
+  <script src="js/common.js"></script>
+  <script src="js/browser.js"></script>
+</head>
+
+<body id="main">
+  <header id="header" class="container-fluid">
+    <!-- Contents brought in here by JQuery include -->
+  </header>
+  <div id='main' class='container-fluid'>
+    <div id='gcontext_c' class='row'>
+      <div class='col-md-12'>
+        Choose a gene from the list in order to see genomic context
+      </div>
+    </div><!-- end #gcontext_c -->
+    <hr />
+    <div id='list_att_c' class='row'>
+      <div class='col-md-6'>
+        <h2>Showing search results for: <span id='product_search_string'></span></h2>
+        <table>
+          <thead>
+            <th>ID</th><th>Locus</th><th>Product</th>
+          <thead>
+          <tbody id='gene_list_c'></tbody>
+          <script id="gene_list_tmpl" type="text/x-jsrender">
+            <tr>
+              <td>{{:id}}</td><td>{{:gene_locus_tag}}</td><td>{{:product}}</td>
+            </tr>
+          </script>
+        </table>
+ 
+      </div>
+      <div class='col-md-6'>
+        Select a gene to see attributes
+      </div>
+    </div> <!-- end #list_att_c -->
+  </div><!-- end #main -->
+</body>
+
+</html>
