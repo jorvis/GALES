@@ -2,13 +2,14 @@ var annotation_dir;
 
 
 window.onload=function() {
-    // include the header
-    $('#header').load('/include/header.html');
-
     annotation_dir = getUrlParameter('annotation_dir');
-    var input_label = annotation_dir.split('/').pop();
-    input_label = input_label.replace(/_/g, ' ');
-    $('#input_label').html( input_label );
+
+    // include the header
+    $('#header').load('/include/header.html', function() {
+        var input_label = annotation_dir.split('/').pop();
+        input_label = input_label.replace(/_/g, ' ');
+        $('#input_label').html( input_label );
+    });
 
     get_fasta_stats();
     get_annotation_stats();
@@ -17,6 +18,14 @@ window.onload=function() {
     google.charts.setOnLoadCallback(draw_go_slim_function_chart);
     google.charts.setOnLoadCallback(draw_go_slim_process_chart);
     google.charts.setOnLoadCallback(draw_go_slim_component_chart);
+
+    $('button#product_search_btn').click( function( event ) {
+        event.preventDefault();
+        if (annotation_dir) {
+            window.location = encodeURI('/browser.html?annotation_dir=' + annotation_dir +
+                                                 '&product_search_string=' + $('#product_search_string').val());
+        }
+    });
 
 };  // end window onload
 
@@ -147,22 +156,3 @@ function get_fasta_stats() {
 }
 
 
-// From: http://stackoverflow.com/a/21903119/1368079
-// Use example:
-//   if URL is: http://dummy.com/?technology=jquery&blog=jquerybyexample
-//   then:      var tech = getUrlParameter('technology');
-//              var blog = getUrlParameter('blog');
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-        }
-    }
-};
