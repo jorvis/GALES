@@ -56,6 +56,17 @@ def main():
     ui_path = "{0}/../ui".format(exec_path)
     os.chdir(ui_path)
 
+    # The web interface expects /data to point to the args.input_directory
+    #  For now, we make a symlink, but I don't like it.  This limits one instance
+    #  of GALES UI to one annotation directory at a time.
+    data_path = "{0}/data".format(ui_path)
+    if os.path.exists(data_path):
+        print("Removing existing UI data path: {0}".format(data_path), flush=True)
+        os.remove(data_path)
+
+    print("Creating symlink to UI data path: {0}".format(data_path), flush=True)
+    os.symlink(args.input_directory, 'data')
+
     print("\n--------------------------------------------------------------------------------")
     print("Checking for stored statistics and analyses within input directory, or creating them.")
     print("This can cause the first execution on any input directory to take a few minutes.")
