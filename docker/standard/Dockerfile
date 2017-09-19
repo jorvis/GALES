@@ -7,13 +7,6 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends git wget lib
 RUN pip3 install biocode
 
 #####
-# Install Biocode
-#RUN mkdir /opt/bin
-#ENV PYTHONPATH /opt/biocode/lib
-#ENV PATH /opt/bin:/opt/TMHMM-2.0c/bin:/opt/barrnap/bin:/opt/biocode/fasta:/opt/biocode/fastq:/opt/biocode/gff:/opt/biocode/genbank:/opt/biocode/general:/opt/biocode/gtf:/opt/biocode/hmm:/opt/biocode/sam_bam:/opt/biocode/sysadmin:/opt/biocode/taxonomy:$PATH
-#RUN git clone https://github.com/jorvis/biocode.git /opt/biocode
-
-#####
 # Install Prodigal
 RUN wget https://github.com/hyattpd/Prodigal/releases/download/v2.6.3/prodigal.linux
 RUN mv prodigal.linux /usr/bin/prodigal
