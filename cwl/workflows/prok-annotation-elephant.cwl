@@ -159,6 +159,10 @@ outputs:
       type: array
       items: File
     source: "#attributor/output_files"
+  - id: attributor_output_config
+    type: File
+    source: "#attributor/the_config"
+
 
 steps:
   - id: prodigal
@@ -249,4 +253,6 @@ steps:
       - { id: "attributor.tmhmm_files", source: "#tmhmm/tmhmm_out" }
     outputs:
       - { id: "output_files" }
+      - { id: "the_config" }
+
 
