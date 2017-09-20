@@ -3,7 +3,10 @@ MAINTAINER Joshua Orvis <jorvis@gmail.com>
 
 #####
 # Install a few needed utilities
-RUN apt-get -y update && apt-get install -y --no-install-recommends git wget libmldbm-perl python3 python3-yaml python3-pip sqlite3
+RUN apt-get -y update && apt-get install -y --no-install-recommends git wget libmldbm-perl pandoc python3 python3-yaml python3-setuptools python3-pip sqlite3
+
+RUN pip3 install --upgrade pip
+RUN pip3 install pypandoc
 RUN pip3 install biocode
 
 #####
@@ -31,6 +34,7 @@ RUN chmod +x /usr/bin/rapsearch
 RUN wget -O TMHMM-2.0c.tar.gz https://www.dropbox.com/s/h4ko8t5wtaliapu/TMHMM-2.0c.tar.gz?dl=0
 RUN tar -xzf TMHMM-2.0c.tar.gz
 RUN mv TMHMM-2.0c /opt/
+ENV PATH $PATH:/opt/TMHMM-2.0c/bin
 
 #####
 # Install HMMer3
