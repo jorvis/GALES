@@ -14,3 +14,26 @@ in the output directory.
 https://github.com/common-workflow-language/workflows/blob/master/tools/samtools-faidx.cwl
 
 (I have to leave to get a train in 4 minutes)
+
+
+
+###################################
+##  Notes on 'trusted' proteins  ##
+###################################
+
+Pulling all genes from the GO annotation repository and from UniProt that have any GO annotation with experimental evidence. Those would be annotaitons with codes EXP, IDA, IMP, IGI, IPI, or IEP.
+
+Also (not today) we can pull these same types of genes from the GO annotation repository - we'd have to non-redundify as there will be overlap - but lets not worry about that now.
+
+Uniref100 2/2017
+- Total entries in FASTA file: 94,756,963
+- uniprot_trembl.sqlite3
+  - table entry counts:
+    - uniref:     73,711,881
+    - uniref_acc: 73,948,062
+  - select count(*) from uniref_acc where is_characterized = 1;
+    - IGS scratch:  46,731
+    - google vm:   226,233
+
+
+characterized_go_codes = ['EXP', 'IDA', 'IMP', 'IGI', 'IPI', 'IEP']
