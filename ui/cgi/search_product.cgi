@@ -10,6 +10,7 @@ import cgi
 import json
 import os
 import pickle
+import sys
 
 def main():
     print('Content-Type: application/json\n\n')
@@ -18,6 +19,7 @@ def main():
 
     form = cgi.FieldStorage()
     search_str = form.getvalue('search_str')
+    print("search_str: {0}".format(search_str), file=sys.stderr)
     assembly_pickle_path = "{0}/gff.stored.assemblies.pickle".format(data_dir)
 
     matches = list()
@@ -31,9 +33,13 @@ def main():
                 
                 for polypeptide in polypeptides:
                     if polypeptide.annotation:
+                        print("Products:", file=sys.stderr)
+                        print(polypeptide.annotation.product_name, file=sys.stderr)
                         if search_str.lower() in polypeptide.annotation.product_name.lower():
-                            matches.append({'id': polypeptide.id, 'gene_locus_tag': gene.locus_tag,
-                                            'product': polypeptide.annotation.product_name
+                            matches.append({'id': polypeptide.id, 'gene_id': gene.id, 
+                                            'gene_locus_tag': gene.locus_tag,
+                                            'product': polypeptide.annotation.product_name,
+                                            'gene_symbol': polypeptide.annotation.gene_symbol
                             })
                 
     print(json.dumps(matches))
