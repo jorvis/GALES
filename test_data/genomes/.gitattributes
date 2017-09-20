@@ -1,0 +1,12 @@
+E_coli_k12_dh10b/attributor.annotation.tmhmm_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+Hylemonella/attributor.annotation.blast_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+Hylemonella/attributor.annotation.tmhmm_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+Synechocystis_sp_PCC_6803/attributor.annotation.hmm_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+B_subtilis/attributor.annotation.tmhmm_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+E_coli_k12_dh10b/attributor.annotation.blast_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+E_coli_k12_dh10b/attributor.annotation.hmm_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+Hylemonella/attributor.annotation.hmm_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+Synechocystis_sp_PCC_6803/attributor.annotation.blast_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+Synechocystis_sp_PCC_6803/attributor.annotation.tmhmm_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+B_subtilis/attributor.annotation.blast_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text
+B_subtilis/attributor.annotation.hmm_ev.sqlite3 filter=lfs diff=lfs merge=lfs -text

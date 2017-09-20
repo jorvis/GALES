@@ -25,7 +25,7 @@
         "path": ""
     },
     
-    "fragmentation_count": 4,
+    "fragmentation_count": 1,
     "out_dir": "./",
 
     "rapsearch2_database_file": {
@@ -40,7 +40,21 @@
         "path": ""
     },
     "rapsearch2_output_file_base": "rapsearch2.out",
-    "rapsearch2_threads": 2,
+    "rapsearch2_threads": 1,
+
+    "rapsearch2_sprot_database_file": {
+        "class": "File",
+        "path": "/dbs/uniprot_sprot.rapsearch2.db",
+        "secondaryFiles": [
+            {"class": "File", "path": "/dbs/uniprot_sprot.rapsearch2.db.info"}
+        ]
+    },
+    "rapsearch2_sprot_query_file": {
+        "class": "File",
+        "path": ""
+    },
+    "rapsearch2_sprot_output_file_base": "rapsearch2_sprot.out",
+    "rapsearch2_sprot_threads": 1,
 
     "hmmscan_use_accessions": true,
     "hmmscan_cutoff_gathering": true,
@@ -59,7 +73,7 @@
         "path": ""
     },
     "hmmscan_output_file": "hmmscan.out",
-    "hmmscan_threads": 4,
+    "hmmscan_threads": 1,
 
     "raw2htab_input_file": {
         "class": "File",

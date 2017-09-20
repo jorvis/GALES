@@ -68,6 +68,19 @@ inputs:
   - id: "rapsearch2_threads"
     type: int
     description: ""
+  # rapsearch2_sprot
+  - id: "rapsearch2_sprot_database_file"
+    type: File
+    description: ""
+  - id: "rapsearch2_sprot_query_file"
+    type: File
+    description: ""
+  - id: "rapsearch2_sprot_output_file_base"
+    type: string
+    description: ""
+  - id: "rapsearch2_sprot_threads"
+    type: int
+    description: ""
   # HMMer3
   - id: "hmmscan_use_accessions"
     type: boolean
@@ -139,6 +152,11 @@ outputs:
       type: array
       items: File
     source: "#rapsearch2/output_base"
+  - id: rapsearch2_sprot_m8_files
+    type:
+      type: array
+      items: File
+    source: "#rapsearch2_sprot/output_base"
   - id: hmmscan_raw_files
     type:
       type: array
@@ -208,6 +226,16 @@ steps:
       - { id: "rapsearch2.output_file_base", source: "#rapsearch2_output_file_base" }
       - { id: "rapsearch2.thread_count", source: "#rapsearch2_threads"}
     scatter: "#rapsearch2/rapsearch2.query_file"
+    outputs:
+      - { id: "output_base" }
+  - id: rapsearch2_sprot
+    run: ../tools/cpp-rapsearch2-gce.cwl
+    inputs:
+      - { id: "rapsearch2.database_file", source: "#rapsearch2_sprot_database_file" }
+      - { id: "rapsearch2.query_file", source: "#split_multifasta/fasta_files" }
+      - { id: "rapsearch2.output_file_base", source: "#rapsearch2_sprot_output_file_base" }
+      - { id: "rapsearch2.thread_count", source: "#rapsearch2_sprot_threads"}
+    scatter: "#rapsearch2_sprot/rapsearch2.query_file"
     outputs:
       - { id: "output_base" }
   - id: hmmscan
