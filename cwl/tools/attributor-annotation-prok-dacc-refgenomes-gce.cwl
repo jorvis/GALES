@@ -336,4 +336,7 @@ outputs:
       items: File
     outputBinding:
       glob: $(inputs.output_base + '*')
-
+  - id: the_config
+    type: File
+    outputBinding:
+      glob: 'attributor.config'
