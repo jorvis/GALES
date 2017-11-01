@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+
+"""
+GALES launcher for the prokaryotic annotation pipeline.  This does the following:
+
+- Parses your passed options to gather input
+- Checks that you have the reference files necessary to run the pipeline
+- Makes sure docker is present
+- Generates the CWL/JSON files from your input to represent your pipeline
+- Launches pipeline, writing to the output directory you specified
+
+Author: Joshua Orvis
+Contact:  jorvis at gmail
+"""
+
+import argparse
+import os
+import sys
+
+def main():
+    parser = argparse.ArgumentParser( description='GALES prokaryotic annotation pipeline launcher')
+
+    ## output file to be written
+    parser.add_argument('-i', '--input_fasta', type=str, required=True, 
+                        help='FASTA file containing the contigs to be annotated' )
+    parser.add_argument('-od', '--output_directory', type=str, required=True, 
+                        help='Path to an output directory where many files will be written' )
+    parser.add_argument('-v', '--version', type=str, required=True, 
+                        help='Elephant, Wolf or Cheetah version?')
+    parser.add_argument('-rd', '--reference_directory', type=str, required=True, 
+                        help='Directory where GALES can find the reference files needed by this pipeline.  Which depends on the version chosen.')
+    args = parser.parse_args()
+
+    check_basic_options(args)
+    check_reference_files(version=args.version, dir=args.reference_directory)
+
+    
+def check_basic_options(args):
+    # Does the input FASTA file actually exist?
+    if not os.path.exists(args.input_fasta):
+        sys.exit("ERROR: Unable to find input FASTA passed: {0}".format(args.input_fasta))
+
+    # Does the output directory exist?
+    if not os.path.exists(args.output_directory):
+        # If not, can we make it?  If not, a FileNotFoundError gets thrown
+        try:
+            retval = os.mkdir(args.output_directory)
+        except FileNotFoundError:
+            sys.exit("ERROR: Output directory ({0}) doesn't exist and I failed to create it.  Check permissions and that the base directory exists.".format(args.output_directory))
+            
+    # Was the version passed valid?
+    possible_versions = ['elephant', 'wolf', 'cheetah']
+    args.version = args.version.lower()
+
+    if args.version not in possible_versions:
+        sys.exit("The current available versions of the prokaryotic pipeline are Elephant, Wolf and Cheetah.  (passed: {0})".format(args.version))
+
+def check_reference_files(version=None, dir=None):
+    gales_bin_dir = os.path.dirname(os.path.abspath(__file__))
+    gales_cwl_dir = "{0}/../cwl/workflows"
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
