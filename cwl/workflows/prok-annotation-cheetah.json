@@ -1,0 +1,113 @@
+{
+    "source_fasta": {
+        "class": "File",
+        "path": "../../test_data/genomes/E_coli_k12_dh10b.fna.partialer"
+    },
+    "output_format": "gff",
+    "initial_structural_prediction": "prodigal.annotation.gff",
+    "initial_protein_out": "prodigal.annotation.faa",
+
+    "prodigal2gff3_input_file": {
+        "class": "File",
+        "path": ""
+    },
+    "prodigal2gff3_output_file": "prodigal.annotation.gff3",
+
+    "prodigal2fasta_input_file": {
+        "class": "File",
+        "path": ""
+    },
+    "prodigal2fasta_output_file": "prodigal2fasta.faa",
+    "prodigal2fasta_type": "protein",
+    "prodigal2fasta_feature_type": "polypeptide",
+    "prodigal2fasta_fasta": {
+        "class": "File",
+        "path": ""
+    },
+    
+    "fragmentation_count": 1,
+    "out_dir": "./",
+
+    "rapsearch2_database_file": {
+        "class": "File",
+        "path": "/dbs/uniref100.rapsearch2.db",
+        "secondaryFiles": [
+            {"class": "File", "path": "/dbs/uniref100.rapsearch2.db.info"}
+        ]
+    },
+    "rapsearch2_query_file": {
+        "class": "File",
+        "path": ""
+    },
+    "rapsearch2_output_file_base": "rapsearch2.out",
+    "rapsearch2_threads": 1,
+
+    "rapsearch2_sprot_database_file": {
+        "class": "File",
+        "path": "/dbs/uniprot_sprot.rapsearch2.db",
+        "secondaryFiles": [
+            {"class": "File", "path": "/dbs/uniprot_sprot.rapsearch2.db.info"}
+        ]
+    },
+    "rapsearch2_sprot_query_file": {
+        "class": "File",
+        "path": ""
+    },
+    "rapsearch2_sprot_output_file_base": "rapsearch2_sprot.out",
+    "rapsearch2_sprot_threads": 1,
+
+    "hmmscan_use_accessions": true,
+    "hmmscan_cutoff_gathering": true,
+    "hmmscan_database_file": {
+        "class": "File",
+        "path": "/dbs/coding_hmm.lib.bin",
+        "secondaryFiles": [
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3f"},
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3i"},
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3m"},
+            {"class": "File", "path": "/dbs/coding_hmm.lib.bin.h3p"}
+        ]
+    },
+    "hmmscan_query_file": {
+        "class": "File",
+        "path": ""
+    },
+    "hmmscan_output_file": "hmmscan.out",
+    "hmmscan_threads": 1,
+
+    "raw2htab_input_file": {
+        "class": "File",
+        "path": ""
+    },
+    "raw2htab_output_htab": "./hmmscan.htab",
+    "raw2htab_mldbm_file": {
+        "path": "/dbs/coding_hmm.lib.db",
+        "class": "File"
+    },
+
+    "tmhmm_input_file": {
+        "class": "File",
+        "path": ""
+    },
+
+    "attributor_config_file": "attributor.config",
+    "attributor_output_base": "attributor.annotation",
+    "attributor_output_format": "gff3",
+    "attributor_hmm_attribute_lookup_file": {
+        "class": "File",
+        "path": "/dbs/coding_hmm_lib.sqlite3",
+    },
+    "attributor_blast_attribute_lookup_file": {
+        "class": "File",
+        "path": "/dbs/uniprot_trembl.sqlite3",
+    },
+    "attributor_polypeptide_fasta": {
+        "class": "File",
+        "path": ""
+    },
+    "attributor_source_gff3": {
+        "class": "File",
+        "path": ""
+    }
+
+}
