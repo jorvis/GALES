@@ -81,11 +81,11 @@
     "attributor_output_format": "gff3",
     "attributor_hmm_attribute_lookup_file": {
         "class": "File",
-        "path": "/dbs/coding_hmm_lib.sqlite3",
+        "path": "/dbs/coding_hmm_lib.sqlite3"
     },
     "attributor_blast_attribute_lookup_file": {
         "class": "File",
-        "path": "/dbs/uniprot_trembl.sqlite3",
+        "path": "/dbs/uniprot_trembl.sqlite3"
     },
     "attributor_polypeptide_fasta": {
         "class": "File",

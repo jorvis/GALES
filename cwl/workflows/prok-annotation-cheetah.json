@@ -95,11 +95,11 @@
     "attributor_output_format": "gff3",
     "attributor_hmm_attribute_lookup_file": {
         "class": "File",
-        "path": "{{gales_ref_db_dir}}/coding_hmm_lib.sqlite3",
+        "path": "{{gales_ref_db_dir}}/coding_hmm_lib.sqlite3"
     },
     "attributor_blast_attribute_lookup_file": {
         "class": "File",
-        "path": "{{gales_ref_db_dir}}/uniprot_trembl.sqlite3",
+        "path": "{{gales_ref_db_dir}}/uniprot_trembl.sqlite3"
     },
     "attributor_polypeptide_fasta": {
         "class": "File",
