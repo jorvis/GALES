@@ -9,6 +9,12 @@ GALES launcher for the prokaryotic annotation pipeline.  This does the following
 - Generates the CWL/JSON files from your input to represent your pipeline
 - Launches pipeline, writing to the output directory you specified
 
+Variables used in the CWL and JSON templates:
+  - cwl_tools_dir   : Full path to directory within GALES which contains all the tool definitions
+  - gales_ref_db_dir: Directory where all the reference files will be found, 
+                      provided by --reference_directory
+  - source_fasta: The single file of contigs to be annotated
+
 Author: Joshua Orvis
 Contact:  jorvis at gmail
 """
@@ -16,6 +22,8 @@ Contact:  jorvis at gmail
 import argparse
 import os
 import sys
+
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 def main():
     parser = argparse.ArgumentParser( description='GALES prokaryotic annotation pipeline launcher')
@@ -29,10 +37,15 @@ def main():
                         help='Elephant, Wolf or Cheetah version?')
     parser.add_argument('-rd', '--reference_directory', type=str, required=True, 
                         help='Directory where GALES can find the reference files needed by this pipeline.  Which depends on the version chosen.')
+    parser.add_argument('-t', '--threads', type=int, default=1, required=False,
+                        help='Number of threads to pass to tools which support it')
     args = parser.parse_args()
 
     check_basic_options(args)
-    check_reference_files(version=args.version, dir=args.reference_directory)
+
+    pipeline_cwl_path, pipeline_json_path = write_pipeline_files(args=args)
+
+    check_reference_files(pipeline_xml=pipeline_cwl_path, pipeline_json=pipeline_json_path)
 
     
 def check_basic_options(args):
@@ -55,10 +68,39 @@ def check_basic_options(args):
     if args.version not in possible_versions:
         sys.exit("The current available versions of the prokaryotic pipeline are Elephant, Wolf and Cheetah.  (passed: {0})".format(args.version))
 
-def check_reference_files(version=None, dir=None):
+def check_reference_files(pipeline_xml=None, pipeline_json=None):
     gales_bin_dir = os.path.dirname(os.path.abspath(__file__))
-    gales_cwl_dir = "{0}/../cwl/workflows"
 
+
+def write_pipeline_files(args=None):
+    gales_bin_dir = os.path.dirname(os.path.abspath(__file__))
+    gales_cwl_dir = "{0}/../cwl/workflows".format(gales_bin_dir)
+    gales_tools_dir = "{0}/../cwl/tools".format(gales_bin_dir)
+    dest_cwl  = "{0}/prok-annotation-{1}.cwl".format(args.output_directory, args.version)
+    dest_json = "{0}/prok-annotation-{1}.json".format(args.output_directory, args.version)
+
+    replaced_vars = {
+        'cwl_tools_dir': gales_tools_dir,
+        'gales_ref_db_dir': args.reference_directory,
+        'source_fasta': args.input_fasta,
+        'threads': args.threads
+    }
+
+    env = Environment(
+        loader=FileSystemLoader(gales_cwl_dir),
+        autoescape=select_autoescape(['json'])
+    )
+
+    json_template = env.get_template("prok-annotation-{0}.json".format(args.version))
+    with open(dest_json, 'wt') as fh:
+        fh.write(json_template.render(replaced_vars))
+
+    cwl_template = env.get_template("prok-annotation-{0}.cwl".format(args.version))
+    with open(dest_cwl, 'wt') as fh:
+        fh.write(cwl_template.render(replaced_vars))
+
+    return dest_cwl, dest_json
+    
 
 if __name__ == '__main__':
     main()
