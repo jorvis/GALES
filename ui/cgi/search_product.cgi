@@ -33,8 +33,6 @@ def main():
                 
                 for polypeptide in polypeptides:
                     if polypeptide.annotation:
-                        print("Products:", file=sys.stderr)
-                        print(polypeptide.annotation.product_name, file=sys.stderr)
                         if search_str.lower() in polypeptide.annotation.product_name.lower():
                             matches.append({'id': polypeptide.id, 'gene_id': gene.id, 
                                             'gene_locus_tag': gene.locus_tag,
