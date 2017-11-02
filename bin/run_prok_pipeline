@@ -21,6 +21,7 @@ Contact:  jorvis at gmail
 
 import argparse
 import os
+import json
 import sys
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -44,8 +45,15 @@ def main():
     check_basic_options(args)
 
     pipeline_cwl_path, pipeline_json_path = write_pipeline_files(args=args)
+    missing_refs = check_reference_files(pipeline_cwl=pipeline_cwl_path, pipeline_json=pipeline_json_path)
+    if len(missing_refs) > 0:
+        error_msg = "Cannot start.  The following reference files were not found on your system:\n\n"
+        for path in missing_refs:
+            error_msg += "\t{0}\n".format(path)
 
-    check_reference_files(pipeline_xml=pipeline_cwl_path, pipeline_json=pipeline_json_path)
+        error_msg += "\nPlease check the bin directory for utilities to download the files needed for this pipeline\n"
+        sys.exit(error_msg)
+
 
     
 def check_basic_options(args):
@@ -68,9 +76,41 @@ def check_basic_options(args):
     if args.version not in possible_versions:
         sys.exit("The current available versions of the prokaryotic pipeline are Elephant, Wolf and Cheetah.  (passed: {0})".format(args.version))
 
-def check_reference_files(pipeline_xml=None, pipeline_json=None):
-    gales_bin_dir = os.path.dirname(os.path.abspath(__file__))
+    # temporary: supported versions
+    if args.version not in ['cheetah']:
+        sys.exit("The elephant and wolf versions are currently unavailable.  Rebuilding the reference datasets they rely upon for the first release. (message dated: 2017-11-03)")
 
+def check_reference_files(pipeline_cwl=None, pipeline_json=None):
+    """
+    Reads through the JSON files and makes sure the reference files are actually present.
+    """
+    with open(pipeline_json) as json_fh:    
+        json_config = json.load(json_fh)
+
+    ref_files_missing = list()
+    _parse_json_dict(json_config, ref_files_missing)
+
+    return ref_files_missing
+
+def _parse_json_dict(context, missing):
+    for k in context:
+        if isinstance(context[k], dict):
+            _parse_json_dict(context[k], missing)
+        elif isinstance(context[k], list):
+            _parse_json_list(context[k], missing)
+        else:
+            if k == 'path':
+                if len(context[k]) > 0:
+                    if not os.path.exists(context[k]):
+                        missing.append(context[k])
+
+def _parse_json_list(context, missing):
+    for thing in context:
+        # These are only supposed to be dicts
+        if isinstance(thing, dict):
+            _parse_json_dict(thing, missing)
+        else:
+            sys.exit("ERROR: Unexpected type of thing in the JSON list: ".format(thing))
 
 def write_pipeline_files(args=None):
     gales_bin_dir = os.path.dirname(os.path.abspath(__file__))
