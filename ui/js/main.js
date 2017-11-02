@@ -142,6 +142,7 @@ function get_fasta_stats() {
         dataType:"json",
         success: function(data, textStatus, jqXHR) {
             $('#stats_assembly_count').text(data['stats_assembly_count'])
+            console.log("Assembly sum length is " + data['stats_assembly_sum_length']);
             $('#stats_assembly_sum_length').text(data['stats_assembly_sum_length'] + " bp")
             $('#stats_assembly_longest_length').text(data['stats_assembly_longest_length'] + " bp")
             $('#stats_assembly_shortest_length').text(data['stats_assembly_shortest_length'] + " bp")

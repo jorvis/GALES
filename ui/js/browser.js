@@ -18,7 +18,7 @@ window.onload=function() {
     }
 };
 
-$(document).on('click', '#gene_list_c tr', function() {
+$(document).on('click', '#gene_list_tbl tr', function() {
     get_gene_annotation($(this).data('gene-id'), $(this).data('polypeptide-id'));
 });
 
@@ -29,9 +29,9 @@ function get_gene_annotation(gene_id, polypeptide_id) {
         data: {'gene_id': gene_id, 'polypeptide_id': polypeptide_id},
         dataType: 'json',
         success: function(data, textStatus, jqXHR) {
-            var template = $.templates("#evidence_tmpl");
+            var template = $.templates("#annotation_tmpl");
             var htmlOutput = template.render(data['annotation']);
-            $("#evidence_c").html(htmlOutput);
+            $("#annotation_c").html(htmlOutput);
 
             var hmm_template = $.templates("#hmm_list_tmpl");
             var html_output_hmm = hmm_template.render(data['hmm']);
@@ -54,7 +54,7 @@ function search_product(search_str) {
         success: function(data, textStatus, jqXHR) {
             var template = $.templates("#gene_list_tmpl");
             var htmlOutput = template.render(data);
-            $("#gene_list_c").html(htmlOutput);
+            $("#gene_list_tbl").html(htmlOutput);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             display_error_bar(jqXHR.status + ' ' + errorThrown.name);

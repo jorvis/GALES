@@ -32,51 +32,72 @@
       </div>
     </div><!-- end #gcontext_c -->
     <hr />
-    <div id='list_att_c' class='row'>
-      <div class='col-md-6'>
+    <div class='row'>
+
+      <div id='gene_list_c' class='col-md-6'>
         <h2>Showing search results for: <span id='product_search_string'></span></h2>
         <table>
           <thead>
             <th>Locus</th><th>Symbol</th><th>Product</th>
           <thead>
-          <tbody id='gene_list_c'></tbody>
+          <tbody id='gene_list_tbl'></tbody>
           <script id="gene_list_tmpl" type="text/x-jsrender">
             <tr data-gene-id='{{:gene_id}}' data-polypeptide-id='{{:id}}'>
               <td>{{:gene_locus_tag}}</td><td>{{:gene_symbol}}</td><td>{{:product}}</td>
             </tr>
           </script>
         </table>
-      </div>
-      <div class='col-md-6'>
-        <h2>Gene attributes</h2>
-        <div class='container-fluid'>
-          <div id='evidence_c' class='row'></div>
-          <script id="evidence_tmpl" type="text/x-jsrender">
-            <div class='col-md-6'>
-              Locus: {{:gene_locus_tag}}<br />
-              Gene symbol(s): {{:gene_symbol}}<br />
-              Product name: {{:product}}<br />
-              EC number(s): <br />
+      </div> <!-- end #gene_list_c -->
+
+      <div id='evidence_blocks_c' class='col-md-6'>
+        <div class='evidence_block'>
+            <h2>Gene annotation</h2>
+            <div class='container-fluid'>
+              <div id='annotation_c' class='row'></div>
+              <script id="annotation_tmpl" type="text/x-jsrender">
+                <div class='col-md-6'>
+                  Locus: {{:gene_locus_tag}}<br />
+                  Gene symbol(s): {{:gene_symbol}}<br />
+                  Product name: {{:product}}<br />
+                  EC number(s): <br />
+                </div>
+                <div class='col-md-6'>
+                  GO term list here
+                </div>
+              </script> <!-- end #annotation_tmpl -->
             </div>
-            <div class='col-md-6'>
-              GO term list here
-            </div>
-          </script> <!-- end #evidence_tmpl -->
         </div>
-        <h2 class='evidence_title'>Evidence: HMM</h2>
-        <table>
-          <thead>
-            <th>Accession</th><th>Type</th><th>Total score</th><th>Total eval</th>
-          <thead>
-          <tbody id='hmm_list_c'></tbody>
-          <script id="hmm_list_tmpl" type="text/x-jsrender">
-            <tr data-hmm-hit-id='{{:id}}'>
-              <td>{{:hmm_accession}}</td><td>isotype</td><td>{{:total_score}}</td><td>{{:total_hit_eval}}</td>
-            </tr>
-          </script>
-        </table>
-      </div>
-    </div> <!-- end #list_att_c -->
+        <div class='evidence_block'>
+            <h2 class='evidence_title'>Evidence: HMM</h2>
+            <table>
+              <thead>
+                <th>Accession</th><th>Type</th><th>Name</th><th>Total score</th><th>Total eval</th>
+              <thead>
+              <tbody id='hmm_list_c'></tbody>
+              <script id="hmm_list_tmpl" type="text/x-jsrender">
+                <tr data-hmm-hit-id='{{:hit_id}}'>
+                  <td>{{:hmm_accession}}</td><td>{{:isotype}}</td><td>{{:hmm_com_name}}</td><td>{{:total_score}}</td><td>{{:total_hit_eval}}</td>
+                </tr>
+              </script>
+            </table>
+        </div>
+        <div class='evidence_block'>
+            <h2 class='evidence_title'>Evidence: BLAST vs. UniRef100</h2>
+            <table>
+              <thead>
+                <th>Accession</th><th>Type</th><th>Name</th><th>Total score</th><th>Total eval</th>
+              <thead>
+              <tbody id='hmm_list_c'></tbody>
+              <script id="hmm_list_tmpl" type="text/x-jsrender">
+                <tr data-hmm-hit-id='{{:hit_id}}'>
+                  <td>{{:hmm_accession}}</td><td>{{:isotype}}</td><td>{{:hmm_com_name}}</td><td>{{:total_score}}</td><td>{{:total_hit_eval}}</td>
+                </tr>
+              </script>
+            </table>
+        </div>
+      </div><!-- #evidence_blocks_c -->
+
+    </div>
   </div><!-- end #main -->
 </body>
 
