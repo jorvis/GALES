@@ -42,20 +42,6 @@
     "rapsearch2_output_file_base": "rapsearch2.out",
     "rapsearch2_threads": {{threads}},
 
-    "rapsearch2_sprot_database_file": {
-        "class": "File",
-        "path": "{{gales_ref_db_dir}}/uniprot_sprot.rapsearch2.db",
-        "secondaryFiles": [
-            {"class": "File", "path": "{{gales_ref_db_dir}}/uniprot_sprot.rapsearch2.db.info"}
-        ]
-    },
-    "rapsearch2_sprot_query_file": {
-        "class": "File",
-        "path": ""
-    },
-    "rapsearch2_sprot_output_file_base": "rapsearch2_sprot.out",
-    "rapsearch2_sprot_threads": {{threads}},
-
     "hmmscan_use_accessions": true,
     "hmmscan_cutoff_gathering": true,
     "hmmscan_database_file": {
@@ -99,7 +85,7 @@
     },
     "attributor_blast_attribute_lookup_file": {
         "class": "File",
-        "path": "{{gales_ref_db_dir}}/uniprot_trembl.sqlite3"
+        "path": "{{gales_ref_db_dir}}/uniprot_trembl.20170715.characterized.sqlite3"
     },
     "attributor_polypeptide_fasta": {
         "class": "File",
