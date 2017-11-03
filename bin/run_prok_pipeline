@@ -25,6 +25,7 @@ import json
 import sys
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from shutil import which
 
 def main():
     parser = argparse.ArgumentParser( description='GALES prokaryotic annotation pipeline launcher')
@@ -45,7 +46,10 @@ def main():
     check_basic_options(args)
 
     if not docker_is_present():
-        sys.exit("Docker not found on this system and must be installed before GALES can be used.")
+        sys.exit("Docker not found on this system and must be installed before GALES can be used.  https://www.docker.com/community-edition")
+
+    if not cwlrunner_is_present():
+        sys.exit("cwl-runner not found on this system and must be installed before GALES can be used: sudo pip install cwlref-runner")
 
     pipeline_cwl_path, pipeline_json_path = write_pipeline_files(args=args)
     missing_refs = check_reference_files(pipeline_cwl=pipeline_cwl_path, pipeline_json=pipeline_json_path)
@@ -95,9 +99,12 @@ def check_reference_files(pipeline_cwl=None, pipeline_json=None):
 
     return ref_files_missing
 
+def cwlrunner_is_present():
+    """Check whether cwl-runner is on PATH and marked as executable."""
+    return which('cwl-runner') is not None
+
 def docker_is_present():
     """Check whether docker is on PATH and marked as executable."""
-    from shutil import which
     return which('docker') is not None
 
 def _parse_json_dict(context, missing):
