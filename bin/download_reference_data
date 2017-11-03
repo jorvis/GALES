@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+
+"""
+Downloads reference files needed for a pipeline.  Depends on a JSON file which
+defines the file names needed and their sizes.
+
+The sizes are checked for the files within the reference_directory passed by
+the user.  Each file is downloaded unless it already exists there and is the same 
+size.
+
+Author: Joshua Orvis
+Contact:  jorvis at gmail
+"""
+
+import argparse
+import os
+import json
+import requests
+import sys
+
+
+def main():
+    parser = argparse.ArgumentParser( description='GALES pipeline reference file downloader')
+
+    ## output file to be written
+    parser.add_argument('-p', '--pipeline', type=str, required=False, 
+                        help='The pipeline-version for which you need files.  Run without this argument to see a list of supported ones')
+    parser.add_argument('-rd', '--reference_directory', type=str, required=True, 
+                        help='Directory where GALES can find the reference files needed by this pipeline.  Which depends on the version chosen.')
+    args = parser.parse_args()
+
+    supported_pipelines = ['prok-cheetah']
+
+    # TODO: This will get replaced into the JSON file, no trailing slash.
+    download_url_base = 'https://storage.googleapis.com/gales-input'
+
+    if args.pipeline is None or args.pipeline not in supported_pipelines:
+        print("\nHere are the supported pipeline strings to pass as the -p option:")
+        for pipeline_label in supported_pipelines:
+            print("\t{0}".format(pipeline_label))
+        sys.exit(1)
+
+    json_file = "{0}/../data/{1}-deps.json".format(os.path.dirname(os.path.abspath(__file__)), args.pipeline)
+
+    print("\nSearching reference directory: {0}".format(args.reference_directory))
+
+    with open(json_file) as json_fh:
+        json_config = json.load(json_fh)
+        sum_to_download = 0
+        files_to_download = list()
+
+        if 'ref-files' not in json_config:
+            sys.exit("ERROR: failed to find a ref-files key in the reference JSON config file: {0}".format(json_file))
+
+        for entry in json_config['ref-files']:
+            path = "{0}/{1}".format(args.reference_directory, entry['name'])
+            print("File: {0}".format(entry['name']))
+
+            if os.path.exists(path):
+                print("\tExists: Yes")
+                file_size = os.path.getsize(path)
+
+                if file_size == entry['size']:
+                    print("\tFile size matches: Yes")
+                    print("\tAction: None")
+                else:
+                    print("\tFile size matches: No (local:{0}, expected:{1})".format(file_size, entry['size']))
+                    print("\tAction: Will download")
+                    sum_to_download += entry['size']
+                    files_to_download.append(entry['name'])
+            else:
+                print("\tExists: No")
+                print("\tAction: Will download")
+                sum_to_download += entry['size']
+                files_to_download.append(entry['name'])
+
+        if len(files_to_download) == 0:
+            print("\nNothing to do here.  All required files found with matching file sizes.")
+        else:
+            print("\nThis script will download {0} files to {1}, which will take up {2} of disk space".format(
+                len(files_to_download), args.reference_directory, sum_to_download
+            ))
+            input("Press enter to continue, or CTRL+c to quit ...")
+
+            for filename in files_to_download:
+                print("Downloading {0} ...".format(filename))
+                url = "{0}/filename".format(download_url_base)
+                dest = "{0}/{1}".format(args.reference_directory, filename)
+                r = requests.get(url, allow_redirects=True)
+                open(dest, 'wb').write(r.content)
+
+            print("All downloads complete.")
+        
+
+def _parse_json_dict(context, missing):
+    for k in context:
+        if isinstance(context[k], dict):
+            _parse_json_dict(context[k], missing)
+        elif isinstance(context[k], list):
+            _parse_json_list(context[k], missing)
+        else:
+            if k == 'path':
+                if len(context[k]) > 0:
+                    if not os.path.exists(context[k]):
+                        missing.append(context[k])
+
+def _parse_json_list(context, missing):
+    for thing in context:
+        # These are only supposed to be dicts
+        if isinstance(thing, dict):
+            _parse_json_dict(thing, missing)
+        else:
+            sys.exit("ERROR: Unexpected type of thing in the JSON list: ".format(thing))
+
+def write_pipeline_files(args=None):
+    gales_bin_dir = os.path.dirname(os.path.abspath(__file__))
+    gales_cwl_dir = "{0}/../cwl/workflows".format(gales_bin_dir)
+    gales_tools_dir = "{0}/../cwl/tools".format(gales_bin_dir)
+    dest_cwl  = "{0}/prok-annotation-{1}.cwl".format(args.output_directory, args.version)
+    dest_json = "{0}/prok-annotation-{1}.json".format(args.output_directory, args.version)
+
+    replaced_vars = {
+        'cwl_tools_dir': gales_tools_dir,
+        'gales_ref_db_dir': args.reference_directory,
+        'source_fasta': args.input_fasta,
+        'threads': args.threads
+    }
+
+    env = Environment(
+        loader=FileSystemLoader(gales_cwl_dir),
+        autoescape=select_autoescape(['json'])
+    )
+
+    json_template = env.get_template("prok-annotation-{0}.json".format(args.version))
+    with open(dest_json, 'wt') as fh:
+        fh.write(json_template.render(replaced_vars))
+
+    cwl_template = env.get_template("prok-annotation-{0}.cwl".format(args.version))
+    with open(dest_cwl, 'wt') as fh:
+        fh.write(cwl_template.render(replaced_vars))
+
+    return dest_cwl, dest_json
+    
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
