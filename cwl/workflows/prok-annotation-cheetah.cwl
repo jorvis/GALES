@@ -267,7 +267,7 @@ steps:
     outputs:
       - { id: "tmhmm_out" }
   - id: attributor
-    run: ../tools/attributor-annotation-prok-dacc-refgenomes-gce.cwl
+    run: ../tools/attributor-prok-cheetah.cwl
     inputs:
       - { id: "attributor.config_file", source: "#attributor_config_file" }
       - { id: "attributor.output_base", source: "#attributor_output_base" }
