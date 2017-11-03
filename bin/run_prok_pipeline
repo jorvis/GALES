@@ -44,8 +44,12 @@ def main():
 
     check_basic_options(args)
 
+    if not docker_is_present():
+        sys.exit("Docker not found on this system and must be installed before GALES can be used.")
+
     pipeline_cwl_path, pipeline_json_path = write_pipeline_files(args=args)
     missing_refs = check_reference_files(pipeline_cwl=pipeline_cwl_path, pipeline_json=pipeline_json_path)
+    
     if len(missing_refs) > 0:
         error_msg = "Cannot start.  The following reference files were not found on your system:\n\n"
         for path in missing_refs:
@@ -55,7 +59,6 @@ def main():
         sys.exit(error_msg)
 
 
-    
 def check_basic_options(args):
     # Does the input FASTA file actually exist?
     if not os.path.exists(args.input_fasta):
@@ -91,6 +94,11 @@ def check_reference_files(pipeline_cwl=None, pipeline_json=None):
     _parse_json_dict(json_config, ref_files_missing)
 
     return ref_files_missing
+
+def docker_is_present():
+    """Check whether docker is on PATH and marked as executable."""
+    from shutil import which
+    return which('docker') is not None
 
 def _parse_json_dict(context, missing):
     for k in context:
