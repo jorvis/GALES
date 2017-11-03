@@ -8,8 +8,8 @@
         {"name": "coding_hmm.lib.db", "size": 20856832},
         {"name": "coding_hmm_lib.sqlite3", "size": 3989504},
         {"name": "uniprot_trembl.20170715.characterized.sqlite3", "size": 10996736},
-        {"name": "uniref100.20170715.characterized.db", "size": 183381194},
-        {"name": "uniref100.20170715.characterized.db.info", "size": 4000160}
+        {"name": "uniref100.20170715.characterized.rapsearch2.db", "size": 183381194},
+        {"name": "uniref100.20170715.characterized.rapsearch2.db.info", "size": 4000160}
     ]
 }
 
