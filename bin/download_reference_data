@@ -86,8 +86,8 @@ def main():
             input("Press enter to continue, or CTRL+c to quit ...")
 
             for filename in files_to_download:
-                print("Downloading {0} ...".format(filename))
-                url = "{0}/filename".format(download_url_base)
+                url = "{0}/{1}".format(download_url_base, filename)
+                print("Downloading {0}:{1} ...".format(filename, url))
                 dest = "{0}/{1}".format(args.reference_directory, filename)
                 r = requests.get(url, allow_redirects=True)
                 open(dest, 'wb').write(r.content)
