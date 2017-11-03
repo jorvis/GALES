@@ -71,7 +71,7 @@ def main():
 
     # cwl-runner --outdir OUTDIR 
     pipeline_cmd = "cwl-runner --outdir {0} {1} {2}".format(args.output_directory, pipeline_cwl_path, pipeline_json_path)
-    run_command
+    run_command(pipeline_cmd)
     
 
 
@@ -140,6 +140,7 @@ def _parse_json_list(context, missing):
             sys.exit("ERROR: Unexpected type of thing in the JSON list: ".format(thing))
 
 def run_command(cmd):
+    print("Running command: {0}".format(cmd))
     return_code = subprocess.call(cmd, shell=True)
     if return_code != 0:
         sys.exit("ERROR: Return code {0} when running the following command: {1}".format(return_code, cmd))
