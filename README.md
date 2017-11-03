@@ -3,7 +3,10 @@ Genomic Annotation Logic and Execution System (GALES): Annotate a genome locally
 
 ## Getting Started
 
-These instructions describe how to get the annotation pipeline running on your machine.
+These instructions describe how to get an annotation pipeline running on your machine.  We expect the first
+release containing three different prokaryotic pipelines and one metagenomic by Nov 10th.  If you're seeing
+this before then, welcome from Genome Informatics!  You can test run the prok-cheetah pipeline now, and
+please file issue tickets if you encounter any errors or if anything is unclear.
 
 ### Prerequisities
 
@@ -26,7 +29,7 @@ If this is the first time you've installed Docker Engine, reboot your machine (e
 $ sudo pip install cwl-runner
 ```
 
-### Get the pipeline
+### Get GALES
 
 Now that you have the dependencies to run things, you need only the actual pipeline/tool CWL definitions.
 
@@ -34,21 +37,43 @@ Now that you have the dependencies to run things, you need only the actual pipel
 $ git clone https://github.com/jorvis/GALES.git
 ```
 
+### Getting reference data
+
+The pipelines depend on reference data against which searches will be performed.  These only need to
+be downloaded once but can be large depending on the version of the pipeline you use.  As an example,
+let's walk through running the 'cheetah' version of the prokaryotic annotation pipeline, which is the
+fastest and uses the smallest datasets.
+
+```
+$ cd GALES/bin
+$ ./download_reference_data -rd /dbs -p prok-cheetah
+```
+
+I put my reference collection in /dbs, and this tells the script to search for any I don't have yet and
+place them there.
+
 ### Running
 
-```
-$ cd GALES/cwl/workflows/
-```
-
-Here you'll find the [prok_annotation.json](https://github.com/jorvis/GALES/blob/master/cwl/workflows/prok_annotation.json) file.  Within this, you'll want to change the source_fasta.path setting and, optionally, the rapsearch2_threads and hmmscan_threads settings.
-
-Then, you can run it like this:
+There are launchers for the different pipelines, which will check your system before running.
 
 ```
-$ ./prok_annotation.cwl prok_annotation.json
+$ ./run_prok_pipeline -i ../test_data/genomes/E_coli_k12_dh10b.fna -od /tmp/demo -v cheetah -rd /dbs
 ```
 
-Once completed, the annotated GFF file will be called 'attributor.annnotation.gff3' (unless you've changed the attributor_output_base setting in the json config file.)
+Once completed, the annotated GFF file will be called 'attributor.annotation.gff3', along with many other
+files representing the evidence involved in generating the annotation.
+
+### Visualization
+
+This is very experimental and under active development, but you can create a web interface to view the
+results of your annotation and evidence graphically like this:
+
+```
+$ ./view_annotation -i /tmp/demo -f ../test_data/genomes/E_coli_k12_dh10b.fna
+```
+
+This will parse the database, generate a GO-slim mapping, and provide a local URL where you can view
+the browser.
 
 ## Authors
 
