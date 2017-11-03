@@ -40,6 +40,9 @@ def main():
             print("\t{0}".format(pipeline_label))
         sys.exit(1)
 
+    if not os.path.exists(args.reference_directory):
+        sys.exit("ERROR:  Please pass a directory with --reference_directory which already exists.")
+
     json_file = "{0}/../data/{1}-deps.json".format(os.path.dirname(os.path.abspath(__file__)), args.pipeline)
 
     print("\nSearching reference directory: {0}".format(args.reference_directory))
