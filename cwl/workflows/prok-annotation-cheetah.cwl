@@ -166,7 +166,7 @@ outputs:
 
 steps:
   - id: prodigal
-    run: ../tools/cpp-prodigal-gce.cwl
+    run: {{gales_tools_dir}}/cpp-prodigal-gce.cwl
     inputs:
       - { id: "prodigal.genomic_fasta", source: "#source_fasta" }
       - { id: "prodigal.output_format", source: "#output_format" }
@@ -176,14 +176,14 @@ steps:
       - { id: prodigal_annot_file }
       - { id: prodigal_protein_file }
   - id: prodigal2gff3
-    run: ../tools/biocode-ConvertProdigalToGFF3.cwl
+    run: {{gales_tools_dir}}/biocode-ConvertProdigalToGFF3.cwl
     inputs:
       - { id: "prodigal2gff3.input_file", source: "#prodigal/prodigal_annot_file" }
       - { id: "prodigal2gff3.output_file", source: "#prodigal2gff3_output_file" }
     outputs:
       - { id: "output_gff3" }
   - id: prodigal2fasta
-    run: ../tools/biocode-WriteFastaFromGFF.cwl
+    run: {{gales_tools_dir}}/biocode-WriteFastaFromGFF.cwl
     inputs:
       - { id: "prodigal2fasta.input_file", source: "#prodigal2gff3/output_gff3" }
       - { id: "prodigal2fasta.output_file", source: "#prodigal2fasta_output_file" }
@@ -193,7 +193,7 @@ steps:
     outputs:
       - { id: "protein_fasta" }
   - id: split_multifasta
-    run: ../tools/biocode-SplitFastaIntoEvenFiles.cwl
+    run: {{gales_tools_dir}}/biocode-SplitFastaIntoEvenFiles.cwl
     inputs:
       - { id: "split_multifasta.file_to_split", source: "#prodigal2fasta/protein_fasta" }
       - { id: "split_multifasta.file_count", source: "#fragmentation_count" }
@@ -201,7 +201,7 @@ steps:
     outputs:
       - { id: fasta_files }
   - id: rapsearch2
-    run: ../tools/cpp-rapsearch2-gce.cwl
+    run: {{gales_tools_dir}}/cpp-rapsearch2-gce.cwl
     inputs:
       - { id: "rapsearch2.database_file", source: "#rapsearch2_database_file" }
       - { id: "rapsearch2.query_file", source: "#split_multifasta/fasta_files" }
@@ -211,7 +211,7 @@ steps:
     outputs:
       - { id: "output_base" }
   - id: hmmscan
-    run: ../tools/cpp-hmmer3-hmmscan-gce.cwl
+    run: {{gales_tools_dir}}/cpp-hmmer3-hmmscan-gce.cwl
     inputs:
       - { id: "hmmscan.cutoff_gathering", source: "#hmmscan_cutoff_gathering" }
       - { id: "hmmscan.use_accessions", source: "#hmmscan_use_accessions" }
@@ -223,7 +223,7 @@ steps:
     outputs:
       - { id: "output_base" }
   - id: raw2htab
-    run: ../tools/biocode-ConvertHmmscanToHtab.cwl
+    run: {{gales_tools_dir}}/biocode-ConvertHmmscanToHtab.cwl
     inputs:
       - { id: "raw2htab.input_file", source: "#hmmscan/output_base" }
       - { id: "raw2htab.output_htab", source: "#raw2htab_output_htab" }
@@ -232,14 +232,14 @@ steps:
     outputs:
       - { id: "htab_file" }
   - id: tmhmm
-    run: ../tools/cpp-tmhmm-gce.cwl
+    run: {{gales_tools_dir}}/cpp-tmhmm-gce.cwl
     inputs:
       - { id: "tmhmm.query_file", source: "#split_multifasta/fasta_files" }
     scatter: "#tmhmm/tmhmm.query_file"
     outputs:
       - { id: "tmhmm_out" }
   - id: attributor
-    run: ../tools/attributor-prok-cheetah.cwl
+    run: {{gales_tools_dir}}/attributor-prok-cheetah.cwl
     inputs:
       - { id: "attributor.config_file", source: "#attributor_config_file" }
       - { id: "attributor.output_base", source: "#attributor_output_base" }
