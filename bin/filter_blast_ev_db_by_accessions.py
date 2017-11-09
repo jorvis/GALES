@@ -44,7 +44,7 @@ import sqlite3
 pfam2go = dict()
 
 def main():
-    parser = argparse.ArgumentParser( description='Reads a uniprot_sprot.dat file and creates a SQLite3 database of commonly-accessed attributes for each accession.')
+    parser = argparse.ArgumentParser( description='Creates a SQLite3 database of commonly-accessed attributes for each accession, filtering from a larger version')
 
     ## output file to be written
     parser.add_argument('-id', '--input_db', type=str, required=True, help='Path to the input source SQLite3 db file.' )
