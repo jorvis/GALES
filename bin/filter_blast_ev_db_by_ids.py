@@ -48,30 +48,48 @@ def main():
 
     ## output file to be written
     parser.add_argument('-id', '--input_db', type=str, required=True, help='Path to the input source SQLite3 db file.' )
-    parser.add_argument('-od', '--output_db', type=str, required=True, help='Path to an output SQLite3 db to be created' )
+    parser.add_argument('-od', '--output_db', type=str, required=True, help='Path to an output SQLite3 db to be created/added to' )
     parser.add_argument('-i', '--input_id_file', type=str, required=True, help="Path to a file with one access on each line")
     args = parser.parse_args()
 
+    if os.path.exists(args.output_db):
+        db_already_existed = True
+    else:
+        db_already_existed = False
+    
     # this creates it if it doesn't already exist
     src_conn = sqlite3.connect(args.input_db)
     src_curs = src_conn.cursor()
     dest_conn = sqlite3.connect(args.output_db)
     dest_curs = dest_conn.cursor()
 
-    print("INFO: Creating tables ...")
-    create_tables( dest_curs )
-    dest_conn.commit()
+    report_interval = 500
+    records_processed = 0
 
-    ids_already_loaded = dict()
+    if db_already_existed:
+        print("INFO: Output database already exists - appending to it")
+        ids_already_loaded = get_ids_already_loaded(dest_curs)
+        db_already_existed = True
+    else:
+        print("INFO: Creating tables ...")
+        create_tables( dest_curs )
+        dest_conn.commit()
+        ids_already_loaded = dict()
 
     for acc in open(args.input_id_file):
         acc = acc.rstrip()
         cache_blast_hit_data(accession=acc, ref_curs=src_curs, ev_curs=dest_curs, ids_loaded=ids_already_loaded)
+
+        records_processed += 1
+        if records_processed % report_interval == 0:
+            print("INFO: Processed {0} records ... ".format(records_processed))
             
     dest_conn.commit()
 
-    print("INFO: Creating indexes ...")
-    create_indexes(dest_curs)
+    if not db_already_existed:
+        print("INFO: Creating indexes ...")
+        create_indexes(dest_curs)
+        
     dest_conn.commit()
     src_curs.close()
     dest_curs.close()
@@ -167,6 +185,16 @@ def create_tables( cursor ):
               )
     """)
 
+def get_ids_already_loaded(curs):
+    ids_loaded = dict()
+
+    qry = "SELECT id FROM entry_acc"
+    curs.execute(qry)
+
+    for row in curs:
+        ids_loaded[row[0]] = True
+    
+    return ids_loaded
 
 if __name__ == '__main__':
     main()
