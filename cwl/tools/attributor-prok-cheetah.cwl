@@ -23,15 +23,16 @@ requirements:
                gff3: $(inputs.source_gff3.path)
             order:
                - coding_hmm_lib__equivalog
-               - rapsearch2__uniref100__trusted_full_full
+               - rapsearch2__trusted_full_full
                - coding_hmm_lib__equivalog_domain
-               - rapsearch2__uniref100__trusted_partial_full
+               - rapsearch2__trusted_partial_full
                - coding_hmm_lib__subfamily
                - coding_hmm_lib__superfamily
                - coding_hmm_lib__subfamily_domain
                - coding_hmm_lib__domain
                - coding_hmm_lib__pfam
-               - rapsearch2__uniref100__trusted_full_partial
+               - rapsearch2__trusted_full_partial
+               - rapsearch2__all_full_full
                - tmhmm
                #- lipoprotein_motif
                - coding_hmm_lib__hypothetical_equivalog
@@ -161,7 +162,7 @@ requirements:
                  class: hypoth_equivalog
                  index: coding_hmm_lib
 
-               - label: rapsearch2__uniref100__trusted_full_full
+               - label: rapsearch2__trusted_full_full
                  type: RAPSearch2_m8
                  path: ${
                    var r = "";
@@ -179,7 +180,7 @@ requirements:
                  match_cov: 80%
                  percent_identity_cutoff: 50%
 
-               - label: rapsearch2__uniref100__trusted_partial_full
+               - label: rapsearch2__trusted_partial_full
                  type: RAPSearch2_m8
                  path: ${
                    var r = "";
@@ -197,7 +198,7 @@ requirements:
                  percent_identity_cutoff: 50%
                  append_text: domain protein
 
-               - label: rapsearch2__uniref100__trusted_full_partial
+               - label: rapsearch2__trusted_full_partial
                  type: RAPSearch2_m8
                  path: ${
                    var r = "";
@@ -215,7 +216,7 @@ requirements:
                  percent_identity_cutoff: 50%
                  append_text: domain protein
 
-               - label: rapsearch2__uniref100__all_full_full
+               - label: rapsearch2__all_full_full
                  type: RAPSearch2_m8
                  path: ${
                    var r = "";
@@ -232,42 +233,6 @@ requirements:
                  match_cov: 80%
                  percent_identity_cutoff: 50%
                  prepend_text: putative
-
-               - label: rapsearch2__uniref100__all_partial_full
-                 type: RAPSearch2_m8
-                 path: ${
-                   var r = "";
-                   for (var i = 0; i < inputs.m8_files.length; i++) {
-                     if (i > 0) {
-                       r += ",";
-                     }
-                     r += inputs.m8_files[i].path.replace('file://','');
-                   }
-                   return r;
-                 }
-                 index: uniref100
-                 match_cov: 80%
-                 percent_identity_cutoff: 50%
-                 prepend_text: putative
-                 append_text: domain protein
-
-               - label: rapsearch2__uniref100__all_full_partial
-                 type: RAPSearch2_m8
-                 path: ${
-                   var r = "";
-                   for (var i = 0; i < inputs.m8_files.length; i++) {
-                     if (i > 0) {
-                       r += ",";
-                     }
-                     r += inputs.m8_files[i].path.replace('file://','');
-                   }
-                   return r;
-                 }
-                 index: uniref100
-                 query_cov: 80%
-                 percent_identity_cutoff: 50%
-                 prepend_text: putative
-                 append_text: domain protein
 
                - label: tmhmm
                  type: TMHMM
