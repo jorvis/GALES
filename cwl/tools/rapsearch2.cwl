@@ -15,8 +15,6 @@ hints:
 
 inputs:
   - id: database_file
-    #  Not defined as a file because the base name is
-    #  sufficient.
     type: File
     inputBinding:
       prefix: -d
