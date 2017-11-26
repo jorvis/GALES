@@ -42,6 +42,8 @@ def main():
                         help='Directory where GALES can find the reference files needed by this pipeline.  Which depends on the version chosen.')
     parser.add_argument('-t', '--threads', type=int, default=1, required=False,
                         help='Number of threads to pass to tools which support it')
+    parser.add_argument('-bm', '--blast_matches', type=int, default=50, required=False,
+                        help='Max number of BLAST matches to return per query')
     args = parser.parse_args()
 
     check_basic_options(args)
@@ -160,7 +162,8 @@ def write_pipeline_files(args=None):
         'cwl_tools_dir': gales_tools_dir,
         'gales_ref_db_dir': args.reference_directory,
         'source_fasta': args.input_fasta,
-        'threads': args.threads
+        'threads': args.threads,
+        'blast_matches': args.blast_matches
     }
 
     env = Environment(
