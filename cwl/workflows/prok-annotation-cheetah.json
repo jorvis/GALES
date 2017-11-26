@@ -1,4 +1,8 @@
 {
+    "genomic_fasta": {
+        "class": "File",
+        "path": "{{source_fasta}}"
+    }
     "source_fasta": {
         "class": "File",
         "path": "{{source_fasta}}"

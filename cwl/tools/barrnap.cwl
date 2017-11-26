@@ -16,7 +16,7 @@ inputs:
       position: 1
 
 outputs:
-  - id: prodigal_protein_file
+  - id: gff_output
     type: File
     outputBinding:
       glob: 'barnapp.gff'

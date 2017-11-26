@@ -13,7 +13,9 @@ requirements:
 
 inputs:
   # Barrnap
-  
+  - id: "barrnap_genomic_fasta"
+    type: File
+    description: "Input genomic FASTA file"
   # Prodigal
   - id: "source_fasta"
     type: File
@@ -127,6 +129,9 @@ outputs:
       type: array
       items: File
     source: "#split_multifasta/fasta_files"
+  - id: barrnap_gff_output
+    type: File
+    source: "#barrnap/gff_output"
   - id: prodigal_annot_file
     type: File
     source: "#prodigal/prodigal_annot_file"
@@ -170,6 +175,12 @@ outputs:
 
 
 steps:
+  - id: barrnap
+    run: {{cwl_tools_dir}}/barrnap.cwl
+    inputs:
+      - { id: "barrnap.genomic_fasta", source: "#barrnap_genomic_fasta" }
+    outputs:
+      - { id: "barrnap_gff_output" }
   - id: prodigal
     run: {{cwl_tools_dir}}/cpp-prodigal-gce.cwl
     inputs:
