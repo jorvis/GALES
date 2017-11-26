@@ -12,6 +12,8 @@ requirements:
   - class: ScatterFeatureRequirement
 
 inputs:
+  # Barrnap
+  
   # Prodigal
   - id: "source_fasta"
     type: File
@@ -204,7 +206,7 @@ steps:
     outputs:
       - { id: fasta_files }
   - id: rapsearch2
-    run: {{cwl_tools_dir}}/cpp-rapsearch2-gce.cwl
+    run: {{cwl_tools_dir}}/rapsearch2.cwl
     inputs:
       - { id: "rapsearch2.database_file", source: "#rapsearch2_database_file" }
       - { id: "rapsearch2.query_file", source: "#split_multifasta/fasta_files" }
