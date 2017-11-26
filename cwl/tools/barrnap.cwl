@@ -7,7 +7,7 @@ baseCommand: barrnap
 
 hints:
   - class: DockerRequirement
-    dockerPull: jorvis/community-prok-pipeline
+    dockerPull: jorvis/gales-gce
 
 inputs:
   - id: genomic_fasta
