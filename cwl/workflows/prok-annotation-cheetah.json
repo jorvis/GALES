@@ -41,6 +41,7 @@
     },
     "rapsearch2_output_file_base": "rapsearch2.out",
     "rapsearch2_threads": {{threads}},
+    "rapsearch2_one_line_desc_count": 50,
 
     "hmmscan_use_accessions": true,
     "hmmscan_cutoff_gathering": true,

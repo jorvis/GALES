@@ -68,6 +68,9 @@ inputs:
   - id: "rapsearch2_threads"
     type: int
     description: ""
+  - id: "rapsearch2_one_line_desc_count"
+    type: int
+    description: "Number of matches to return"
   # HMMer3
   - id: "hmmscan_use_accessions"
     type: boolean
@@ -207,6 +210,7 @@ steps:
       - { id: "rapsearch2.query_file", source: "#split_multifasta/fasta_files" }
       - { id: "rapsearch2.output_file_base", source: "#rapsearch2_output_file_base" }
       - { id: "rapsearch2.thread_count", source: "#rapsearch2_threads"}
+      - { id: "rapsearch2.one_line_desc_count", source: "#rapsearch2_one_line_desc_count"}
     scatter: "#rapsearch2/rapsearch2.query_file"
     outputs:
       - { id: "output_base" }

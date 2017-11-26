@@ -8,5 +8,6 @@
         "path": "/home/jorvis/Dropbox/igs/databases/test.faa"
     },
     "output_file_base": "test.rapsearch2.out",
-    "thread_count": 4
+    "thread_count": 4,
+    "one_line_desc_count": 50
 }
