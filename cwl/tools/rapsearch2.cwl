@@ -4,7 +4,7 @@ cwlVersion: cwl:draft-3
 class: CommandLineTool
 baseCommand: rapsearch
 
-# rapsearch -q query.fa -d nr -o output_file
+# rapsearch -q query.fa -d nr -o output_file -z 4 -v 50
 
 requirements:
 - class: InlineJavascriptRequirement
@@ -39,6 +39,12 @@ inputs:
     inputBinding:
       position: 4
       prefix: -z
+      separate: true
+  - id: one_line_desc_count
+    type: int
+    inputBinding:
+      position: 5
+      prefix: -v
       separate: true
 outputs:
   - id: output_base
