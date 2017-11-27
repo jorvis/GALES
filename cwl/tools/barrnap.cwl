@@ -16,7 +16,7 @@ inputs:
       position: 1
 
 outputs:
-  - id: gff_output
+  - id: barrnap_gff_output
     type: File
     outputBinding:
       glob: 'barnapp.gff'

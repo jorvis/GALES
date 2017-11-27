@@ -131,7 +131,7 @@ outputs:
     source: "#split_multifasta/fasta_files"
   - id: barrnap_gff_output
     type: File
-    source: "#barrnap/gff_output"
+    source: "#barrnap/barrnap_gff_output"
   - id: prodigal_annot_file
     type: File
     source: "#prodigal/prodigal_annot_file"
@@ -172,15 +172,13 @@ outputs:
   - id: attributor_output_config
     type: File
     source: "#attributor/the_config"
-
-
 steps:
   - id: barrnap
     run: {{cwl_tools_dir}}/barrnap.cwl
     inputs:
       - { id: "barrnap.genomic_fasta", source: "#barrnap_genomic_fasta" }
     outputs:
-      - { id: "barrnap_gff_output" }
+      - { id: barrnap_gff_output }
   - id: prodigal
     run: {{cwl_tools_dir}}/cpp-prodigal-gce.cwl
     inputs:
