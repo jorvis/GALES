@@ -20,6 +20,7 @@ RUN chmod +x /usr/bin/prodigal
 RUN wget -O barrnap-0.7.tar.gz https://github.com/tseemann/barrnap/archive/0.7.tar.gz
 RUN tar -xzf barrnap-0.7.tar.gz
 RUN mv barrnap-0.7 /opt/barrnap
+ENV PATH $PATH:/opt/barrnap/bin
 
 #####
 # Install RAPSearch2
