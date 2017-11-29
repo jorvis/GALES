@@ -126,9 +126,6 @@ inputs:
     type: File
   - id: attributor_source_gff3
     type: File
-  # Merge
-  - id: merge_output_gff
-    type: string
 outputs:
   - id: fasta_files
     type:
@@ -181,9 +178,6 @@ outputs:
   - id: attributor_output_config
     type: File
     source: "#attributor/the_config"
-  - id: merge_output_gff
-    type: File
-    source: "#merge/output_gff"
 steps:
   - id: barrnap
     run: {{cwl_tools_dir}}/barrnap.cwl
@@ -288,14 +282,5 @@ steps:
     outputs:
       - { id: "output_files" }
       - { id: "the_config" }
-  - id: merge
-    run: {{cwl_tools_dir}}/biocode-MergePredictedGFF3.cwl
-    inputs:
-      - { id: "merge.model_gff", source: "#attributor/output_files" }
-      - { id: "merge.aragorn_out", source: "#aragorn/aragorn_raw_output" }
-      - { id: "merge.barrnap_gff", source: "#barrnap/barrnap_gff_output" }
-      - { id: "merge.output_file", source: "#merge_output_gff" }
-    outputs:
-      - { id: "merge_output_gff" }
 
 
