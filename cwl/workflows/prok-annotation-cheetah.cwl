@@ -16,6 +16,9 @@ inputs:
   - id: "barrnap_genomic_fasta"
     type: File
     description: "Input genomic FASTA file"
+  # Aragorn
+  - id: "aragorn_format"
+    type: boolean
   # Prodigal
   - id: "source_fasta"
     type: File
@@ -132,6 +135,9 @@ outputs:
   - id: barrnap_gff_output
     type: File
     source: "#barrnap/barrnap_gff_output"
+  - id: aragorn_raw_output
+    type: File
+    source: "#aragorn/aragorn_raw_output"
   - id: prodigal_annot_file
     type: File
     source: "#prodigal/prodigal_annot_file"
@@ -179,6 +185,13 @@ steps:
       - { id: "barrnap.genomic_fasta", source: "#barrnap_genomic_fasta" }
     outputs:
       - { id: barrnap_gff_output }
+  - id: aragorn
+    run: {{cwl_tools_dir}}/aragorn.cwl
+    inputs:
+      - { id: "aragorn.genomic_fasta", source: "#source_fasta" }
+      - { id: "aragorn.aragorn_format", source: "" }
+    outputs:
+      - { id: aragorn_raw_output }
   - id: prodigal
     run: {{cwl_tools_dir}}/cpp-prodigal-gce.cwl
     inputs:

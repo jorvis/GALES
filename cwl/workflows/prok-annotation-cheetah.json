@@ -3,6 +3,7 @@
         "class": "File",
         "path": "{{source_fasta}}"
     },
+    "aragorn_format": true,
     "source_fasta": {
         "class": "File",
         "path": "{{source_fasta}}"
