@@ -11,5 +11,5 @@
         "class": "File",
         "path": "../../test_data/genomes/E_coli_k12_dh10b/aragorn.out"
     },
-    "output_gff": "./gales.annotation.gff3",
+    "merge_output_gff": "./gales.annotation.gff3",
 }
