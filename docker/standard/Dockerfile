@@ -38,6 +38,18 @@ RUN mv TMHMM-2.0c /opt/
 ENV PATH $PATH:/opt/TMHMM-2.0c/bin
 
 #####
+# Install ARAGORN
+RUN wget -O /usr/bin/aragorn https://www.dropbox.com/s/a207vip5d4gullk/aragorn?dl=0
+RUN chmod +x /usr/bin/aragorn
+
+## this if we want to compile ARAGORN, but I don't want to add the gcc dependency
+#RUN wget -O aragorn1.2.38.tgz http://mbio-serv2.mbioekol.lu.se/ARAGORN/Downloads/aragorn1.2.38.tgz
+#RUN tar -xzf aragorn1.2.38.tgz
+#RUN mv aragorn1.2.38 /opt/
+#RUN gcc -O3 -ffast-math -finline-functions -o /opt/aragorn1.2.38/aragorn /opt/aragorn1.2.38/aragorn1.2.38.c
+#ENV PATH $PATH:/opt/aragorn1.2.38
+
+#####
 # Install HMMer3
 # Investigate hmmpgmd
 #  Article:  https://cryptogenomicon.org/2011/05/27/hmmscan-vs-hmmsearch-speed-the-numerology/
@@ -55,15 +67,5 @@ RUN ln -s /opt/attributor/attributor /usr/bin/
 #####
 # Stage data
 RUN mkdir dbs
-#COPY ./uniprot_sprot.rapsearch2.db dbs/uniprot_sprot.rapsearch2.db
-#COPY ./uniprot_sprot.rapsearch2.db.info dbs/uniprot_sprot.rapsearch2.db.info
-#COPY ./bacteria_uniref.rapsearch2.db dbs/
-#COPY ./bacteria_uniref.rapsearch2.db.info dbs/
-#COPY ./uniprot_sprot.sqlite3 dbs/
-#COPY ./coding_hmm.lib.bin.h3* dbs/
-#COPY ./coding_hmm.lib.db dbs/
-#COPY custom_TIGRFAMs_HMM.LIB.h* dbs/
-#COPY ./coding_hmm_lib.sqlite3 dbs/
-#COPY ./write_attributor_config.py /opt/bin/write_attributor_config.py
-#COPY ./write_attributor_config.template.yaml /opt/bin/write_attributor_config.template.yaml
+
 
