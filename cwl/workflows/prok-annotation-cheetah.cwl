@@ -291,9 +291,9 @@ steps:
   - id: merge
     run: {{cwl_tools_dir}}/biocode-MergePredictedGFF3.cwl
     inputs:
-      - { id: "merge.model_gff", source: "#output_files" }
-      - { id: "merge.aragorn_out", source: "#aragorn_raw_output" }
-      - { id: "merge.barrnap_gff", source: "#barrnap_gff_output" }
+      - { id: "merge.model_gff", source: "#attributor/output_files" }
+      - { id: "merge.aragorn_out", source: "#aragorn/aragorn_raw_output" }
+      - { id: "merge.barrnap_gff", source: "#barrnap/barrnap_gff_output" }
       - { id: "merge.output_file", source: "#merge_output_gff" }
     outputs:
       - { id: "merge_output_gff" }
