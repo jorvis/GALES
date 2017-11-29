@@ -189,7 +189,7 @@ steps:
     run: {{cwl_tools_dir}}/aragorn.cwl
     inputs:
       - { id: "aragorn.genomic_fasta", source: "#source_fasta" }
-      - { id: "aragorn.aragorn_format", source: "" }
+      - { id: "aragorn.aragorn_format", source: "#aragorn_format" }
     outputs:
       - { id: aragorn_raw_output }
   - id: prodigal
