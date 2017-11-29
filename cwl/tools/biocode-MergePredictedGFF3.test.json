@@ -1,0 +1,15 @@
+{
+    "model_gff": {
+        "class": "File",
+        "path": "../../test_data/genomes/E_coli_k12_dh10b/attributor.annotation.gff3"
+    },
+    "barrnap_gff": {
+        "class": "File",
+        "path": "../../test_data/genomes/E_coli_k12_dh10b/barnapp.gff"
+    },
+    "aragorn_out": {
+        "class": "File",
+        "path": "../../test_data/genomes/E_coli_k12_dh10b/aragorn.out"
+    },
+    "output_gff": "./gales.annotation.gff3",
+}
