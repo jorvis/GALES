@@ -193,7 +193,7 @@ steps:
     outputs:
       - { id: aragorn_raw_output }
   - id: prodigal
-    run: {{cwl_tools_dir}}/cpp-prodigal-gce.cwl
+    run: {{cwl_tools_dir}}/prodigal.cwl
     inputs:
       - { id: "prodigal.genomic_fasta", source: "#source_fasta" }
       - { id: "prodigal.output_format", source: "#output_format" }
@@ -239,7 +239,7 @@ steps:
     outputs:
       - { id: "output_base" }
   - id: hmmscan
-    run: {{cwl_tools_dir}}/cpp-hmmer3-hmmscan-gce.cwl
+    run: {{cwl_tools_dir}}/hmmer3-hmmscan.cwl
     inputs:
       - { id: "hmmscan.cutoff_gathering", source: "#hmmscan_cutoff_gathering" }
       - { id: "hmmscan.use_accessions", source: "#hmmscan_use_accessions" }
@@ -260,7 +260,7 @@ steps:
     outputs:
       - { id: "htab_file" }
   - id: tmhmm
-    run: {{cwl_tools_dir}}/cpp-tmhmm-gce.cwl
+    run: {{cwl_tools_dir}}/tmhmm.cwl
     inputs:
       - { id: "tmhmm.query_file", source: "#split_multifasta/fasta_files" }
     scatter: "#tmhmm/tmhmm.query_file"
