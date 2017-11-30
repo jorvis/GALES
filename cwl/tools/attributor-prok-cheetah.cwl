@@ -253,9 +253,7 @@ hints:
 
 inputs:
   source_gff3: File
-  m8_files:
-    type: array
-    items: File
+  m8_files: File[]
   hmm_attribute_lookup_file: File
   config_file:
     type: string
@@ -263,9 +261,7 @@ inputs:
       prefix: -c
       separate: true
       position: 1
-  hmm_files:
-    type: array
-    items: File
+  hmm_files: File[]
   output_format:
     type: string
     inputBinding:
@@ -273,11 +269,7 @@ inputs:
       prefix: -f
       separate: true
   blast_attribute_lookup_file: File
-  tmhmm_files:
-    type: array
-    items: File
-
-
+  tmhmm_files: File[]
   output_base:
     type: string
     inputBinding:
