@@ -1,49 +1,49 @@
 #!/usr/bin/env cwl-runner
 
-cwlVersion: "cwl:draft-3"
-
+cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand: write_fasta_from_gff.py
 
 hints:
-  - class: DockerRequirement
-    dockerPull: jorvis/biocode
+- class: DockerRequirement
+  dockerPull: jorvis/biocode
 
 inputs:
-  - id: input_file
+  input_file:
     type: File
     inputBinding:
       prefix: --input_file
       separate: true
       position: 1
-  - id: output_file
-    type: string
-    inputBinding:
-      position: 2
-      prefix: --output_file
-      separate: true
-  - id: type
+  type:
     type: string
     inputBinding:
       position: 3
       prefix: --type
       separate: true
-  - id: fasta
+  output_file:
+    type: string
+    inputBinding:
+      position: 2
+      prefix: --output_file
+      separate: true
+  fasta:
     type: File
     inputBinding:
       position: 4
       prefix: --fasta
       separate: true
-  - id: feature_type
+  feature_type:
     type: string
     inputBinding:
       position: 5
       prefix: --feature_type
       separate: true
 outputs:
-  - id: protein_fasta
+  protein_fasta:
     type: File
     outputBinding:
       glob: $(inputs.output_file)
+
 

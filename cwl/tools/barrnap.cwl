@@ -1,25 +1,24 @@
 #!/usr/bin/env cwl-runner
 
-cwlVersion: "cwl:draft-3"
+cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand: barrnap
 
 hints:
-  - class: DockerRequirement
-    dockerPull: jorvis/gales-gce
+- class: DockerRequirement
+  dockerPull: jorvis/gales-gce
 
 inputs:
-  - id: genomic_fasta
+  genomic_fasta:
     type: File
     inputBinding:
       position: 1
 
 outputs:
-  - id: barrnap_gff_output
+  barrnap_gff_output:
     type: File
     outputBinding:
-      glob: 'barnapp.gff'
-
-stdout: 'barnapp.gff'
+      glob: barnapp.gff
+stdout: barnapp.gff
 
