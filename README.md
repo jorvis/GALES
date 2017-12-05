@@ -26,7 +26,7 @@ If this is the first time you've installed Docker Engine, reboot your machine (e
 #### Install CWL
 
 ```
-$ sudo pip install cwl-runner
+$ sudo pip install cwlref-runner
 ```
 
 ### Get GALES
