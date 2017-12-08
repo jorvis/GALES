@@ -29,7 +29,7 @@ inputs:
       prefix: -a
       separate: true
   output_gff:
-    type: File
+    type: string
     inputBinding:
       position: 2
       prefix: -o

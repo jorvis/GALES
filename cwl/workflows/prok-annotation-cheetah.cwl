@@ -58,7 +58,11 @@ inputs:
   - id: prodigal2fasta_feature_type
     type: string
     doc: ''
-  
+
+  # Merge structural predictions
+  - id: merge_output_gff
+    type: string
+
   # split_fasta
   - id: fragmentation_count
     type: int
@@ -187,6 +191,9 @@ outputs:
 - id: attributor_output_config
   type: File
   outputSource: attributor/the_config
+- id: merged_gff3
+  type: File
+  outputSource: merge_models/output_file
 steps:
 - id: barrnap
   run: {{cwl_tools_dir}}/barrnap.cwl
@@ -275,6 +282,15 @@ steps:
   - {id: tmhmm_out}
   in:
   - {id: query_file, source: split_multifasta/fasta_files}
+- id: merge_models
+  run: {{cwl_tools_dir}}/biocode-MergePredictedGFF3.cwl
+  in: 
+  - {id: barrnap_gff, source: barrnap/barrnap_gff_output}
+  - {id: aragorn_out, source: aragorn/aragorn_raw_output}
+  - {id: model_gff, source: prodigal2gff3/output_gff3}
+  - {id: output_gff, source: merge_output_gff}
+  out:
+  - {id: output_file}
 - id: attributor
   run: {{cwl_tools_dir}}/attributor-prok-cheetah.cwl
   out:
@@ -288,7 +304,7 @@ steps:
   - {id: blast_attribute_lookup_file, source: attributor_blast_attribute_lookup_file}
   - {id: hmm_files, source: raw2htab/htab_file}
   - {id: polypeptide_fasta, source: prodigal2fasta/protein_fasta}
-  - {id: source_gff3, source: prodigal2gff3/output_gff3}
+  - {id: source_gff3, source: merge_models/output_file}
   - {id: m8_files, source: rapsearch2/output_base}
   - {id: tmhmm_files, source: tmhmm/tmhmm_out}
 

@@ -29,6 +29,8 @@
         "class": "File",
         "path": ""
     },
+
+    "merge_output_gff": "merged_structures.gff3",
     
     "fragmentation_count": 1,
     "out_dir": "./",
