@@ -163,8 +163,8 @@ def generate_gff_stats(gff_assemblies=None, gff_features=None, json_out=None):
             result['stats_gene_count'] += 1
             gene_length_sum += gene.locations[0].fmax - gene.locations[0].fmin
 
-            result['stats_rRNA_count'] = len(gene.rRNAs())
-            result['stats_tRNA_count'] = len(gene.tRNAs())
+            result['stats_rRNA_count'] += len(gene.rRNAs())
+            result['stats_tRNA_count'] += len(gene.tRNAs())
 
             ## annotation is on mRNAs
             for mRNA in gene.mRNAs():
