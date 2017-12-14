@@ -87,7 +87,7 @@ def main():
         with open(gff_stored_features, 'rb') as gf_f:
             gff_features = pickle.load(gf_f)
     else:
-        print("Checking for stored GFF features file ... not found. Parsing ... ", flush=True)
+        print("Checking for stored GFF features file ... not found. Parsing ... ", end='', flush=True)
         (gff_assemblies, gff_features) = gff.get_gff3_features(gff_file)
         with open(gff_stored_assemblies, 'wb') as ga_f:
             pickle.dump(gff_assemblies, ga_f)
