@@ -36,6 +36,10 @@ function get_gene_annotation(gene_id, polypeptide_id) {
             var hmm_template = $.templates("#hmm_list_tmpl");
             var html_output_hmm = hmm_template.render(data['hmm']);
             $("#hmm_list_c").html(html_output_hmm);
+
+            var blast_template = $.templates("#blast_list_tmpl");
+            var html_output_blast = blast_template.render(data['blast']);
+            $("#blast_list_c").html(html_output_blast);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             display_error_bar(jqXHR.status + ' ' + errorThrown.name);

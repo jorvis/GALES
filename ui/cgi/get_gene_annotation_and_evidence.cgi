@@ -23,9 +23,9 @@ def main():
     polypeptide_id = form.getvalue('polypeptide_id')
     features_pickle_path = "{0}/gff.stored.features.pickle".format(data_dir)
     hmm_db_path = "{0}/attributor.annotation.hmm_ev.sqlite3".format(data_dir)
-    
+    blast_db_path = "{0}/attributor.annotation.blast_ev.sqlite3".format(data_dir)    
 
-    gene_data = {'annotation': {}, 'hmm': []}
+    gene_data = {'annotation': {}, 'hmm': [], 'blast': []}
 
     with open(features_pickle_path, 'rb') as feature_fh:
         features = pickle.load(feature_fh)
@@ -50,7 +50,6 @@ def main():
 
     try:
         hmm_db_conn = sqlite3.connect(hmm_db_path)
-
         hmm_cursor = hmm_db_conn.cursor()
     except sqlite3.OperationalError as e:
         raise Exception("ERROR: Failed to connect to evidence database {0} because {1}".format(hmm_db_path, e))
@@ -80,10 +79,34 @@ def main():
                                  'hmm_com_name':hmm_com_name, 'isotype': isotype
                              })
 
+    try:
+        blast_db_conn = sqlite3.connect(blast_db_path)
+        blast_cursor = blast_db_conn.cursor()    
+    except sqlite3.OperationalError as e:
+        raise Exception("ERROR: Failed to connect to evidence database {0} because {1}".format(blast_db_path, e))
+
+    qry = """
+          SELECT bh.id, bh.sbj_id, bh.align_len, bh.qry_start, bh.qry_end, bh.sbj_start, bh.sbj_end, 
+                 bh.perc_identity, bh.eval, bh.bit_score, e.full_name as product, ea.is_characterized
+            FROM blast_hit bh
+                 JOIN entry_acc ea ON ea.accession=bh.sbj_id
+                 JOIN entry e ON e.id=ea.id
+           WHERE bh.qry_id = ?
+          ORDER BY bh.eval ASC;
+          """
+    blast_cursor.execute(qry, (polypeptide_id,))
+    
+    for (id, sbj_id, align_len, qry_start, qry_end, sbj_start, sbj_end, perc_identity, eval, bit_score, 
+         product, is_characterized) in blast_cursor:
+        gene_data['blast'].append({'hit_id': id, 'sbj_id': sbj_id, 'align_len': align_len, 'qry_start': qry_start, 'qry_end': qry_end, 
+                                   'sbj_start': sbj_start, 'sbj_end': sbj_end, 'perc_identity': perc_identity, 'eval': eval, 
+                                   'bit_score': bit_score, 'product': product, 'is_characterized': is_characterized})
+
     print(json.dumps(gene_data))
 
     # Close connections
-    hmm_db_conn.close();
+    hmm_db_conn.close()
+    blast_db_conn.close()
         
 
 if __name__ == '__main__':

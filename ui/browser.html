@@ -82,15 +82,15 @@
             </table>
         </div>
         <div class='evidence_block'>
-            <h2 class='evidence_title'>Evidence: BLAST vs. UniRef100</h2>
+            <h2 class='evidence_title'>Evidence: BLAST</h2>
             <table>
               <thead>
-                <th>Accession</th><th>Type</th><th>Name</th><th>Total score</th><th>Total eval</th>
+                <th>Accession</th><th>Product</th><th>% identity</th><th>E-value</th>
               <thead>
-              <tbody id='hmm_list_c'></tbody>
-              <script id="hmm_list_tmpl" type="text/x-jsrender">
-                <tr data-hmm-hit-id='{{:hit_id}}'>
-                  <td>{{:hmm_accession}}</td><td>{{:isotype}}</td><td>{{:hmm_com_name}}</td><td>{{:total_score}}</td><td>{{:total_hit_eval}}</td>
+              <tbody id='blast_list_c'></tbody>
+              <script id="blast_list_tmpl" type="text/x-jsrender">
+                <tr data-blast-hit-id='{{:hit_id}}'>
+                  <td>{{:sbj_id}}</td><td>{{:product}}</td><td>{{:perc_identity}}</td><td>{{:eval}}</td>
                 </tr>
               </script>
             </table>
