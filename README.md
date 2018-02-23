@@ -3,10 +3,9 @@ Genomic Annotation Logic and Execution System (GALES): Annotate a genome locally
 
 ## Getting Started
 
-These instructions describe how to get an annotation pipeline running on your machine.  We expect the first
-release containing three different prokaryotic pipelines and one metagenomic by Nov 10th.  If you're seeing
-this before then, welcome from Genome Informatics!  You can test run the prok-cheetah pipeline now, and
-please file issue tickets if you encounter any errors or if anything is unclear.
+These instructions describe how to get an annotation pipeline running on your machine.  The current version contains
+a functional prokaryotic pipeline with both metagenomic and eukaryotic coming next.  You can test run the
+prok-cheetah pipeline now, and please file issue tickets if you encounter any errors or if anything is unclear.
 
 ### Prerequisities
 
