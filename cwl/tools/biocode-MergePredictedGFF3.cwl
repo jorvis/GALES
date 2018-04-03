@@ -34,6 +34,12 @@ inputs:
       position: 2
       prefix: -o
       separate: true
+  genomic_fasta:
+    type: File
+    inputBinding:
+      position: 5
+      prefix: -g
+      separate: true
 outputs:
   output_file:
     type: File

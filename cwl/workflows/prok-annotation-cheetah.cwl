@@ -289,6 +289,7 @@ steps:
   - {id: aragorn_out, source: aragorn/aragorn_raw_output}
   - {id: model_gff, source: prodigal2gff3/output_gff3}
   - {id: output_gff, source: merge_output_gff}
+  - {id: genomic_fasta, source: source_fasta}
   out:
   - {id: output_file}
 - id: attributor
