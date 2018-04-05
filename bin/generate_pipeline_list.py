@@ -34,6 +34,7 @@ def main():
     pipeline_version = 'cheetah'
     core_count = 4
     ref_directory = '/dbs'
+    output_bucket = 'dacc-refgenomes-output'
 
     for thing in os.listdir(args.input_directory):
         sample_dir = "{0}/{1}".format(args.input_directory, thing)
@@ -44,6 +45,7 @@ def main():
             print("mkdir {0}".format(output_dir))
             print("{0} -i {1}/accessions.fasta -od {2} -v {3} -rd {4} -t {5}".format(
                 run_script, sample_dir, output_dir, pipeline_version, ref_directory, core_count))
+            print("gsutil cp -r {1} gs://{0}\n".format(output_bucket, output_dir))
 
 
 if __name__ == '__main__':
