@@ -51,6 +51,9 @@ def main():
     if not args.input_fasta.startswith('/'):
         sys.exit("Currently, the argument for --input_fasta must be a full path.")
 
+    if not args.reference_directory.startswith('/'):
+        sys.exit("Currently, the argument for --reference_directory must be a full path.")
+
     if not docker_is_present():
         sys.exit("Docker not found on this system and must be installed before GALES can be used.  https://www.docker.com/community-edition")
 
