@@ -39,20 +39,12 @@ def main():
     parser.add_argument('-v', '--version', type=str, required=True, 
                         help='Elephant, Wolf or Cheetah version?')
     parser.add_argument('-rd', '--reference_directory', type=str, required=True, 
-                        help='Directory where GALES can find the reference files needed by this pipeline.  Which depends on the version chosen.')
+                        help='Directory where GALES can find the reference files needed by this pipeline, which depend on the version chosen.')
     parser.add_argument('-t', '--threads', type=int, default=1, required=False,
                         help='Number of threads to pass to tools which support it')
     parser.add_argument('-bm', '--blast_matches', type=int, default=50, required=False,
                         help='Max number of BLAST matches to return per query')
-    args = parser.parse_args()
-
-    check_basic_options(args)
-
-    if not args.input_fasta.startswith('/'):
-        sys.exit("Currently, the argument for --input_fasta must be a full path.")
-
-    if not args.reference_directory.startswith('/'):
-        sys.exit("Currently, the argument for --reference_directory must be a full path.")
+    args = check_basic_options(parser.parse_args())
 
     if not docker_is_present():
         sys.exit("Docker not found on this system and must be installed before GALES can be used.  https://www.docker.com/community-edition")
@@ -80,7 +72,7 @@ def main():
     # cwl-runner --outdir OUTDIR 
     pipeline_cmd = "cwl-runner --outdir {0} {1} {2}".format(args.output_directory, pipeline_cwl_path, pipeline_json_path)
     run_command(pipeline_cmd)
-    
+
 
 
 def check_basic_options(args):
@@ -95,7 +87,12 @@ def check_basic_options(args):
             retval = os.mkdir(args.output_directory)
         except FileNotFoundError:
             sys.exit("ERROR: Output directory ({0}) doesn't exist and I failed to create it.  Check permissions and that the base directory exists.".format(args.output_directory))
-            
+
+    # We rewrite these to absolute paths so Docker can handle them properly as mounts
+    args.input_fasta = os.path.abspath(args.input_fasta)
+    args.output_directory = os.path.abspath(args.output_directory)
+    args.reference_directory = os.path.abspath(args.reference_directory)
+
     # Was the version passed valid?
     possible_versions = ['elephant', 'wolf', 'cheetah']
     args.version = args.version.lower()
@@ -106,6 +103,8 @@ def check_basic_options(args):
     # temporary: supported versions
     if args.version not in ['cheetah']:
         sys.exit("The elephant and wolf versions are currently unavailable.  Rebuilding the reference datasets they rely upon for the first release. (message dated: 2017-11-03)")
+
+    return args
 
 def check_reference_files(pipeline_cwl=None, pipeline_json=None):
     """
