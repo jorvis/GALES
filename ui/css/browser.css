@@ -10,6 +10,12 @@ h2 {
 hr {
     margin: 0;
 }
+
+table {
+    font-size: 90%;
+}
+
+/*
 table {
     width: 100%;
 }
@@ -25,3 +31,4 @@ table tr:hover {
     background-color: rgb(240,240,240);
     cursor: pointer;
 }
+*/

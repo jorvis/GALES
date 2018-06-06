@@ -10,15 +10,35 @@
   <script type="text/javascript" src="js/vendor/jquery-3.1.0.min.js"></script>
   <script type="text/javascript" src="js/vendor/jquery-ui-1.12.0/jquery-ui.min.js"></script>
 
-  <link rel="stylesheet" href="js/vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="js/vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
-  <script src="js/vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="js/vendor/bootstrap-4.1.1-dist/css/bootstrap.min.css" />
+  <script src="js/vendor/bootstrap-4.1.1-dist/js/bootstrap.min.js"></script>
   <script src="js/vendor/jsrender/0.9.87/jsrender.min.js"></script>
 
   <link rel="stylesheet" href="css/common.css" />
   <link rel="stylesheet" href="css/browser.css" />
   <script src="js/common.js"></script>
   <script src="js/browser.js"></script>
+  <script language="javascript" src="//www.biodalliance.org/release-0.13/dalliance-compiled.js"></script>
+  <script language="javascript">
+  new Browser({
+    chr:          'unitig_0|quiver',
+    viewStart:    700000,
+    viewEnd:      900000,
+
+    coordSystem: {
+
+    },
+
+    sources:     [{name:                 'Genome',
+                   twoBitURI:            './data/genome.2bit',
+                   tier_type:            'sequence'},
+                  {name:                 'Genes',
+                   desc:                 'GALES predicted genes',
+                   bwgURI:               './data/attributor.annotation.bb',
+                   stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
+                 ],
+  });
+  </script>
 </head>
 
 <body id="main">
@@ -28,7 +48,10 @@
   <div id='main' class='container-fluid'>
     <div class='row'>
       <div id='gcontext_c' class='col-md-12'>
+        <div id="svgHolder"></div>
+        <!--
         <img src='img/biodalliance_placeholder.png' alt='Genomic context browser placeholder'/>
+        -->
       </div>
     </div><!-- end #gcontext_c -->
     <hr />
@@ -36,10 +59,10 @@
 
       <div id='gene_list_c' class='col-md-6'>
         <h2>Showing search results for: <span id='product_search_string'></span></h2>
-        <table>
-          <thead>
+        <table class="table table-hover table-sm">
+          <thead class="thead-dark">
             <th>Locus</th><th>Symbol</th><th>Product</th>
-          <thead>
+          </thead>
           <tbody id='gene_list_tbl'></tbody>
           <script id="gene_list_tmpl" type="text/x-jsrender">
             <tr data-gene-id='{{:gene_id}}' data-polypeptide-id='{{:id}}'>
@@ -69,8 +92,8 @@
         </div>
         <div class='evidence_block'>
             <h2 class='evidence_title'>Evidence: HMM</h2>
-            <table>
-              <thead>
+            <table class="table table-hover table-sm">
+              <thead class="thead-dark">
                 <th>Accession</th><th>Type</th><th>Name</th><th>Total score</th><th>Total eval</th>
               <thead>
               <tbody id='hmm_list_c'></tbody>
@@ -83,8 +106,8 @@
         </div>
         <div class='evidence_block'>
             <h2 class='evidence_title'>Evidence: BLAST</h2>
-            <table>
-              <thead>
+            <table class="table table-hover table-sm">
+              <thead class="thead-dark">
                 <th>Accession</th><th>Product</th><th>% identity</th><th>E-value</th>
               <thead>
               <tbody id='blast_list_c'></tbody>
