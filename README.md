@@ -28,6 +28,15 @@ If this is the first time you've installed Docker Engine, reboot your machine (e
 $ sudo pip install cwlref-runner
 ```
 
+#### Install Biocode
+
+The [Biocode](https://github.com/jorvis/biocode) scripts and libraries are used within GALES.  Note that
+biocode uses Python3, so the version of pip called is pip3.
+
+```
+$ sudo pip3 install biocode
+```
+
 ### Get GALES
 
 Now that you have the dependencies to run things, you need only the actual pipeline/tool CWL definitions.
