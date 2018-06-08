@@ -16,12 +16,14 @@ on future executions:
 
 import argparse
 from biocode import utils, gff
+import datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.server import CGIHTTPRequestHandler
 import json
 import os
 import pickle
 import re
+import subprocess
 import sys
 import urllib.parse
 import webbrowser
@@ -45,6 +47,10 @@ def main():
     fasta_stats_file = "{0}/fasta_stats.json".format(args.input_directory)
     gff_stats_file = "{0}/gff_stats.json".format(args.input_directory)
     slim_counts_file = "{0}/obo_slim_counts.json".format(args.input_directory)
+    fasta_2bit_file = "{0}/genome.2bit".format(args.input_directory)
+    fasta_sizes_file = "{0}/genome.sizes".format(args.input_directory)
+    annotation_bed_file = "{0}/attributor.annotation.bed".format(args.input_directory)
+    annotation_bb_file = "{0}/attributor.annotation.bb".format(args.input_directory)
 
     # base names of the pickle files
     gff_stored_base = "{0}/gff.stored".format(args.input_directory)
@@ -52,8 +58,10 @@ def main():
     gff_stored_features = "{0}.features.pickle".format(gff_stored_base)
 
     exec_path = os.path.dirname(os.path.abspath(__file__))
+    ui_path = os.path.abspath("{0}/../ui".format(exec_path))
+    bin_path = os.path.abspath("{0}/../bin".format(exec_path))
+    
     obo_slim_map_pickle_file = "{0}/../data/tadpole_transcriptome_slim.map.pickle".format(exec_path)
-    ui_path = "{0}/../ui".format(exec_path)
     os.chdir(ui_path)
 
     # The web interface expects /data to point to the args.input_directory
@@ -103,16 +111,29 @@ def main():
         generate_gff_stats(gff_assemblies=gff_assemblies, gff_features=gff_features, json_out=gff_stats_file)
         print("done.", flush=True)
 
-    print("Gathering terms annotated within the GFF ... ", flush=True, end='')
-    source_go_terms = parse_go_terms_from_gff(gff_file)
-    print("done.", flush=True)
+    cmd = "{0}/faToTwoBit {1} {2}/genome.2bit".format(bin_path, args.fasta_file, data_path)
+    run_command_by_file_presence(fasta_2bit_file, "binary version of reference genome FASTA", cmd)
 
-    print("Mapping annotated terms to GO slim ... ", flush=True, end='')
-    slim_counts = map_to_slim(source_terms=source_go_terms, slim_map_file=obo_slim_map_pickle_file)
-    print("done.", flush=True)
+    cmd = "{0}/twoBitInfo {1}/genome.2bit {1}/genome.sizes".format(bin_path, data_path)
+    run_command_by_file_presence(fasta_sizes_file, "reference genome FASTA sizes file", cmd)
+        
+    cmd = "convert_gff3_to_bed.py -i {0} -o {1}".format(gff_file, annotation_bed_file)
+    run_command_by_file_presence(annotation_bed_file, "annotation BED file", cmd)
 
-    with open(slim_counts_file, 'w') as outfile:
-        json.dump(slim_counts, outfile)
+    cmd = "{0}/bedToBigBed {1} {2}/genome.sizes {3}".format(bin_path, annotation_bed_file, data_path, annotation_bb_file)
+    run_command_by_file_presence(annotation_bb_file, "bigBed annotation file", cmd)
+    
+    if os.path.exists(slim_counts_file):
+        print("Checking for GO slim mapping file ... found.", flush=True)
+    else:
+        print("Checking for GO slim mapping file ... not found.  Mapping terms to GO slim ... ", end='', flush=True)
+        source_go_terms = parse_go_terms_from_gff(gff_file)
+        slim_counts = map_to_slim(source_terms=source_go_terms, slim_map_file=obo_slim_map_pickle_file)
+
+        with open(slim_counts_file, 'w') as outfile:
+            json.dump(slim_counts, outfile)
+
+        print("done.", flush=True)
 
     run(host=server_host, port=server_port, script_args=args)
 
@@ -239,9 +260,8 @@ def parse_go_terms_from_gff(file):
                             terms[go_annot.go_id] = 1
 
     return terms
-        
 
-       
+
 def run(host=None, port=None, script_args=None):
     args = {'annotation_dir': script_args.input_directory, 'fasta_file': script_args.fasta_file}
     args_string = urllib.parse.urlencode(args)
@@ -259,9 +279,22 @@ def run(host=None, port=None, script_args=None):
     # I couldn't get this to work.  It just opens a browser to a blank window
     #webbrowser.open_new_tab(initial_url)
     httpd.serve_forever()
-    
 
- 
+    
+def run_command(cmd):
+    #print("INFO: Running command: {0}".format(cmd), flush=True)
+    return_code = subprocess.call(cmd, shell=True)
+    if return_code != 0:
+        raise Exception("ERROR: [{2}] Return code {0} when running the following command: {1}".format(return_code, cmd, datetime.datetime.now()))
+
+def run_command_by_file_presence(sentinel, msg, cmd):
+    if os.path.exists(sentinel):
+        print("Checking for {0} ... found.".format(msg), flush=True)        
+    else:
+        print("Checking for {0} ... not found.  Creating ... ".format(msg), end='', flush=True)
+        run_command(cmd)
+        print("done.", flush=True)
+    
     
 if __name__ == '__main__':
     main()
