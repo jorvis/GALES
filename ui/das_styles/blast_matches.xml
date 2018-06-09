@@ -1,0 +1,17 @@
+<DASSTYLE>
+  <STYLESHEET>
+    <CATEGORY id="default">
+      <TYPE id='default'>
+        <GLYPH>
+          <BOX>
+            <FGCOLOR>black</FGCOLOR>
+            <BGCOLOR>blue</BGCOLOR>
+            <BUMP>yes</BUMP>
+            <HEIGHT>8</HEIGHT>
+            <LABEL>yes</LABEL>
+          </BOX>
+        </GLYPH>
+      </TYPE>
+    </CATEGORY>
+  </STYLESHEET>
+</DASSTYLE>

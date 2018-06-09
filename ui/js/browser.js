@@ -89,7 +89,11 @@ function set_browser_location(mol_id, start, stop) {
                            desc:                 'GALES predicted genes',
                            bwgURI:               './data/attributor.annotation.withloci.bb',
                            //stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
-                           stylesheet_uri:       './das_styles/genes.xml'}
+                           stylesheet_uri:       './das_styles/genes.xml'},
+                          {name:                 'RAPSearch2',
+                           desc:                 'RAPSearch2 results',
+                           bwgURI:               './data/rapsearch2.out.bb',
+                           stylesheet_uri:       './das_styles/blast_matches.xml'}
                          ],
         });
     } else {
