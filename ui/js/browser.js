@@ -16,25 +16,6 @@ window.onload=function() {
     if (product_search_string) {
         search_product(product_search_string);
     }
-
-    dalliance = new Browser({
-        chr:          'Chromosome',
-        viewStart:    700000,
-        viewEnd:      900000,
-
-        coordSystem: {
-            
-        },
-
-        sources:     [{name:                 'Genome',
-                       twoBitURI:            './data/genome.2bit',
-                       tier_type:            'sequence'},
-                      {name:                 'Genes',
-                       desc:                 'GALES predicted genes',
-                       bwgURI:               './data/attributor.annotation.withloci.bb',
-                       stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
-                     ],
-    });
 };
 
 $(document).on('click', '#gene_list_tbl tr', function() {
@@ -87,15 +68,19 @@ function search_product(search_str) {
 }
 
 function set_browser_location(mol_id, start, stop) {
+    /*
+      For track styling options:
+
+      http://biodas.open-bio.org/documents/spec-1.6.html#glyphid
+     */
+    
     if (dalliance == null) {
         dalliance = new Browser({
             chr:          mol_id,
             viewStart:    start,
             viewEnd:      stop,
 
-            coordSystem: {
-                
-            },
+            coordSystem: {},
 
             sources:     [{name:                 'Genome',
                            twoBitURI:            './data/genome.2bit',
@@ -103,7 +88,8 @@ function set_browser_location(mol_id, start, stop) {
                           {name:                 'Genes',
                            desc:                 'GALES predicted genes',
                            bwgURI:               './data/attributor.annotation.withloci.bb',
-                           stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
+                           //stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
+                           stylesheet_uri:       './das_styles/genes.xml'}
                          ],
         });
     } else {

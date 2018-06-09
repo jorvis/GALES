@@ -1,0 +1,17 @@
+<DASSTYLE>
+  <STYLESHEET>
+    <CATEGORY id="default">
+      <TYPE id='default'>
+        <GLYPH>
+          <ANCHORED_ARROW>
+            <HEIGHT>10</HEIGHT>
+            <FGCOLOR>darkgreen</FGCOLOR>
+            <PARALLEL>yes</PARALLEL>
+            <LABEL>yes</LABEL>
+            <BUMP>yes</BUMP>
+          </ANCHORED_ARROW>
+        </GLYPH>
+      </TYPE>
+    </CATEGORY>
+  </STYLESHEET>
+</DASSTYLE>
