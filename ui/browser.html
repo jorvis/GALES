@@ -16,29 +16,9 @@
 
   <link rel="stylesheet" href="css/common.css" />
   <link rel="stylesheet" href="css/browser.css" />
+  <script language="javascript" src="//www.biodalliance.org/release-0.13/dalliance-compiled.js"></script>
   <script src="js/common.js"></script>
   <script src="js/browser.js"></script>
-  <script language="javascript" src="//www.biodalliance.org/release-0.13/dalliance-compiled.js"></script>
-  <script language="javascript">
-  new Browser({
-    chr:          'unitig_0|quiver',
-    viewStart:    700000,
-    viewEnd:      900000,
-
-    coordSystem: {
-
-    },
-
-    sources:     [{name:                 'Genome',
-                   twoBitURI:            './data/genome.2bit',
-                   tier_type:            'sequence'},
-                  {name:                 'Genes',
-                   desc:                 'GALES predicted genes',
-                   bwgURI:               './data/attributor.annotation.bb',
-                   stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
-                 ],
-  });
-  </script>
 </head>
 
 <body id="main">
@@ -62,7 +42,7 @@
           </thead>
           <tbody id='gene_list_tbl'></tbody>
           <script id="gene_list_tmpl" type="text/x-jsrender">
-            <tr data-gene-id='{{:gene_id}}' data-polypeptide-id='{{:id}}'>
+            <tr data-gene-id='{{:gene_id}}' data-polypeptide-id='{{:id}}' data-assembly-id='{{:assembly_id}}' data-loc-min="{{:loc_min}}" data-loc-max="{{:loc_max}}">
               <td>{{:gene_locus_tag}}</td><td>{{:gene_symbol}}</td><td>{{:product}}</td>
             </tr>
           </script>

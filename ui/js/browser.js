@@ -1,5 +1,5 @@
 var annotation_dir;
-
+var dalliance = null;
 
 window.onload=function() {
     annotation_dir = getUrlParameter('annotation_dir');
@@ -16,9 +16,29 @@ window.onload=function() {
     if (product_search_string) {
         search_product(product_search_string);
     }
+
+    dalliance = new Browser({
+        chr:          'Chromosome',
+        viewStart:    700000,
+        viewEnd:      900000,
+
+        coordSystem: {
+            
+        },
+
+        sources:     [{name:                 'Genome',
+                       twoBitURI:            './data/genome.2bit',
+                       tier_type:            'sequence'},
+                      {name:                 'Genes',
+                       desc:                 'GALES predicted genes',
+                       bwgURI:               './data/attributor.annotation.withloci.bb',
+                       stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
+                     ],
+    });
 };
 
 $(document).on('click', '#gene_list_tbl tr', function() {
+    set_browser_location($(this).data('assembly-id'), $(this).data('loc-min') - 1000, $(this).data('loc-max') + 1000);
     get_gene_annotation($(this).data('gene-id'), $(this).data('polypeptide-id'));
 });
 
@@ -66,3 +86,27 @@ function search_product(search_str) {
     });
 }
 
+function set_browser_location(mol_id, start, stop) {
+    if (dalliance == null) {
+        dalliance = new Browser({
+            chr:          mol_id,
+            viewStart:    start,
+            viewEnd:      stop,
+
+            coordSystem: {
+                
+            },
+
+            sources:     [{name:                 'Genome',
+                           twoBitURI:            './data/genome.2bit',
+                           tier_type:            'sequence'},
+                          {name:                 'Genes',
+                           desc:                 'GALES predicted genes',
+                           bwgURI:               './data/attributor.annotation.withloci.bb',
+                           stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
+                         ],
+        });
+    } else {
+        dalliance.setLocation(mol_id, start, stop);
+    }
+}

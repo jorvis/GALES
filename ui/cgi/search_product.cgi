@@ -34,10 +34,15 @@ def main():
                 for polypeptide in polypeptides:
                     if polypeptide.annotation:
                         if search_str.lower() in polypeptide.annotation.product_name.lower():
+                            polypeptide_loc = polypeptide.location()
+
                             matches.append({'id': polypeptide.id, 'gene_id': gene.id, 
                                             'gene_locus_tag': gene.locus_tag,
                                             'product': polypeptide.annotation.product_name,
-                                            'gene_symbol': polypeptide.annotation.gene_symbol
+                                            'gene_symbol': polypeptide.annotation.gene_symbol,
+                                            'assembly_id': asm_id,
+                                            'loc_min': polypeptide_loc.fmin + 1,
+                                            'loc_max': polypeptide_loc.fmax
                             })
                 
     print(json.dumps(matches))
