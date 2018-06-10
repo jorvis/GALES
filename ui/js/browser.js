@@ -47,7 +47,7 @@ function get_gene_annotation(gene_id, polypeptide_id) {
             $("#blast_list_c").html(html_output_blast);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            display_error_bar(jqXHR.status + ' ' + errorThrown.name);
+            console.log(jqXHR.status + ' ' + errorThrown.name);
         }
     });
 }

@@ -59,7 +59,12 @@
                   Locus: {{:gene_locus_tag}}<br />
                   Gene symbol(s): {{:gene_symbol}}<br />
                   Product name: {{:product}}<br />
-                  EC number(s): <br />
+                  EC number(s): 
+                  {{for ec_numbers}}
+                    <a href="https://enzyme.expasy.org/EC/{{>}}">{{>}}</a>
+                  {{/for}}
+
+                  <br />
                 </div>
                 <div class='col-md-6'>
                   GO term list here

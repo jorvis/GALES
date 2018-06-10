@@ -38,11 +38,17 @@ def main():
                 
                 for polypeptide in polypeptides:
                     if polypeptide.annotation:
+                        ## Build the EC list
+                        ec_nums = list()
+                        for ec in polypeptide.annotation.ec_numbers:
+                            ec_nums.append(ec.number)
+
                         gene_data['annotation'] = {
                             'polypeptide_id': polypeptide.id,
                             'gene_locus_tag': gene.locus_tag,
                             'product': polypeptide.annotation.product_name,
-                            'gene_symbol': polypeptide.annotation.gene_symbol
+                            'gene_symbol': polypeptide.annotation.gene_symbol,
+                            'ec_numbers': ec_nums
                         }
 
                 # no need to keep looping over the features
