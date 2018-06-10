@@ -1,6 +1,9 @@
 div#gcontext_c {
     min-height: 350px;
 }
+div#main {
+    font-size: 90%;
+}
 h2 {
     margin: 10px 0 10px 0;
     color: #324cae;
@@ -15,20 +18,3 @@ table {
     font-size: 90%;
 }
 
-/*
-table {
-    width: 100%;
-}
-table th {
-    background-color: rgb(200,200,200);
-    color: black;
-    padding: 0 15px 0 5px;
-}
-table td {
-    padding: 0 0 0 5px;
-}
-table tr:hover {
-    background-color: rgb(240,240,240);
-    cursor: pointer;
-}
-*/
