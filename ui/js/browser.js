@@ -92,7 +92,7 @@ function set_browser_location(mol_id, start, stop) {
                            tier_type:            'sequence'},
                           {name:                 'Genes',
                            desc:                 'GALES predicted genes',
-                           bwgURI:               './data/attributor.annotation.withloci.bb',
+                           bwgURI:               './data/attributor.annotation.bb',
                            stylesheet_uri:       './das_styles/genes.xml'},
                           {name:                 'HMMer3',
                            desc:                 'HMMer3 results',
