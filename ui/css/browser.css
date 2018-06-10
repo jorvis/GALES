@@ -4,6 +4,9 @@ div#gcontext_c {
 div#main {
     font-size: 90%;
 }
+#gene_list_tbl tr.selected {
+    background-color: rgb(220,220,250);
+}
 h2 {
     margin: 10px 0 10px 0;
     color: #324cae;

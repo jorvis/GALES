@@ -19,6 +19,10 @@ window.onload=function() {
 };
 
 $(document).on('click', '#gene_list_tbl tr', function() {
+    // remove all selected classes, then select this one
+    $("#gene_list_tbl tr").removeClass('selected');
+    $(this).addClass('selected');
+    
     set_browser_location($(this).data('assembly-id'), $(this).data('loc-min') - 1000, $(this).data('loc-max') + 1000);
     get_gene_annotation($(this).data('gene-id'), $(this).data('polypeptide-id'));
 });
