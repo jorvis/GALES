@@ -65,7 +65,12 @@
                   {{/for}}
                 </div>
                 <div class='col-md-6'>
-                  GO term list here
+                  GO terms:
+                  <ul>
+                    {{for go_terms}}
+                    <li><a href="https://www.ebi.ac.uk/QuickGO/term/{{:}}">{{:}}</a></li>
+                    {{/for}}
+                  </ul>
                 </div>
               </script> <!-- end #annotation_tmpl -->
             </div>

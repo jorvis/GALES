@@ -43,12 +43,18 @@ def main():
                         for ec in polypeptide.annotation.ec_numbers:
                             ec_nums.append(ec.number)
 
+                        ## Build the GO list
+                        go_terms = list()
+                        for go in polypeptide.annotation.go_annotations:
+                            go_terms.append("GO:{0}".format(go.go_id))
+
                         gene_data['annotation'] = {
                             'polypeptide_id': polypeptide.id,
                             'gene_locus_tag': gene.locus_tag,
                             'product': polypeptide.annotation.product_name,
                             'gene_symbol': polypeptide.annotation.gene_symbol,
-                            'ec_numbers': ec_nums
+                            'ec_numbers': ec_nums,
+                            'go_terms': go_terms
                         }
 
                 # no need to keep looping over the features
