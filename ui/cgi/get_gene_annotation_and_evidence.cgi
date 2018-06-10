@@ -99,7 +99,7 @@ def main():
     for (id, sbj_id, align_len, qry_start, qry_end, sbj_start, sbj_end, perc_identity, eval, bit_score, 
          product, is_characterized) in blast_cursor:
         gene_data['blast'].append({'hit_id': id, 'sbj_id': sbj_id, 'align_len': align_len, 'qry_start': qry_start, 'qry_end': qry_end, 
-                                   'sbj_start': sbj_start, 'sbj_end': sbj_end, 'perc_identity': perc_identity, 'eval': eval, 
+                                   'sbj_start': sbj_start, 'sbj_end': sbj_end, 'perc_identity': perc_identity, 'eval': "{:0.3e}".format(eval), 
                                    'bit_score': bit_score, 'product': product, 'is_characterized': is_characterized})
 
     print(json.dumps(gene_data))
