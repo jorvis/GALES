@@ -51,6 +51,12 @@ def main():
     fasta_sizes_file = "{0}/genome.sizes".format(args.input_directory)
     annotation_bed_file = "{0}/attributor.annotation.bed".format(args.input_directory)
     annotation_bb_file = "{0}/attributor.annotation.bb".format(args.input_directory)
+    blast_source_file = "{0}/rapsearch2.out.m8".format(args.input_directory)
+    blast_bed_file = "{0}/rapsearch2.out.bed".format(args.input_directory)
+    blast_bb_file = "{0}/rapsearch2.out.bb".format(args.input_directory)
+    hmm_source_file = "{0}/hmmscan.htab".format(args.input_directory)
+    hmm_bed_file = "{0}/hmmscan.bed".format(args.input_directory)
+    hmm_bb_file = "{0}/hmmscan.bb".format(args.input_directory)
 
     # base names of the pickle files
     gff_stored_base = "{0}/gff.stored".format(args.input_directory)
@@ -120,8 +126,32 @@ def main():
     cmd = "convert_gff3_to_bed.py -i {0} -o {1}".format(gff_file, annotation_bed_file)
     run_command_by_file_presence(annotation_bed_file, "annotation BED file", cmd)
 
-    cmd = "{0}/bedToBigBed {1} {2}/genome.sizes {3}".format(bin_path, annotation_bed_file, data_path, annotation_bb_file)
+    cmd = "sort -k1,1 -k2,2n {0} > {0}.sorted".format(annotation_bed_file)
+    run_command_by_file_presence("{0}.sorted".format(annotation_bed_file), "sorted annotation BED file", cmd)
+
+    cmd = "{0}/bedToBigBed {1}.sorted {2} {3}".format(
+        bin_path, annotation_bed_file, fasta_sizes_file, annotation_bb_file)
     run_command_by_file_presence(annotation_bb_file, "bigBed annotation file", cmd)
+
+    cmd = "convert_blast_btab_to_bed.py -i {0} -o {1} -m {2} --score_by=evalue".format(
+        blast_source_file, blast_bed_file, gff_file)
+    run_command_by_file_presence(blast_bed_file, "BLAST BED file", cmd)
+
+    cmd = "sort -k1,1 -k2,2n {0} > {0}.sorted".format(blast_bed_file)
+    run_command_by_file_presence("{0}.sorted".format(blast_bed_file), "sorted BLAST BED file", cmd)
+
+    cmd = "~/git/GALES/bin/bedToBigBed {0}.sorted {1} {2}".format(blast_bed_file, fasta_sizes_file, blast_bb_file)
+    run_command_by_file_presence(blast_bb_file, "BLAST bigBED file", cmd)
+
+    cmd = "~/git/biocode/hmm/convert_htab_to_bed.py -i {0} -o {1} -m {2} -s evalue".format(
+        hmm_source_file, hmm_bed_file, gff_file)
+    run_command_by_file_presence(hmm_bed_file, "HMMer BED file", cmd)
+
+    cmd = "sort -k1,1 -k2,2n {0} > {0}.sorted".format(hmm_bed_file)
+    run_command_by_file_presence("{0}.sorted".format(hmm_bed_file), "sorted HMMer BED file", cmd)
+
+    cmd = "~/git/GALES/bin/bedToBigBed {0}.sorted {1} {2}".format(hmm_bed_file, fasta_sizes_file, hmm_bb_file)
+    run_command_by_file_presence(hmm_bb_file, "HMMer bigBED file", cmd)
     
     if os.path.exists(slim_counts_file):
         print("Checking for GO slim mapping file ... found.", flush=True)
