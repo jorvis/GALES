@@ -60,6 +60,9 @@ function search_product(search_str) {
             var template = $.templates("#gene_list_tmpl");
             var htmlOutput = template.render(data);
             $("#gene_list_tbl").html(htmlOutput);
+
+            // auto-select the first one
+            $("#gene_list_tbl>tr:first").trigger('click');
         },
         error: function(jqXHR, textStatus, errorThrown) {
             display_error_bar(jqXHR.status + ' ' + errorThrown.name);
@@ -70,8 +73,10 @@ function search_product(search_str) {
 function set_browser_location(mol_id, start, stop) {
     /*
       For track styling options:
-
       http://biodas.open-bio.org/documents/spec-1.6.html#glyphid
+
+      This example shows a lot of wildcard matching of feature names, handling each differently 
+      http://www.biodalliance.org/stylesheets/gencode.xml
      */
     
     if (dalliance == null) {
@@ -88,7 +93,6 @@ function set_browser_location(mol_id, start, stop) {
                           {name:                 'Genes',
                            desc:                 'GALES predicted genes',
                            bwgURI:               './data/attributor.annotation.withloci.bb',
-                           //stylesheet_uri:       '//www.biodalliance.org/stylesheets/gencode.xml'}
                            stylesheet_uri:       './das_styles/genes.xml'},
                           {name:                 'RAPSearch2',
                            desc:                 'RAPSearch2 results',
