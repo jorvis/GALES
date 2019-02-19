@@ -22,6 +22,7 @@ from http.server import CGIHTTPRequestHandler
 import json
 import os
 import pickle
+import platform
 import re
 import subprocess
 import sys
@@ -66,6 +67,11 @@ def main():
     exec_path = os.path.dirname(os.path.abspath(__file__))
     ui_path = os.path.abspath("{0}/../ui".format(exec_path))
     bin_path = os.path.abspath("{0}/../bin".format(exec_path))
+    bin_platform = platform.system()
+    
+    ## We only recognize Linux and OS X
+    if bin_platform not in ['Linux', 'Darwin']:
+        raise Exception("ERROR: Annotation viewer only supported under Linux and OS X")
     
     obo_slim_map_pickle_file = "{0}/../data/tadpole_transcriptome_slim.map.pickle".format(exec_path)
     os.chdir(ui_path)
@@ -117,10 +123,10 @@ def main():
         generate_gff_stats(gff_assemblies=gff_assemblies, gff_features=gff_features, json_out=gff_stats_file)
         print("done.", flush=True)
 
-    cmd = "{0}/faToTwoBit {1} {2}/genome.2bit".format(bin_path, args.fasta_file, data_path)
+    cmd = "{0}/{1}/faToTwoBit {2} {3}/genome.2bit".format(bin_path, bin_platform, args.fasta_file, data_path)
     run_command_by_file_presence(fasta_2bit_file, "binary version of reference genome FASTA", cmd)
 
-    cmd = "{0}/twoBitInfo {1}/genome.2bit {1}/genome.sizes".format(bin_path, data_path)
+    cmd = "{0}/{1}/twoBitInfo {2}/genome.2bit {2}/genome.sizes".format(bin_path, bin_platform, data_path)
     run_command_by_file_presence(fasta_sizes_file, "reference genome FASTA sizes file", cmd)
         
     cmd = "convert_gff3_to_bed.py -i {0} -o {1}".format(gff_file, annotation_bed_file)
@@ -129,8 +135,8 @@ def main():
     cmd = "sort -k1,1 -k2,2n {0} > {0}.sorted".format(annotation_bed_file)
     run_command_by_file_presence("{0}.sorted".format(annotation_bed_file), "sorted annotation BED file", cmd)
 
-    cmd = "{0}/bedToBigBed {1}.sorted {2} {3}".format(
-        bin_path, annotation_bed_file, fasta_sizes_file, annotation_bb_file)
+    cmd = "{0}/{1}/bedToBigBed {2}.sorted {3} {4}".format(
+        bin_path, bin_platform, annotation_bed_file, fasta_sizes_file, annotation_bb_file)
     run_command_by_file_presence(annotation_bb_file, "bigBed annotation file", cmd)
 
     cmd = "convert_blast_btab_to_bed.py -i {0} -o {1} -m {2} --score_by=evalue".format(
@@ -140,17 +146,19 @@ def main():
     cmd = "sort -k1,1 -k2,2n {0} > {0}.sorted".format(blast_bed_file)
     run_command_by_file_presence("{0}.sorted".format(blast_bed_file), "sorted BLAST BED file", cmd)
 
-    cmd = "~/git/GALES/bin/bedToBigBed {0}.sorted {1} {2}".format(blast_bed_file, fasta_sizes_file, blast_bb_file)
+    cmd = "{0}/{1}/bedToBigBed {2}.sorted {3} {4}".format(
+        bin_path, bin_platform, blast_bed_file, fasta_sizes_file, blast_bb_file)
     run_command_by_file_presence(blast_bb_file, "BLAST bigBED file", cmd)
 
-    cmd = "~/git/biocode/hmm/convert_htab_to_bed.py -i {0} -o {1} -m {2} -s evalue".format(
+    cmd = "convert_htab_to_bed.py -i {0} -o {1} -m {2} -s evalue".format(
         hmm_source_file, hmm_bed_file, gff_file)
     run_command_by_file_presence(hmm_bed_file, "HMMer BED file", cmd)
 
     cmd = "sort -k1,1 -k2,2n {0} > {0}.sorted".format(hmm_bed_file)
     run_command_by_file_presence("{0}.sorted".format(hmm_bed_file), "sorted HMMer BED file", cmd)
 
-    cmd = "~/git/GALES/bin/bedToBigBed {0}.sorted {1} {2}".format(hmm_bed_file, fasta_sizes_file, hmm_bb_file)
+    cmd = "{0}/{1}/bedToBigBed {2}.sorted {3} {4}".format(
+        bin_path, bin_platform, hmm_bed_file, fasta_sizes_file, hmm_bb_file)
     run_command_by_file_presence(hmm_bb_file, "HMMer bigBED file", cmd)
     
     if os.path.exists(slim_counts_file):
