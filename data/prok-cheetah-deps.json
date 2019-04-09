@@ -7,9 +7,9 @@
         {"name": "coding_hmm.lib.bin.h3p", "size": 923288612},
         {"name": "coding_hmm.lib.db", "size": 20856832},
         {"name": "coding_hmm_lib.sqlite3", "size": 3989504},
-        {"name": "uniprot_sprot_all_and_trembl_characterized.20171025.sqlite3", "size": 353001472},
-        {"name": "uniprot_sprot_all_and_trembl_characterized.20171025.rapsearch2.db", "size": 1611068364},
-        {"name": "uniprot_sprot_all_and_trembl_characterized.20171025.rapsearch2.db.info", "size": 4000160}
+        {"name": "uniprot_sprot_all_and_trembl_characterized.20180904.sqlite3", "size": 355016704},
+        {"name": "uniprot_sprot_all_and_trembl_characterized.20180904.rapsearch2.db", "size": 1607263023},
+        {"name": "uniprot_sprot_all_and_trembl_characterized.20180904.rapsearch2.db.info", "size": 4000160}
     ]
 }
 
