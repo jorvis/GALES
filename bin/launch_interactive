@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Set defaults
+LOCAL_BASE=''
+DB_DIR=''
+IMAGE_VERSION='0.2.6'
+
+while getopts :l:d: opt; do
+  case $opt in
+    l)
+        LOCAL_BASE=$OPTARG
+        ;;
+    d)
+        DB_DIR=$OPTARG
+        ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ "$(docker images -q jorvis/gales-gce:${IMAGE_VERSION} 2> /dev/null)" == "" ]]; then
+  echo "Docker image v${IMAGE_VERSION} for GALES not found.  Downloading first ..."
+fi
+
+if [ -z $LOCAL_BASE ]; then
+    if [ -w "/opt/gales" ]; then
+        LOCAL_BASE="/opt/gales"
+    else
+        LOCAL_BASE="${HOME}/gales"
+    fi
+fi
+
+if [ ! -d ${LOCAL_BASE} ]; then
+    echo "Creating local output directory: ${LOCAL_BASE}"
+    mkdir -p ${LOCAL_BASE}
+fi
+
+if [ -z $LOCAL_BASE ]; then
+    echo "Saving files to /output in this Docker image will make them available in ${LOCAL_BASE} outside of it."
+    docker run --rm -v ${LOCAL_BASE}:/output -i -t jorvis/gales-gce:${IMAGE_VERSION} /bin/bash
+else
+    echo "Saving files to /output in this Docker image will make them available in ${LOCAL_BASE} outside of it.  Using local database directory ${DB_DIR} as /dbs within the image."
+    docker run --rm -v ${LOCAL_BASE}:/output -v ${DB_DIR}:/dbs -i -t jorvis/gales-gce:${IMAGE_VERSION} /bin/bash
+fi
