@@ -20,9 +20,6 @@ def main():
     annotation_dir = form.getvalue('annotation_dir')
     namespace = form.getvalue('namespace')
 
-    annotation_dir = '/home/jorvis/git/GALES/cwl/workflows/e_coli.char.93k'
-    namespace = 'cellular_component'
-
     ns_file_path = "{0}/obo.graphs.{1}".format(annotation_dir, namespace)
     ns_file_path = "{0}/obo.graphs.{1}".format(annotation_dir, 'terms')
 
