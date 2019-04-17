@@ -3,11 +3,10 @@ MAINTAINER Joshua Orvis <jorvis@gmail.com>
 
 #####
 # Install a few needed utilities
-RUN apt-get -y update && apt-get install -y --no-install-recommends git wget libmldbm-perl pandoc python3 python3-yaml python3-setuptools python3-pip sqlite3
+RUN apt-get -y update && apt-get install -y --no-install-recommends git wget libmldbm-perl python3 python3-yaml python3-setuptools python3-pip sqlite3 zlib1g-dev libxml2-dev build-essential
 
 RUN pip3 install --upgrade pip
-RUN pip3 install pypandoc
-RUN pip3 install biocode
+RUN pip3 install biocode:0.9.0
 
 #####
 # Install Prodigal
@@ -53,11 +52,10 @@ RUN chmod +x /usr/bin/aragorn
 # Install HMMer3
 # Investigate hmmpgmd
 #  Article:  https://cryptogenomicon.org/2011/05/27/hmmscan-vs-hmmsearch-speed-the-numerology/
-# hmmscan --acc --cut_ga --cpu 4 -o ../workflows/prodigal.annotation.faa.part1.hmm.raw ~/Dropbox/igs/databases/coding_hmm.lib.bin ../workflows/prodigal.annotation.faa.part1
-RUN wget http://eddylab.org/software/hmmer3/3.1b2/hmmer-3.1b2-linux-intel-x86_64.tar.gz
-RUN tar -xzf hmmer-3.1b2-linux-intel-x86_64.tar.gz
-RUN cp hmmer-3.1b2-linux-intel-x86_64/binaries/* /usr/bin/
-RUN rm -rf hmmer-3.1b2-linux-intel-x86_64
+RUN wget http://eddylab.org/software/hmmer/hmmer.tar.gz
+# Every RUN creates a new commit and AUFS layer
+RUN tar -xzf hmmer.tar.gz && cd hmmer* && ./configure --prefix=/opt/hmmer-3.2.1 && make && make install
+RUN ln -s /opt/hmmer-3.2.1/bin/* /usr/bin/
 
 #####
 # Install Attributor
