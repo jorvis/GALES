@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:18.04
 MAINTAINER Joshua Orvis <jorvis@gmail.com>
 
 #####
