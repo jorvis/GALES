@@ -3,7 +3,7 @@ MAINTAINER Joshua Orvis <jorvis@gmail.com>
 
 #####
 # Install a few needed utilities
-RUN apt-get -y update && apt-get install -y --no-install-recommends git wget libmldbm-perl python3 python3-yaml python3-setuptools python3-pip sqlite3 zlib1g-dev libxml2-dev build-essential
+RUN apt-get -y update && apt-get install -y --no-install-recommends git wget libmldbm-perl python3 python3-dev python3-yaml python3-setuptools python3-pip sqlite3 zlib1g-dev libxml2-dev build-essential
 
 RUN pip3 install --upgrade pip
 RUN pip3 install biocode==0.9.0
