@@ -16,7 +16,7 @@ The pipeline and tools are represented using [Common Workflow Language (CWL)](ht
 The Docker site has detailed [instructions](https://docs.docker.com/engine/installation/) for many architectures, but for some this may be as simple as:
 
 ```
-$ sudo apt-get install docker.io
+$ sudo apt-get install docker.io python3 python3-pip
 [restart]
 ```
 
@@ -28,13 +28,19 @@ If this is the first time you've installed Docker Engine, reboot your machine (e
 $ sudo pip install cwlref-runner
 ```
 
-#### Install Biocode
+#### Install igraph (OS X only)
+
+```
+$ brew install igraph
+```
+
+#### Install python modules
 
 The [Biocode](https://github.com/jorvis/biocode) scripts and libraries are used within GALES.  Note that
 biocode uses Python3, so the version of pip called is pip3.
 
 ```
-$ sudo pip3 install biocode
+$ sudo pip3 install biocode jinja2
 ```
 
 ### Get GALES
@@ -54,11 +60,12 @@ fastest and uses the smallest datasets.
 
 ```
 $ cd GALES/bin
+$ mkdir /dbs
 $ ./download_reference_data -rd /dbs -p prok-cheetah
 ```
 
-I put my reference collection in /dbs, and this tells the script to search for any I don't have yet and
-place them there.
+I put my reference collection in /dbs (you can choose another directory), and this tells the script to
+search for any I don't have yet and place them there.
 
 ### Running
 
