@@ -7,16 +7,19 @@ These instructions describe how to get an annotation pipeline running on your ma
 a functional prokaryotic pipeline with both metagenomic and eukaryotic coming next.  You can test run the
 prok-cheetah pipeline now, and please file issue tickets if you encounter any errors or if anything is unclear.
 
+The setup instructions below are for Ubuntu 18.04 LTS, but you can adjust as necessary for your OS.
+
 ### Prerequisities
 
 The pipeline and tools are represented using [Common Workflow Language (CWL)](http://www.commonwl.org/), with all dependent tools contained within Docker images.  These two things are the only prerequisites, and are easily installed.  
 
-#### Install [Docker](https://docs.docker.com/engine/installation/)
+#### Install [Docker](https://docs.docker.com/engine/installation/) and pre-requisites
 
 The Docker site has detailed [instructions](https://docs.docker.com/engine/installation/) for many architectures, but for some this may be as simple as:
 
 ```
-$ sudo apt-get install docker.io python3 python3-pip
+$ sudo apt-get install docker.io python3 python3-pip python-pip zlib1g-dev libxml2-dev
+$ sudo usermod -aG docker $USER
 [restart]
 ```
 
@@ -60,7 +63,8 @@ fastest and uses the smallest datasets.
 
 ```
 $ cd GALES/bin
-$ mkdir /dbs
+$ sudo mkdir /dbs
+$ sudo chown $USER /dbs
 $ ./download_reference_data -rd /dbs -p prok-cheetah
 ```
 
