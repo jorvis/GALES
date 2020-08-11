@@ -23,6 +23,8 @@ $ sudo usermod -aG docker $USER
 [restart]
 ```
 
+If you get an error there about python-pip not being found, you probably need to [enable the universe repository](https://itsfoss.com/ubuntu-repositories/).
+
 If this is the first time you've installed Docker Engine, reboot your machine (even if the docs leave this step out.)
 
 #### Install CWL
