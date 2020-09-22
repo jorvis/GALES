@@ -23,6 +23,8 @@ $ sudo usermod -aG docker $USER
 [restart]
 ```
 
+If you get an error there about python-pip not being found, you probably need to [enable the universe repository](https://itsfoss.com/ubuntu-repositories/).
+
 If this is the first time you've installed Docker Engine, reboot your machine (even if the docs leave this step out.)
 
 #### Install CWL
@@ -93,6 +95,15 @@ $ ./view_annotation -i /tmp/demo -f ../test_data/genomes/E_coli_k12_dh10b.fna
 
 This will parse the database, generate a GO-slim mapping, and provide a local URL where you can view
 the browser.
+
+### Common issues and solutions
+
+- "requests module not found".  This has been reported by some Mac users.  A suggested fix is:
+
+```
+/Library/Frameworks/Python.framework/Versions/3.8/bin/python3.8 -m pip install requests
+```
+
 
 ## Authors
 
