@@ -37,9 +37,9 @@
 
     "rapsearch2_database_file": {
         "class": "File",
-        "path": "{{gales_ref_db_dir}}/uniprot_sprot_all_and_trembl_characterized.20200716.rapsearch2.db",
+        "path": "{{gales_ref_db_dir}}/uniprot_sprot_all_and_trembl_characterized.20210507.rapsearch2.db",
         "secondaryFiles": [
-            {"class": "File", "path": "{{gales_ref_db_dir}}/uniprot_sprot_all_and_trembl_characterized.20200716.rapsearch2.db.info"}
+            {"class": "File", "path": "{{gales_ref_db_dir}}/uniprot_sprot_all_and_trembl_characterized.20210507.rapsearch2.db.info"}
         ]
     },
     "rapsearch2_query_file": {
@@ -93,7 +93,7 @@
     },
     "attributor_blast_attribute_lookup_file": {
         "class": "File",
-        "path": "{{gales_ref_db_dir}}/uniprot_sprot_all_and_trembl_characterized.20200716.sqlite3"
+        "path": "{{gales_ref_db_dir}}/uniprot_sprot_all_and_trembl_characterized.20210507.sqlite3"
     },
     "attributor_polypeptide_fasta": {
         "class": "File",
