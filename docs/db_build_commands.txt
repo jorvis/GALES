@@ -1,0 +1,69 @@
+##########################################################
+## How to generate the needed files to update prok-cheetah
+
+export RDATE=20220125
+
+cd /dbs
+mkdir $RDATE && cd $RDATE
+
+## Downloads all the current files
+wget -O uniprot_sprot.$RDATE.fasta.gz ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+wget -O uniprot_sprot.$RDATE.dat.gz ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz
+wget -O uniprot_trembl.$RDATE.fasta.gz ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_trembl.fasta.gz
+wget -O uniprot_trembl.$RDATE.dat.gz ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_trembl.dat.gz
+
+# Decompress both uniprot files
+gunzip uniprot_sprot.$RDATE.dat.gz
+gunzip uniprot_sprot.$RDATE.fasta.gz
+
+############################
+# Build SWISS-Prot (all)
+~/biocode/blast/uniprot_sprot_to_sqlite3.py -i uniprot_sprot.$RDATE.dat -o uniprot_sprot.$RDATE.sqlite3
+rm uniprot_sprot.$RDATE.dat
+
+############################
+# Build characterized TrEMBL
+~/biocode/blast/uniref_to_sqlite3.py -i uniprot_trembl.$RDATE.dat.gz -o uniprot_trembl.$RDATE.sqlite3
+
+echo "SELECT accession FROM entry_acc WHERE is_characterized = 1;" | sqlite3 uniprot_trembl.$RDATE.sqlite3 > uniprot_trembl.$RDATE.characterized.accessions
+
+rm uniprot_trembl.$RDATE.dat.gz
+
+gunzip uniprot_trembl.$RDATE.fasta.gz
+
+echo "SELECT accession,id FROM entry_acc WHERE is_characterized = 1;" | sqlite3 uniprot_trembl.$RDATE.sqlite3 | perl -ne 'print "tr|$_"' > uniprot_trembl.$RDATE.characterized.fasta_ids
+
+~/biocode/fasta/filter_fasta_by_ids.pl --id_list uniprot_trembl.$RDATE.characterized.fasta_ids --fasta_file uniprot_trembl.$RDATE.fasta --output_file uniprot_trembl.$RDATE.characterized.fasta
+
+~/GALES/bin/filter_blast_ev_db_by_accessions.py -id uniprot_trembl.$RDATE.sqlite3 -od uniprot_trembl.$RDATE.characterized.sqlite3 -i uniprot_trembl.$RDATE.characterized.accessions
+
+############################
+# Now make the combined file
+cat uniprot_sprot.$RDATE.fasta uniprot_trembl.$RDATE.characterized.fasta > uniprot_sprot_all_and_trembl_characterized.$RDATE.fasta
+
+/opt/RAPSearch2.24_64bits/bin/prerapsearch -d uniprot_sprot_all_and_trembl_characterized.$RDATE.fasta -n uniprot_sprot_all_and_trembl_characterized.$RDATE.rapsearch2.db
+
+cp uniprot_sprot.$RDATE.sqlite3 uniprot_sprot_all_and_trembl_characterized.$RDATE.sqlite3
+
+~/GALES/bin/filter_blast_ev_db_by_accessions.py -id uniprot_trembl.$RDATE.characterized.sqlite3 -od uniprot_sprot_all_and_trembl_characterized.$RDATE.sqlite3 -i uniprot_trembl.$RDATE.characterized.accessions
+
+gzip uniprot_sprot_all_and_trembl_characterized.$RDATE.fasta
+
+###########################
+# Upload to the cloud host
+## You may need to contact me (jorvis@gmail.com) for access to do this
+
+gsutil cp uniprot_sprot_all_and_trembl_characterized.$RDATE.fasta.gz gs://gales-input
+gsutil cp uniprot_sprot_all_and_trembl_characterized.$RDATE.rapsearch2.db gs://gales-input
+gsutil cp uniprot_sprot_all_and_trembl_characterized.$RDATE.rapsearch2.db.info gs://gales-input
+gsutil cp uniprot_sprot_all_and_trembl_characterized.$RDATE.sqlite3 gs://gales-input
+
+
+###########################
+# Modify GALES for new databases
+
+edit the rapsearch2_database_file and attributor_blast_attribute_lookup_file entries in:
+  git/GALES/cwl/workflows/prok-annotation-cheetah.json
+
+edit the file names and sizes in:
+  git/GALES/data/prok-cheetah-deps.json
