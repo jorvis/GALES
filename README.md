@@ -30,7 +30,7 @@ If this is the first time you've installed Docker Engine, reboot your machine (e
 #### Install CWL
 
 ```
-$ sudo pip install cwlref-runner
+$ sudo pip3 install cwlref-runner
 ```
 
 #### Install igraph (OS X only)
