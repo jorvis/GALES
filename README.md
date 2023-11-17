@@ -81,7 +81,9 @@ There are launchers for the different pipelines, which will check your system be
 $ ./run_prok_pipeline -i ../test_data/genomes/E_coli_k12_dh10b.fna -od /tmp/demo -v cheetah -rd /dbs
 ```
 
-Once completed, the annotated GFF file will be called 'attributor.annotation.gff3', along with many other
+If you have multiple processors/threads, you can tell GALES to use more of these by passing the -t option,
+such as "-t 4" to use four threads when executing those tools in the pipeline which are capable of using
+it. Once completed, the annotated GFF file will be called 'attributor.annotation.gff3', along with many other
 files representing the evidence involved in generating the annotation.
 
 ### Visualization
