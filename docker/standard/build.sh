@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE_VERSION='0.3.0'
+IMAGE_VERSION='0.3.1'
 
 docker rmi -f jorvis/gales-gce
 docker build --no-cache -t jorvis/gales-gce:latest -t jorvis/gales-gce:${IMAGE_VERSION} .
