@@ -18,8 +18,8 @@ The pipeline and tools are represented using [Common Workflow Language (CWL)](ht
 The Docker site has detailed [instructions](https://docs.docker.com/engine/installation/) for many architectures, but for some this may be as simple as:
 
 ```
-$ sudo apt-get install docker.io python3 python3-pip python-pip zlib1g-dev libxml2-dev
-$ sudo usermod -aG docker $USER
+sudo apt-get install docker.io python3 python3-pip python-pip zlib1g-dev libxml2-dev
+sudo usermod -aG docker $USER
 [restart]
 ```
 
@@ -30,13 +30,25 @@ If this is the first time you've installed Docker Engine, reboot your machine (e
 #### Install CWL
 
 ```
-$ sudo pip3 install cwlref-runner
+sudo pip3 install cwlref-runner
 ```
+
+If you get an error like
+"error: externally-managed-environment
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install..."
+
+You can check out the [cwltool github repo](https://github.com/common-workflow-language/cwltool) and follow the README instructions to install the library. One simple solution, which completes a system-wide install using apt, is shown below:
+```
+sudo apt-get install cwltool
+```
+
+ [This Stack Overflow thread](https://stackoverflow.com/q/75602063) has decent replies which indicate other solutions to this type of problem.
 
 #### Install igraph (OS X only)
 
 ```
-$ brew install igraph
+brew install igraph
 ```
 
 #### Install python modules
@@ -45,7 +57,7 @@ The [Biocode](https://github.com/jorvis/biocode) scripts and libraries are used 
 biocode uses Python3, so the version of pip called is pip3.
 
 ```
-$ sudo pip3 install biocode jinja2
+sudo pip3 install biocode jinja2
 ```
 
 ### Get GALES
@@ -53,7 +65,7 @@ $ sudo pip3 install biocode jinja2
 Now that you have the dependencies to run things, you need only the actual pipeline/tool CWL definitions.
 
 ```
-$ git clone https://github.com/jorvis/GALES.git
+git clone https://github.com/jorvis/GALES.git
 ```
 
 ### Getting reference data
@@ -64,10 +76,10 @@ let's walk through running the 'cheetah' version of the prokaryotic annotation p
 fastest and uses the smallest datasets.
 
 ```
-$ cd GALES/bin
-$ sudo mkdir /dbs
-$ sudo chown $USER /dbs
-$ ./download_reference_data -rd /dbs -p prok-cheetah
+cd GALES/bin
+sudo mkdir /dbs
+sudo chown $USER /dbs
+./download_reference_data -rd /dbs -p prok-cheetah
 ```
 
 I put my reference collection in /dbs (you can choose another directory), and this tells the script to
@@ -77,14 +89,14 @@ search for any I don't have yet and place them there.
 
 There are launchers for the different pipelines, which will check your system before running.
 
-```
-$ ./run_prok_pipeline -i ../test_data/genomes/E_coli_k12_dh10b.fna -od /tmp/demo -v cheetah -rd /dbs
-```
-
 If you have multiple processors/threads, you can tell GALES to use more of these by passing the -t option,
 such as "-t 4" to use four threads when executing those tools in the pipeline which are capable of using
 it. Once completed, the annotated GFF file will be called 'attributor.annotation.gff3', along with many other
 files representing the evidence involved in generating the annotation.
+
+```
+./run_prok_pipeline -i ../test_data/genomes/E_coli_k12_dh10b.fna -od /tmp/demo -v cheetah -rd /dbs
+```
 
 ### Visualization
 
@@ -92,7 +104,7 @@ This is very experimental and under active development, but you can create a web
 results of your annotation and evidence graphically like this:
 
 ```
-$ ./view_annotation -i /tmp/demo -f ../test_data/genomes/E_coli_k12_dh10b.fna
+./view_annotation -i /tmp/demo -f ../test_data/genomes/E_coli_k12_dh10b.fna
 ```
 
 This will parse the database, generate a GO-slim mapping, and provide a local URL where you can view
