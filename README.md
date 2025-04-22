@@ -33,6 +33,18 @@ If this is the first time you've installed Docker Engine, reboot your machine (e
 sudo pip3 install cwlref-runner
 ```
 
+If you get an error like
+"error: externally-managed-environment
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install..."
+
+You can check out the [cwltool github repo](https://github.com/common-workflow-language/cwltool) and follow the README instructions to install the library. One simple solution, which completes a system-wide install using apt, is shown below:
+```
+sudo apt-get install cwltool
+```
+
+ [This Stack Overflow thread](https://stackoverflow.com/q/75602063) has decent replies which indicate other solutions to this type of problem.
+
 #### Install igraph (OS X only)
 
 ```
